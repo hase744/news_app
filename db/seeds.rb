@@ -9,17 +9,17 @@ economy = [
     {sort:"exchange",words:["為替","円安","急騰","暴落","円高","値上","値下","ドル安","ドル高","ユーロ","ポンド","人民元","ウォン","通過"]},
     {sort:"invest",words:[
         "再投資","機関投資家","分散投資","長期投資","投資信託","不動産投資","利回り","株","株価","株式","債券","証券","ETF","社債","国債",
-        "新株","増資","優先株","IPO","信用取引","制裁",
+        "新株","増資","増収","減収","増益","減益","優先株","IPO","信用取引","制裁","資本",
         "証拠金取引","信用リスク","流動性リスク","配当","信託","米国株","買収","資産","運用",
         "ファンド","普通株","償還","取引所","空売り","買い付け","売買","先物取引"]},
     {sort:"macro_economy",words:[
     "GDP","国内総生産","国民総生産","GNP","インフレ","デフレ","財政","金利","景気","収支","マーケット",
-    "恐慌","失業率","失業率","貿易収支","貿易赤字","貿易黒字","市場経済","計画経済","関税","雇用",
-    "財務","格付け","バブル","不況","市場","生産性","格差"]},
+    "恐慌","失業率","失業率","貿易収支","貿易","赤字","黒字","市場経済","計画経済","関税","雇用",
+    "財務","格付け","バブル","不況","市場","生産性","格差","賃金","賃上げ","石油価格","原油価格","ガソリン価格","小麦価格","米価格","トウモロコシ価格","食料価格"]},
     {sort:"unique_noun",words:["アベノミクス","リーマンショック","バフェット","フォール街"]},
     {sort:"仮想通貨",words:["ビッドコイン","仮想通貨"]},
     {sort:"general",words:[
-        "金融","年金","決算","破綻"
+        "金融","年金","決算","破綻","銀行","日銀","連邦準備","FRB"
     ]},
     {sort:"crypro_currency",words:["ビッドコイン","仮想通貨","暗号通貨","イーサリアム"]}
 ]
@@ -32,15 +32,13 @@ technology = [
     "静止軌道","ロケットエンジンのブースター","ロケットのペイロード","ロケットのペイロードフェアリング","ロケットのコントロールシステム",
     "ロケットの遠隔操作","再使用型ロケット","宇宙開発","火星探査","月面着陸","ロケット科学"]},
     {sort:"IT",words:["IT","AI","人工知能","VR","メタバース","ワイヤレス","ロボット","コンピューター","ソフトウェア","ハードウェア",
-    "プログラム","データ","ウェブサイト","アプリケーション","クラウドコンピューティング","データベース",
+    "プログラム","データ","ウェブサイト","アプリケーション","クラウドコンピューティング","データベース","半導体",
     "プログラミング","サーバー","モバイル","セキュリティ","バックアップ","ファイアウォール","ウイルス","マルウェア","ハッカー","テクノロジー",
     "インターフェース","ブラウザ","スマートフォン","タブレット","インターネット・オブ・シングス","人工知能","機械学習",
     "ビッグデータ","仮想化","ブロックチェーン","コーディング","デジタル","ハイパーテキスト","API","GUI","UI","UX","クリプトグラフィ"
     ]},
-    {sort:"semiconductor",words:["半導体"]},
-    {sort:"energy",words:["核融合",""]},
-    {sort:"battery",words:["全個体","全樹脂","燃料電池"]},
-    {sort:"energy",words:["核融合","超電導"]},
+    {sort:"energy",words:["核融合","全個体","全樹脂","燃料電池"]},
+    {sort:"vehicle",words:["ドローン","空飛ぶ","超電導"]},
     {sort:"company",words:["テスラ","アップル","Apple","マイクロソフト","Microsoft","グーグル","Google","メタ","Meta","TSMC","CATL"]},
     {sort:"person",words:["イーロン","ザッカーバーグ","ティムクック"]},
 ]
@@ -50,12 +48,16 @@ politics = [
         "政治","内閣","政府","政策","法律","参議院","衆議院","議員","議会","選挙","与党","野党","首相","大統領",
         "政治思想","自由主義","保守主義","社会主義","共産主義","ポピュリズム",
         "連立政権","一党制","多党制","政治的な信念","政治的な運動","政治犯","投票","投票権","投票率",
-        "政治寄付","ロビー","有権者","選挙制度","選挙区","内政","対外政策",
-        "戦争","平和","軍備","安全保障","自治","国際関係","司法","最高裁","憲法",
-        "人権","公共","統治","行政","福祉"]},
-    {sort:"peson",words:["岸田","河野","麻生","高市"]}
+        "政治寄付","ロビー","有権者","選挙制度","選挙区","内政","対外政策","規制","対抗措置",
+        "戦争","平和","軍備""安全","安全保障","自治","国際関係","司法","最高裁","憲法",
+        "人権","侵害","公共","統治","行政","福祉","国民"]},
+    {sort:"peson",words:["岸田","河野","麻生","高市"]},
+    {sort:"party",words:["自民党","民主党","公明党","維新","共産党","国民党"]}
 ]
 
+diplpomacy = [
+    
+]
 
 business = [
     {sort:"general",words:[
@@ -73,7 +75,7 @@ business = [
 
 world = [
     {sort:"条約",words:["協定","クアッド","条約","ASEAN","EU","RCEP","NATO","TPP","Quad"]},
-    {sort:"2国間",words:["日印","日英","日韓","日豪","日中","日朝","日独","日仏","日米","日露"]},
+    {sort:"2国間",words:["日印","日英","日韓","日豪","日中","日朝","日独","日仏","日米","日露","米中","米露"]},
     {sort:"略称",words:[
         "アラブ","韓国","北朝鮮","コンゴ","中国","バチカン","ボリバル","ボリビア",
         "モルドバ","マケドニア","ユーゴスラビア","ラオス","ロシア"
@@ -106,7 +108,16 @@ world = [
     "香港","ホンジュラス","マーシャル諸島","マカオ","マケドニア旧ユーゴスラビア共和国","マダガスカル","マヨット","マラウイ","マリ","マルタ",
     "マルティニーク","マレーシア","マン島","ミクロネシア連邦","南アフリカ","南スーダン","ミャンマー","メキシコ","モーリシャス","モーリタニア",
     "モザンビーク","モナコ","モルディブ","モルドバ共和国","モロッコ","モンゴル","モンテネグロ","モントセラト","ヨルダン","ラオス人民民主共和国",
-    "ラトビア","リトアニア","リビア","リヒテンシュタイン","リベリア","ルーマニア","ルクセンブルク","ルワンダ","レソト","レバノン","レユニオン","ロシア連邦"]}
+    "ラトビア","リトアニア","リビア","リヒテンシュタイン","リベリア","ルーマニア","ルクセンブルク","ルワンダ","レソト","レバノン","レユニオン","ロシア連邦"]},
+    {sort:"war",words:
+        ["軍","戦争","戦闘","兵役","軍隊","戦場","攻撃","防御","兵士","戦艦","航空戦","戦略","戦術","戦勝","敗戦","戦争犯罪","非戦闘員",
+        "平和","武器","軍事","講和","軍備拡張","軍縮","占領","戦争賠償","内戦","国際紛争","戦時国際法","戦争犠牲者","戦争孤児","捕虜",
+        "核戦争","世界大戦","派兵","布告","宣戦布告","戦争中立","徴兵","戦争記念日","軍事演習","武装解除","停戦協定","戦争","軍隊","戦闘",
+        "軍事","攻撃","侵攻","防御","反撃","戦略","戦術","兵士","戦犯","武器","戦争責任","勝利","敗北","平和","占領","休戦","和平交渉",
+        "軍事同盟","争い","戦禍","戦時","軍備","無差別攻撃","被害","戦闘員","戦地","戦場","軍事作戦","徴兵","軍事力","作戦"]},
+    {sort:"organization",words:
+        ["国連", "IMF", "世界銀行", "WTO", "WHO", "IAEA", "OECD", "NATO", "UNESCO", "ASEAN", "OPEC", "G7", "G20"]
+    }
 ]
 categories = [
     {name:"business",value:business},
@@ -117,6 +128,7 @@ categories = [
 ]
 categories.each do |category_hash|
     category = Category.create(name: category_hash[:name])
+    puts category_hash[:name]
     category_hash[:value].each do |words_hash|
         WordList.create(
             category:category,
@@ -126,9 +138,18 @@ categories.each do |category_hash|
     end
 end
 channel_seeds = [
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takahashi_yoichi","categories"=>["business","politics"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mykey-sano","categories"=>["business","politics","technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takaponjp","categories"=>["business","politics","technology"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takahashi_yoichi","categories"=>["business","politics","economy"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mykey-sano","categories"=>["business","politics","technology","economy"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ntv_news","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ANNnewsCH","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@FNNnewsCH","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tbsnewsdig","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mbsnews","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@CHUKYOTV_NEWS","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@prime_ABEMA","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tvtokyobiz","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@abc6ch","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takaponjp","categories"=>["politics","technology","economy","world"]},
 ]
 
 channel_seeds.each do |seed|
