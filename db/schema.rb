@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_28_072443) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
   create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
@@ -73,6 +73,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_28_072443) do
     t.string "version"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "presses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "category_id"
+    t.text "youtube_ids"
+    t.text "news_json"
+    t.boolean "is_published"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_presses_on_category_id"
   end
 
   create_table "video_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|

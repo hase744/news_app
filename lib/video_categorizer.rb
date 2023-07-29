@@ -29,12 +29,14 @@ class VideoCategorizer
                 end
             end 
         end
-
-        videos.update_all(is_categorized:true)
+        puts videos.count
 
         if videos.present?
+            puts "ある"
             @video_category_collection = VideoCategoryCollection.new(@video_category_params)
             @video_category_collection.save
         end
+        videos.update_all(is_categorized:true)
+
     end
 end
