@@ -17,6 +17,7 @@ class VideoCategoryCollection
           )
       end
     else
+      puts "attributesなし"
       #self.collection = VIDEO_NUM.times.map{ Video.new }
     end
   end

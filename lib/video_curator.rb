@@ -27,14 +27,11 @@ class VideoCurator
     end  
 
     def check_specific_category_channels
-      puts "@saving_videos.length #{@saving_videos.length}"
       Category.find_by(name: category_name).channels.each do |channel|
         check_channels(channel)
       end
-      puts @saving_videos[244]
       update_video_second
       @collection = VideoCollection.new(@saving_videos)
-      puts "セーブ"
       @collection.save
     end
 
@@ -96,18 +93,15 @@ class VideoCurator
         param = {}
         param["youtube_id"] = video["youtube_id"]
         param["second"] = get_video_second(video["youtube_id"])
-        puts "youtube_id : #{video["youtube_id"]}, 動画パラメーター : #{param}"
         param
       end
 
       second_hash = {}
       second_params.each do |param|
-        puts  param["second"]
         second_hash[param["youtube_id"]] = param["second"]
       end
 
       @saving_videos.each_with_index do |video, index|
-        puts "youtube_id : #{second_hash[video["youtube_id"]]}"
         @saving_videos[index]["second"] = second_hash[video["youtube_id"]]
       end
 
@@ -118,7 +112,6 @@ class VideoCurator
         timeresponse = YOUTUBE_API.list_videos('contentDetails', id: youtube_id).to_json
         video_second = JSON.parse(timeresponse)["items"][0]["contentDetails"]["duration"]
         minits_of_video_second = ActiveSupport::Duration.parse(video_second)
-        puts "video_second#{minits_of_video_second}"
         return minits_of_video_second.to_i
       rescue => e
         puts e

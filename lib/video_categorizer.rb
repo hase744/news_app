@@ -19,37 +19,44 @@ class VideoCategorizer
         #    @category_words_params.push(param)
         #end
 
-        Parallel.each(Category.all) do |category|
+        @category_words_params = Parallel.map(Category.all) do |category|
             param = {}
-            param["words"] = []
+            param[category.name] = []
             WordList.where(category:category).each do |wl|
                 words_array = wl.words.split(',')
-                param["words"] = param["words"].concat words_array
+                param[category.name] = param[category.name].concat words_array
             end
-            @category_words_param[category.name] = param["words"]
+            @category_words_param[category.name] = param[category.name]
+            param
+        end
+
+        @category_words_params.each do |param|
+            @category_words_param[param.keys[0]] = param.values[0]
         end
 
         videos = Video.where(categorized_at: nil)
-        Parallel.each(videos) do |video|
+        @video_category_params = Parallel.map(videos) do |video|
+            params = []
             categories = video.channel.categories
             categories.each do |category|
                 #param = @category_words_params[category.name]
                 channel_category = ChannelCategory.find_by(channel:video.channel, category:category)
                 if channel_category.is_absolute
-                    @video_category_params.push({"video_id"=>video.id,"category_id"=>category.id})
+                    params.push({"video_id"=>video.id,"category_id"=>category.id})
                     puts "#{video.title}を#{category.name}にカテゴライズ"
                 else
                     @category_words_param[category.name].each do |word|
                         if video.title.index(word) != nil
-                            @video_category_params.push({"video_id"=>video.id,"category_id"=>category.id})
+                            params.push({"video_id"=>video.id,"category_id"=>category.id})
                             puts "#{video.title}を#{category.name}にカテゴライズ"
                             break;
                         end
                     end 
                 end
             end
-            video.update(categorized_at: DateTime.now)
+            params
         end
+        @video_category_params = @video_category_params.flatten
 
         if videos.present?
             puts "ある"
@@ -57,5 +64,9 @@ class VideoCategorizer
             @video_category_collection.save
         end
 
+        video_ids = []
+        video_ids = VideoCategory.all.pluck(:video_id)
+        video_ids = video_ids.uniq
+        Video.where(id: video_ids, categorized_at:nil).update_all(categorized_at: DateTime.now)
     end
 end
