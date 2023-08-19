@@ -14,6 +14,6 @@ namespace :business_news do
     puts "curating videos of business"
     video_finder = VideoCurator.new(category_name:"business")
     video_finder.category_name = "business"
-    video_finder.check_specific_category_channelszw
+    video_finder.check_specific_category_channels
   end
 end

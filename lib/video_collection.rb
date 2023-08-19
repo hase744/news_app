@@ -17,7 +17,6 @@ class VideoCollection
                 video
             else
                 Video.new(
-                  id:value['id'],
                   total_views: value["total_views"],
                   second: value["second"],
                   youtube_id: value['youtube_id'],
@@ -29,6 +28,7 @@ class VideoCollection
             end
         end
       else
+        puts "attributesなし"
         #self.collection = VIDEO_NUM.times.map{ Video.new }
       end
     end
@@ -41,18 +41,22 @@ class VideoCollection
     # コレクションをDBに保存するメソッド
     def save
       is_success = true
-      ActiveRecord::Base.transaction do
-        collection.each do |result|
-          # バリデーションを全てかけたいからsave!ではなくsaveを使用
-          is_success = false unless result.save
+      if collection.present?
+        ActiveRecord::Base.transaction do
+          collection.each do |result|
+            # バリデーションを全てかけたいからsave!ではなくsaveを使用
+            is_success = false unless result.save
+          end
+          # バリデーションエラーがあった時は例外を発生させてロールバックさせる
+          raise ActiveRecord::RecordInvalid unless is_success
         end
-        # バリデーションエラーがあった時は例外を発生させてロールバックさせる
-        raise ActiveRecord::RecordInvalid unless is_success
+      else
+        puts "保存する動画なし"
       end
-      rescue => e
-        p 'エラー'
-        p e
-      ensure
+        rescue => e
+          p 'エラー'
+          p e
+        ensure
         return is_success
     end
   end

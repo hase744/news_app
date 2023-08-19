@@ -7,7 +7,7 @@ class ApplicationRecord < ActiveRecord::Base
     begin
       html = URI.open(url)
     rescue OpenURI::HTTPError => e
-      puts "Error: #{e.message}"
+      puts "#{url} Error: #{e.message}"
       exit
     end
     

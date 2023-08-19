@@ -29,18 +29,22 @@ class VideoCategoryCollection
   # コレクションをDBに保存するメソッド
   def save
     is_success = true
-    ActiveRecord::Base.transaction do
-      collection.each do |result|
-        # バリデーションを全てかけたいからsave!ではなくsaveを使用
-        is_success = false unless result.save
+    if collection.present?
+      ActiveRecord::Base.transaction do
+        collection.each do |result|
+          # バリデーションを全てかけたいからsave!ではなくsaveを使用
+          is_success = false unless result.save
+        end
+        # バリデーションエラーがあった時は例外を発生させてロールバックさせる
+        raise ActiveRecord::RecordInvalid unless is_success
       end
-      # バリデーションエラーがあった時は例外を発生させてロールバックさせる
-      raise ActiveRecord::RecordInvalid unless is_success
+    else
+      puts "カテゴライズする動画なし"
     end
-    rescue => e
-      p 'エラー'
-      p e
-    ensure
+      rescue => e
+        p 'エラー'
+        p e
+      ensure
       return is_success
   end
 end

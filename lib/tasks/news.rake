@@ -10,6 +10,18 @@ namespace :news do
     example_class.test
   end
 
+  desc "動画を収集してカテゴライズしてニュースを作成"
+  task update_all_info: :environment do
+    puts "creating pressw"
+    video_finder = VideoCurator.new
+    video_finder.check_all_channels
+    video_categorizer = VideoCategorizer.new
+    video_categorizer.categorize
+    press_creator = PressCreator.new
+    press_creator.create_news
+    #find_new_video.check_specific_category_channel
+  end
+
   desc "動画を収集"
   task curate_videos: :environment do
     puts "curating video"

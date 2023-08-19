@@ -51,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
   create_table "channel_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "channel_id"
     t.bigint "category_id"
+    t.boolean "is_absolute", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_channel_categories_on_category_id"
@@ -101,8 +102,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.string "title"
     t.bigint "channel_id"
     t.datetime "published_at"
-    t.integer "total_views"
-    t.boolean "is_categorized"
+    t.integer "total_views", default: 0
+    t.datetime "categorized_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["channel_id"], name: "index_videos_on_channel_id"
