@@ -121,13 +121,13 @@ world = [
     }
 ]
 categories = [
-    {name:"business",value:business},
-    {name:"politics",value:politics},
-    {name:"technology",value:technology},
-    {name:"economy",value:economy},
-    {name:"world",value:world},
-    {name:"game",value:world},
-    {name:"trend",value:world}
+    {name:"business", japanese_name:"ビジネス"},
+    {name:"politics", japanese_name:"政治"},
+    {name:"technology", japanese_name:"テクノロジー"},
+    {name:"economy", japanese_name:"経済"},
+    {name:"world", japanese_name:"世界"},
+    {name:"game", japanese_name:"ゲーム"},
+    {name:"trend", japanese_name:"トレンド"}
 ]
 categories.each do |category_hash|
     category = Category.create(name: category_hash[:name])

@@ -96,13 +96,13 @@ class VideoCurator
         param
       end
 
-      second_hash = {}
+      id_to_second = {}
       second_params.each do |param|
-        second_hash[param["youtube_id"]] = param["second"]
+        id_to_second[param["youtube_id"]] = param["second"]
       end
 
       @saving_videos.each_with_index do |video, index|
-        @saving_videos[index]["second"] = second_hash[video["youtube_id"]]
+        @saving_videos[index]["second"] = id_to_second[video["youtube_id"]]
       end
 
     end
