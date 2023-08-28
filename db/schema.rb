@@ -11,7 +11,10 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
-  create_table "active_admin_comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
@@ -25,7 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "admin_users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "admin_users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -37,7 +40,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "categories", force: :cascade do |t|
     t.string "name"
     t.string "japanese_name"
     t.text "word"
@@ -48,7 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "channel_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "channel_categories", force: :cascade do |t|
     t.bigint "channel_id"
     t.bigint "category_id"
     t.boolean "is_absolute", default: false
@@ -58,7 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.index ["channel_id"], name: "index_channel_categories_on_channel_id"
   end
 
-  create_table "channels", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "channels", force: :cascade do |t|
     t.string "name"
     t.string "youtube_id"
     t.string "url"
@@ -68,7 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "configs", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "configs", force: :cascade do |t|
     t.string "name"
     t.text "content"
     t.string "version"
@@ -76,7 +79,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "presses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "presses", force: :cascade do |t|
     t.bigint "category_id"
     t.text "youtube_ids"
     t.text "news_json"
@@ -86,7 +89,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.index ["category_id"], name: "index_presses_on_category_id"
   end
 
-  create_table "video_categories", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "video_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "video_id"
     t.datetime "created_at", null: false
@@ -95,7 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.index ["video_id"], name: "index_video_categories_on_video_id"
   end
 
-  create_table "videos", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "videos", force: :cascade do |t|
     t.string "youtube_id"
     t.integer "second"
     t.text "description"
@@ -109,7 +112,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.index ["channel_id"], name: "index_videos_on_channel_id"
   end
 
-  create_table "word_lists", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "word_lists", force: :cascade do |t|
     t.bigint "category_id"
     t.text "words"
     t.string "sort"

@@ -121,23 +121,25 @@ world = [
     }
 ]
 categories = [
-    {name:"business", japanese_name:"ビジネス"},
-    {name:"politics", japanese_name:"政治"},
-    {name:"technology", japanese_name:"テクノロジー"},
-    {name:"economy", japanese_name:"経済"},
-    {name:"world", japanese_name:"世界"},
+    {name:"business", japanese_name:"ビジネス", variable:business},
+    {name:"politics", japanese_name:"政治", variable:politics},
+    {name:"technology", japanese_name:"テクノロジー", variable:technology},
+    {name:"economy", japanese_name:"経済", variable:economy},
+    {name:"world", japanese_name:"世界", variable:world},
     {name:"game", japanese_name:"ゲーム"},
     {name:"trend", japanese_name:"トレンド"}
 ]
 categories.each do |category_hash|
     category = Category.create(name: category_hash[:name])
     puts category_hash[:name]
-    category_hash[:value].each do |words_hash|
-        WordList.create(
-            category:category,
-            sort:words_hash[:sort],
-            words:words_hash[:words].join(",")
-        )
+    if category_hash[:variable]
+        category_hash[:variable].each do |words_hash|
+            WordList.create(
+                category:category,
+                sort:words_hash[:sort],
+                words:words_hash[:words].join(",")
+            )
+        end
     end
 end
 channel_seeds = [
