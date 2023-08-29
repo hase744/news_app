@@ -3,4 +3,6 @@ class Category < ApplicationRecord
     has_many :channels, through: :channel_categories
     has_many :video_categories, class_name: "VideoCategory", dependent: :destroy
     has_many :videos, through: :video_categories
+
+    #validates :name, uniqueness:true
 end

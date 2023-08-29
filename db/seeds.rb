@@ -130,7 +130,7 @@ categories = [
     {name:"trend", japanese_name:"トレンド"}
 ]
 categories.each do |category_hash|
-    category = Category.create(name: category_hash[:name])
+    category = Category.create(name: category_hash[:name], japanese_name:category_hash[:japanese_name])
     puts category_hash[:name]
     if category_hash[:variable]
         category_hash[:variable].each do |words_hash|
