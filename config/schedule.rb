@@ -23,7 +23,3 @@ require File.expand_path(File.dirname(__FILE__) + "/environment")
 every 6.hours, at: '00:00' do
     rake 'news:update_all_info'
 end
-
-every 3.minutes do
-    rake 'news:update_all_info'
-end
