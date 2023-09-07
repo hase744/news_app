@@ -6,300 +6,519 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 economy = [
-    {sort:"exchange",words:["為替","円安","急騰","暴落","円高","値上","値下","ドル安","ドル高","ユーロ","ポンド","人民元","ウォン","通過"]},
-    {sort:"invest",words:[
-        "再投資","機関投資家","分散投資","長期投資","投資信託","不動産投資","利回り","株","株価","株式","債券","証券","ETF","社債","国債",
-        "新株","増資","増収","減収","増益","減益","優先株","IPO","信用取引","制裁","資本",
-        "証拠金取引","信用リスク","流動性リスク","配当","信託","米国株","買収","資産","運用",
-        "ファンド","普通株","償還","取引所","空売り","買い付け","売買","先物取引"]},
-    {sort:"macro_economy",words:[
-    "GDP","国内総生産","国民総生産","GNP","インフレ","デフレ","財政","金利","景気","収支","マーケット",
-    "恐慌","失業率","失業率","貿易収支","貿易統計","貿易赤字","財政黒字","財政赤字","貿易黒字","市場経済","計画経済","関税","雇用",
-    "財務","格付け","バブル","不況","市場","生産性","格差","賃金","賃上げ","石油価格","原油価格","ガソリン価格","小麦価格","米価格","トウモロコシ価格","食料価格"]},
-    {sort:"unique_noun",words:["アベノミクス","リーマンショック","バフェット","フォール街"]},
-    {sort:"仮想通貨",words:["ビッドコイン","仮想通貨"]},
-    {sort:"general",words:[
-        "金融","年金","決算","破綻","銀行","日銀","連邦準備","FRB"
-    ]},
-    {sort:"crypro_currency",words:["ビッドコイン","仮想通貨","暗号通貨","イーサリアム"]}
+    {sort:"exchange",words:%w(為替 円安 急騰 暴落 円高 値上 値下 ドル安 ドル高 ユーロ ポンド 人民元 ウォン 通貨)},
+    {sort:"invest",words:%w(
+       再投資 機関投資家 分散投資 長期投資 投資信託 不動産投資 利回り 株 株価 株式 債券 証券 ETF 社債 国債
+       新株 増資 増収 減収 増益 減益 優先株 IPO 信用取引 制裁 資本
+       証拠金取引 信用リスク 流動性リスク 配当 信託 米国株 買収 資産 運用
+       ファンド 普通株 償還 取引所 空売り 買い付け 売買 先物取引)},
+    {sort:"macro_economy",words:%w(
+   GDP 国内総生産 国民総生産 GNP インフレ デフレ 財政 金利 景気 収支 マーケット
+   恐慌 失業率 失業率 貿易収支 貿易統計 貿易赤字 財政黒字 財政赤字 貿易黒字 市場経済 計画経済 関税 雇用
+   財務 格付け バブル 不況 市場 生産性 格差 賃金 賃上げ 石油価格 原油価格 ガソリン価格 小麦価格 米価格 トウモロコシ価格 食料価格)},
+    {sort:"unique_noun",words:%w(アベノミクス リーマンショック バフェット フォール街)},
+    {sort:"general",words:%w(
+       金融 年金 決算 破綻 銀行 日銀 連邦準備 FRB
+       )},
+    {sort:"crypro_currency",words:%w(ビッドコイン 仮想通貨 暗号通貨 イーサリアム)}
 ]
 
 technology = [
-    {sort:"general",words:["技術","新技術","テクノロジー","テック","新型","次世代"]},
-    {sort:"space",words:["ロケット","宇宙船","推進剤","エンジン","推力",
-    "軌道","宇宙空間","宇宙飛行士","有人宇宙飛行","無人宇宙探査","宇宙ミッション","打ち上げ台","空力学","地球周回軌道",
-    "静止軌道","ロケットエンジンのブースター","ロケットのペイロード","ロケットのペイロードフェアリング","ロケットのコントロールシステム",
-    "ロケットの遠隔操作","再使用型ロケット","宇宙開発","火星探査","月面着陸","ロケット科学"]},
-    {sort:"IT",words:["IT","AI","人工知能","VR","メタバース","ワイヤレス","ロボット","コンピューター","ソフトウェア","ハードウェア",
-    "プログラム","データ","クラウドコンピューティング","データベース","半導体",
-    "プログラミング","ファイアウォール","ウイルス","マルウェア","ハッカー","テクノロジー",
-    "インターフェース","ブラウザ","スマートフォン","タブレット","インターネット・オブ・シングス","人工知能","機械学習",
-    "ビッグデータ","仮想化","ブロックチェーン","コーディング","デジタル","ハイパーテキスト","API","GUI","UI","UX","クリプトグラフィ"
-    ]},
-    {sort:"energy",words:["核融合","全個体","全樹脂","燃料電池"]},
-    {sort:"vehicle",words:["ドローン","空飛ぶ","超電導"]},
-    {sort:"company",words:["テスラ","アップル","Apple","マイクロソフト","Microsoft","グーグル","Google","メタ","Meta","TSMC","CATL"]},
-    {sort:"person",words:["イーロン","ザッカーバーグ","ティムクック"]},
+    {sort:"general",words:%w(技術力 新技術 テクノロジー テック 新型 次世代 自動化 エンジニア)},
+    {sort:"space",words:%w(ロケット 宇宙船 推進剤 エンジン 推力 探査機 探査船
+    軌道 宇宙空間 宇宙飛行士 有人宇宙飛行 無人宇宙探査 宇宙ミッション 打ち上げ台 空力学 地球周回軌道
+   静止軌道 ペイロード ペイロードフェアリング コントロールシステム
+   遠隔操作 再使用型ロケット 宇宙開発 火星探査 月面着陸)},
+    {sort:"IT",words:%w(IT AI 人工知能 VR メタバース ワイヤレス ロボット コンピューター ソフトウェア ハードウェア
+    プログラム データ コンピューティング データベース 半導体 サイバー サーバー
+   プログラミング ファイアウォール ウイルス マルウェア ハッカー テクノロジー 顔認証 指紋認証 声認証
+   インターフェース ブラウザ Iot インターネット・オブ・シングス 人工知能 機械学習 システム
+   ビッグデータ 仮想化 ブロックチェーン コーディング デジタル ハイパーテキスト API GUI UI UX クリプトグラフィ IOWN
+   )},
+    {sort:"bio",words:%w(細胞 不老不死 老化)},
+    {sort:"medical",words:%w(ワクチン)},
+    {sort:"energy",words:%w(核融合 全個体 全樹脂 燃料電池)},
+    {sort:"vehicle",words:%w(ドローン 空飛ぶ 超電導 無人 自動運転 電動)},
+    {sort:"company",words:%w(テスラ アップル Apple マイクロソフト Microsoft グーグル Google メタ社 Meta TSMC CATL NTT NEC Sony)},
+    {sort:"person",words:%w(イーロン ザッカーバーグ ティムクック)},
 ]
 
 politics = [
-    {sort:"general",words:[
-        "政治","内閣","政府","政策","法律","参議院","衆議院","議員","議会","選挙","与党","野党","首相","大統領",
-        "政治思想","自由主義","保守主義","社会主義","共産主義","ポピュリズム",
-        "連立政権","一党制","多党制","政治的な信念","政治的な運動","政治犯","投票","投票権","投票率",
-        "政治寄付","ロビー","有権者","選挙制度","選挙区","内政","対外政策","規制","対抗措置",
-        "戦争","平和","軍備""安全","安全保障","自治","国際関係","司法","最高裁","憲法",
-        "人権","侵害","公共","統治","行政","福祉","国民"]},
-    {sort:"peson",words:["岸田","河野","麻生","高市"]},
-    {sort:"party",words:["自民党","民主党","公明党","維新","共産党","国民党"]}
+    {sort:"general",words:%w(
+       政治 内閣 政府 政策 法律 参議院 衆議院 議員 議会 選挙 与党 野党 首相 大統領 大臣 補佐官 担当官 官庁 省庁
+       政治思想 自由主義 保守主義 社会主義 共産主義 ポピュリズム
+       連立政権 一党制 多党制 政治的な信念 政治的な運動 政治犯 投票 投票権 投票率
+       政治寄付 ロビー 有権者 選挙制度 選挙区 内政 対外政策 規制 対抗措置
+       戦争 平和 軍備""安全 安全保障 自治 国際関係 司法 最高裁 憲法
+       人権 侵害 公共 統治 行政 福祉 国民)},
+    {sort:"peson",words:%w(岸田 河野 麻生 高市)},
+    {sort:"party",words:%w(自民党 民主党 公明党 維新 共産党 国民党)}
+]
+
+life = [
+    {sort:"item",words:%w(文具 文房具 手帳 ノート ボールペン 財布 靴 ホルダー 家電)},
+    {sort:"phrase",words:%w(買うべき 買ってよかった 買って良かった 買わないと損 これ１台 これ１冊 おすすめ 激推し)},
+    {sort:"brand",words:%w(無印 ニトリ ダイソー daiso ワークマン 百均 100均)},
+    {sort:"general",words:%w(グッズ 便利 小物 生活 対策グッズ 用品 コスパ 掘り出し物 ベストバイ アイテム 防寒 用品) }
+]
+
+lifehack = [
+    {sort:"method",words:%w(活用法 活用術 生活術 裏技 ミニマル ミニマリスト 機能 用途 方法 使い方 習慣 コツ)},
+    {sort:"phrase",words:%w(買うべき 買ってよかった 買って良かった 買わないと損 これ１台 これ１冊 おすすめ 激推し)},
+    {sort:"brand",words:%w(無印 ニトリ ダイソー Daiso ワークマン 百均 100均 100円)},
+    {sort:"general",words:%w(グッズ 便利 小物 生活 対策グッズ 用品 コスパ 掘り出し物 ベストバイ アイテム 防寒 用品) }
+]
+
+beauty = [
+    {sort:"cosmetic",words:%w(化粧 コスメ メイク ファンデーション リップスティック アイシャドウ マスカラ ブラッシュ アイライナー 
+    リップグロス コンシーラー メイクアップリムーバー スキンケア 下地 ファセットナー リップバーム ネイル フェイスマスク 
+    ボディローション ハイライト コントゥアリング メイクブラシ 化粧ポーチ 日焼け止め
+    )},
+    {sort:"fashion",words:%w(ファッション)}
 ]
 
 gadget = [
-    {sort:"brand",words:["Apple","Samsung","Huawei","Xiaomi","Oppo","Vivo","Sony","LG","Google","OnePlus","Motorola","Nokia"]},
-    {sort:"seris",words:["iPhone","Galaxy","Mate","Redmi","AQUOS"]},
-    {sort:"general",words:["折りたたみ","iPhone","Galaxy","Mate","Redmi"]},
+    {sort:"brand",words:%w(Apple Samsung Huawei Xiaomi Oppo Vivo Sony LG Google OnePlus Motorola Nokia)},
+    {sort:"seris",words:%w(iPhone iPad MacBook AirPods Galaxy Mate Redmi AQUOS ChromeBook Xperia Pixel Anker GoPro Switch スイッチ ps5 プレステ)},
+    {sort:"phrase",words:%w(高音質 高画質 高性能 高容量 大容量 高出力 大出力 高級)},
+    {sort:"general",words:%w(
+        機器 端末 デバイス ガジェット バッテリー スマートフォン スマホ ラップトップ デスクトップ PC パソコン 充電 Bluetooth ブルートゥース wi-fi wifi
+        イヤホン ヘッドフォン スピーカー ウォッチ カメラ プロジェクター モバイル マウス キーボード タッチスクリーン USB lightning コントローラー スタンド
+    )},
 ]
 
 business = [
-    {sort:"general",words:[
-        "経営","ビジネス","フランチャイズ","ターゲット市場","マーケット","セグメンテーション","プロモーション","事業",
-    "営業","顧客","収益","コスト","利益","ROI","ターゲット","ターゲティング","SWOT","リサーチ","アウトソーシング",
-    "チームビルディング","リーダーシップ","ビジョン","ミッションステートメント","グロースハック","バリュープロポジション","マネジメント",
-    "KPI","バリューチェーン","ステークホルダー","パートナーシップ","プロジェクトマネジメント","キャッシュフロー",
-    "資産","負債","経営戦略","ビジネスプラン","フランチャイズ","ライセンス","コーポレートガバナンス","リスクマネジメント","バリュエーション",
-    "マージン","シェアホルダー","ピッチ","起業","マーケティング","マーケティングミックス","マーケティング戦略","ブランディング","ターゲット市場",
-    "ニッチ市場","マーケットセグメンテーション","マーケットリサーチ","市場シェア","顧客満足度","顧客ロイヤルティ","チャネル戦略","供給チェーン",
-    "販売促進","販売戦略","プロモーション","コンバージョン率","収益","利益","コスト削減","コスト効率","リーダーシップ","組織文化","ミッションステートメント",
-    "ビジョン","戦略計画","目標設定","プロジェクトマネジメント","リスクマネジメント","パフォーマンス評価","バランススコアカード","キーパフォーマンスインディケーター",
-    "SWOT分析","グローバル戦略","コアコンピタンス","オペレーション","サプライチェーンマネジメント","ログイスティクス","グリーンビジネス","サステナビリティ","単価"]}
+    {sort:"general",words:%w(
+       経営 ビジネス フランチャイズ ターゲット市場 マーケット セグメンテーション プロモーション 事業
+       営業 顧客 収益 コスト 利益 ROI ターゲット ターゲティング SWOT リサーチ アウトソーシング
+   チームビルディング リーダーシップ ビジョン ミッションステートメント グロースハック バリュープロポジション マネジメント
+   KPI バリューチェーン ステークホルダー パートナーシップ プロジェクトマネジメント キャッシュフロー
+   資産 負債 経営戦略 ビジネスプラン フランチャイズ ライセンス コーポレートガバナンス リスクマネジメント バリュエーション
+   マージン シェアホルダー ピッチ 起業 マーケティング マーケティングミックス マーケティング戦略 ブランディング ターゲット市場
+   ニッチ市場 マーケットセグメンテーション マーケットリサーチ 市場シェア 顧客満足度 顧客ロイヤルティ チャネル戦略 供給チェーン
+   販売促進 販売戦略 プロモーション コンバージョン率 収益 利益 コスト削減 コスト効率 リーダーシップ 組織文化 ミッションステートメント
+   ビジョン 戦略計画 目標設定 プロジェクトマネジメント リスクマネジメント パフォーマンス評価 バランススコアカード キーパフォーマンスインディケーター
+   SWOT分析 グローバル戦略 コアコンピタンス オペレーション サプライチェーンマネジメント ログイスティクス グリーンビジネス サステナビリティ 単価)}
 ]
 
 world = [
-    {sort:"条約",words:["協定","クアッド","条約","ASEAN","EU","RCEP","NATO","TPP","Quad"]},
-    {sort:"2国間",words:["日印","日英","日韓","日豪","日中","日朝","日独","日仏","日米","日露","米中","米露"]},
-    {sort:"略称",words:[
-        "アラブ","韓国","北朝鮮","コンゴ","中国","バチカン","ボリバル","ボリビア",
-        "モルドバ","マケドニア","ユーゴスラビア","ラオス","ロシア"
-        ]},
-    {sort:"2国間",words:["アイスランド","アイルランド","アゼルバイジャン","アフガニスタン","アメリカ",
-    "ヴァージン諸島","サモア","アラブ首長国連邦","アルジェリア","アルゼンチン","アルバ","アルバニア",
-    "アルメニア","アンギラ","アンゴラ","アンティグア・バーブーダ","アンドラ","イエメン","イギリス",
-    "インド洋地域","ヴァージン諸島","イスラエル","イタリア","イラク","イラン・イスラム共和国","インド",
-    "インドネシア","ウォリス・フツナ","ウガンダ","ウクライナ","ウズベキスタン","ウルグアイ","エクアドル",
-    "エジプト","エストニア","エチオピア","エリトリア","エルサルバドル","オーストラリア","オーストリア","オーランド諸島",
-    "オマーン","オランダ","ガーナ","カーボベルデ","ガーンジー","ガイアナ","カザフスタン","カタール","合衆国領有小離島",
-    "カナダ","ガボン","カメルーン","ガンビア","カンボジア","北マリアナ諸島","ギニア","ギニアビサウ","キプロス","キューバ",
-    "キュラソー","ギリシャ","キリバス","キルギス","グアテマラ","グアドループ","グアム","クウェート","クック諸島",
-    "グリーンランド","クリスマス島","グレナダ","クロアチア","ケイマン諸島","ケニア","コートジボワール","ココス諸島",
-    "キーリング諸島","コスタリカ","コモロ","コロンビア","コンゴ共和国","コンゴ民主共和国","サウジアラビア",
-    "サウスジョージア・サウスサンドウィッチ諸島","サモア","サンンシペ","サン・バルテルミー","ザンビア","サンピエール島・ミクロン島",
-    "サンマリノ","サン・マルタン","シエラレオネ","ジブチ","ジブラルタル","ジャージー","ジャマイカ","ジョージア","シリア・アラブ共和国",
-    "シンガポール","シント・マールテン","ジンバブエ","スイス","スウェーデン","スーダン","スヴァールバル諸島","ヤンマイエン島","スペイン",
-    "スリナム","スリランカ","スロバキア","スロベニア","スワジランド","セーシェル","赤道ギニア","セネガル","セルビア","セントクリストファー・ネイビス",
-    "セントビンセント","グレナディーン諸島","セントヘレナ・アセンションおよびトリスタンダクーニャ","セントルシア","ソマリア","ソロモン諸島",
-    "タークス・カイコス諸島","タイ","大韓民国","台湾","中華民国","タジキスタン","タンザニア","チェコ","チャド","中央アフリカ共和国",
-    "中華人民共和国","チュニジア","朝鮮民主主義人民共和国","チリ","ツバル","デンマーク","ドイツ","トーゴ","トケラウ","ドミニカ共和国",
-    "ドミニカ国","トリニダード・トバゴ","トルクメニスタン","トルコ","トンガ","ナイジェリア","ナウル","ナミビア","南極","ニウエ","ニカラグア",
-    "ニジェール","西サハラ","ニューカレドニア","ニュージーランド","ネパール","ノーフォーク島","ノルウェー","ハード島","マクドナルド諸島",
-    "バーレーン","ハイチ","パキスタン","バチカン市国","パナマ","バヌアツ","バハマ","パプアニューギニア","バミューダ","パラオ","パラグアイ",
-    "バルバドス","パレスチナ","ハンガリー","バングラデシュ","東ティモール","ピトケアン","フィジー","フィリピン","フィンランド","ブータン",
-    "ブーベ島","プエルトリコ","フェロー諸島","フォークランド諸島","マルビナス諸島","ブラジル","フランス","ギアナ","ポリネシア","ブルガリア",
-    "ブルキナファソ","ブルネイ・ダルサラーム","ブルンジ","ベトナム","ベナン","ベネズエラ・ボリバル共和国","ベラルーシ","ベリーズ","ペルー",
-    "ベルギー","ポーランド","ボスニア・ヘルツェゴビナ","ボツワナ","ボネール、シント・ユースタティウスおよびサバ","ボリビア多民族国","ポルトガル",
-    "香港","ホンジュラス","マーシャル諸島","マカオ","マケドニア旧ユーゴスラビア共和国","マダガスカル","マヨット","マラウイ","マリ","マルタ",
-    "マルティニーク","マレーシア","マン島","ミクロネシア連邦","南アフリカ","南スーダン","ミャンマー","メキシコ","モーリシャス","モーリタニア",
-    "モザンビーク","モナコ","モルディブ","モルドバ共和国","モロッコ","モンゴル","モンテネグロ","モントセラト","ヨルダン","ラオス人民民主共和国",
-    "ラトビア","リトアニア","リビア","リヒテンシュタイン","リベリア","ルーマニア","ルクセンブルク","ルワンダ","レソト","レバノン","レユニオン","ロシア連邦"]},
+    {sort:"条約",words:%w(協定 クアッド 条約 ASEAN EU RCEP NATO TPP Quad)},
+    {sort:"2国間",words:%w(日印 日英 日韓 日豪 日中 日朝 日独 日仏 日米 日露 米中 米露)},
+    {sort:"略称",words:%w(
+       アラブ 北朝鮮 コンゴ バチカン ボリバル ボリビア
+       モルドバ マケドニア ユーゴスラビア ラオス ロシア
+       )},
+    {sort:"country",words:%w(アイスランド アイルランド アゼルバイジャン アフガニスタン
+    ヴァージン諸島 サモア アラブ首長国連邦 アルジェリア アルゼンチン アルバ アルバニア
+   アルメニア アンギラ アンゴラ アンティグア・バーブーダ アンドラ イエメン イギリス
+   インド洋地域 ヴァージン諸島 イスラエル イタリア イラク イラン・イスラム共和国 インド
+   インドネシア ウォリス・フツナ ウガンダ ウクライナ ウズベキスタン ウルグアイ エクアドル
+   エジプト エストニア エチオピア エリトリア エルサルバドル オーストラリア オーストリア オーランド諸島
+   オマーン オランダ ガーナ カーボベルデ ガーンジー ガイアナ カザフスタン カタール 合衆国領有小離島
+   カナダ ガボン カメルーン ガンビア カンボジア 北マリアナ諸島 ギニア ギニアビサウ キプロス キューバ
+   キュラソー ギリシャ キリバス キルギス グアテマラ グアドループ グアム クウェート クック諸島
+   グリーンランド クリスマス島 グレナダ クロアチア ケイマン諸島 ケニア コートジボワール ココス諸島
+   キーリング諸島 コスタリカ コモロ コロンビア コンゴ共和国 コンゴ民主共和国 サウジアラビア
+   サウスジョージア・サウスサンドウィッチ諸島 サモア サンンシペ サン・バルテルミー ザンビア サンピエール島・ミクロン島
+   サンマリノ サン・マルタン シエラレオネ ジブチ ジブラルタル ジャージー ジャマイカ ジョージア シリア・アラブ共和国
+   シンガポール シント・マールテン ジンバブエ スイス スウェーデン スーダン スヴァールバル諸島 ヤンマイエン島 スペイン
+   スリナム スリランカ スロバキア スロベニア スワジランド セーシェル 赤道ギニア セネガル セルビア セントクリストファー・ネイビス
+   セントビンセント グレナディーン諸島 セントヘレナ・アセンションおよびトリスタンダクーニャ セントルシア ソマリア ソロモン諸島
+   タークス・カイコス諸島 タイ 大韓民国 台湾 中華民国 タジキスタン タンザニア チェコ チャド 中央アフリカ共和国
+   中華人民共和国 チュニジア 朝鮮民主主義人民共和国 チリ ツバル デンマーク ドイツ トーゴ トケラウ ドミニカ共和国
+   ドミニカ国 トリニダード・トバゴ トルクメニスタン トルコ トンガ ナイジェリア ナウル ナミビア 南極 ニウエ ニカラグア
+   ニジェール 西サハラ ニューカレドニア ニュージーランド ネパール ノーフォーク島 ノルウェー ハード島 マクドナルド諸島
+   バーレーン ハイチ パキスタン バチカン市国 パナマ バヌアツ バハマ パプアニューギニア バミューダ パラオ パラグアイ
+   バルバドス パレスチナ ハンガリー バングラデシュ 東ティモール ピトケアン フィジー フィリピン フィンランド ブータン
+   ブーベ島 プエルトリコ フェロー諸島 フォークランド諸島 マルビナス諸島 ブラジル フランス ギアナ ポリネシア ブルガリア
+   ブルキナファソ ブルネイ・ダルサラーム ブルンジ ベトナム ベナン ベネズエラ・ボリバル共和国 ベラルーシ ベリーズ ペルー
+   ベルギー ポーランド ボスニア・ヘルツェゴビナ ボツワナ ボネール、シント・ユースタティウスおよびサバ ボリビア多民族国 ポルトガル
+   香港 ホンジュラス マーシャル諸島 マカオ マケドニア旧ユーゴスラビア共和国 マダガスカル マヨット マラウイ マリ マルタ
+   マルティニーク マレーシア マン島 ミクロネシア連邦 南アフリカ 南スーダン ミャンマー メキシコ モーリシャス モーリタニア
+   モザンビーク モナコ モルディブ モルドバ共和国 モロッコ モンゴル モンテネグロ モントセラト ヨルダン ラオス人民民主共和国
+   ラトビア リトアニア リビア リヒテンシュタイン リベリア ルーマニア ルクセンブルク ルワンダ レソト レバノン レユニオン ロシア連邦)},
     {sort:"war",words:
-        ["軍","戦争","戦闘","兵役","軍隊","戦場","攻撃","防御","兵士","戦艦","航空戦","戦略","戦術","戦勝","敗戦","戦争犯罪","非戦闘員",
-        "平和","武器","軍事","講和","軍備拡張","軍縮","占領","戦争賠償","内戦","国際紛争","戦時国際法","戦争犠牲者","戦争孤児","捕虜",
-        "核戦争","世界大戦","派兵","布告","宣戦布告","戦争中立","徴兵","戦争記念日","軍事演習","武装解除","停戦協定","戦争","軍隊","戦闘",
-        "軍事","攻撃","侵攻","防御","反撃","戦略","戦術","兵士","戦犯","武器","戦争責任","勝利","敗北","平和","占領","休戦","和平交渉",
-        "軍事同盟","争い","戦禍","戦時","軍備","無差別攻撃","被害","戦闘員","戦地","戦場","軍事作戦","徴兵","軍事力"]},
+        %w(軍 戦争 戦闘 兵役 軍隊 戦場 攻撃 防御 兵士 戦艦 航空戦 戦略 戦術 戦勝 敗戦 戦争犯罪 非戦闘員
+        平和 武器 軍事 講和 軍備拡張 軍縮 占領 戦争賠償 内戦 国際紛争 戦時国際法 戦争犠牲者 戦争孤児 捕虜
+       核戦争 世界大戦 派兵 布告 宣戦布告 戦争中立 徴兵 戦争記念日 軍事演習 武装解除 停戦協定 戦争 軍隊 戦闘
+       軍事 攻撃 侵攻 防御 反撃 戦略 戦術 兵士 戦犯 武器 戦争責任 勝利 敗北 平和 占領 休戦 和平交渉
+       軍事同盟 争い 戦禍 戦時 軍備 無差別攻撃 被害 戦闘員 戦地 戦場 軍事作戦 徴兵 軍事力)},
     {sort:"organization",words:
-        ["国連", "IMF", "世界銀行", "WTO", "WHO", "IAEA", "OECD", "NATO", "UNESCO", "ASEAN", "OPEC", "G7", "G20"]
+        %w(国連 IMF 世界銀行 WTO WHO IAEA OECD NATO UNESCO ASEAN OPEC G7 G20)
     }
 ]
+
 categories = [
-    {name:"business", japanese_name:"ビジネス", variable:business},
-    {name:"politics", japanese_name:"政治", variable:politics},
-    {name:"technology", japanese_name:"テクノロジー", variable:technology},
-    {name:"economy", japanese_name:"経済", variable:economy},
-    {name:"world", japanese_name:"世界", variable:world},
-    {name:"game", japanese_name:"ゲーム"},
-    {name:"trend", japanese_name:"トレンド"}
+    {name:"business", japanese_name:"ビジネス", variable:business, is_started: true},
+    {name:"politics", japanese_name:"政治", variable:politics, is_started: true},
+    {name:"technology", japanese_name:"テクノロジー", variable:technology, is_started: true},
+    {name:"economy", japanese_name:"経済", variable:economy, is_started: true},
+    {name:"world", japanese_name:"世界", variable:world, is_started: true},
+    {name:"game", japanese_name:"ゲーム", is_started: true},
+    {name:"trend", japanese_name:"トレンド", is_started: true},
+    {name:"life", japanese_name:"ライフ", is_started: true},
+    {name:"lifehack", japanese_name:"ライフハック", is_started: true},
+    {name:"mobility", japanese_name:"モビリティ", is_started: true},
 ]
 categories.each do |category_hash|
-    category = Category.create(name: category_hash[:name], japanese_name:category_hash[:japanese_name])
+    start_at = nil
+    start_at = DateTime.new(2023,1,1) if category_hash[:is_started]
+    category = Category.create(
+        name: category_hash[:name], 
+        japanese_name:category_hash[:japanese_name],
+        start_at: start_at
+        )
     puts category_hash[:name]
     if category_hash[:variable]
         category_hash[:variable].each do |words_hash|
-            WordList.create(
-                category:category,
-                sort:words_hash[:sort],
-                words:words_hash[:words].join(",")
-            )
+            list = WordList.find_by(sort: words_hash[:sort])
+            if list.present?
+                list.update(
+                    category:category,
+                    sort:words_hash[:sort],
+                    words:words_hash[:words].join(",")
+                )
+            else
+                WordList.create(
+                    category:category,
+                    sort:words_hash[:sort],
+                    words:words_hash[:words].join(",")
+                )
+            end
         end
     end
 end
+
+exceptions = {
+    "ノート" => %(ノートパソコン)
+}
+
 channel_seeds = [
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takahashi_yoichi","categories"=>["business","politics","economy"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mykey-sano","categories"=>["business","politics","technology","economy"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@3.0/videos","categories"=>["politics","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mitsuhashipress","categories"=>["politics","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@FIFIchannel","categories"=>["politics","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kazuyachgx","categories"=>["politics","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@user-rb3pn7uz3m","categories"=>["politics","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ytv_news","categories"=>["politics","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@DEEPMAX","categories"=>["politics","economy"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mofmof-investor","categories"=>["politics","economy","business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@NewsPicks","categories"=>["business","technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@diy4600","categories"=>["politics","economy"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tsj_otb/videos","categories"=>["world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@milirepo","categories"=>["politics","economy"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@user-uy4cr9se8j","categories"=>["world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@maomao96363","categories"=>["politics","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@oikawa_yukihisa1","categories"=>["world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kazuyachgx","categories"=>["politics","economy"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@WWUK_TV","categories"=>["world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ntv_news","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ANNnewsCH","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@FNNnewsCH","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tbsnewsdig","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mbsnews","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@CHUKYOTV_NEWS","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@prime_ABEMA","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tvtokyobiz","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@abc6ch","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takaponjp","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tvosakanews","categories"=>["politics","technology","economy","world"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@htbnews","categories"=>["politics","technology","economy","world"]},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@takahashi_yoichi", "categories" => %w(business politics economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mykey-sano", "categories" => %w(business politics technology economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@3.0/videos", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mitsuhashipress", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@FIFIchannel", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazuyachgx", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-rb3pn7uz3m", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ytv_news", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@DEEPMAX", "categories" => %w(politics economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mofmof-investor", "categories" => %w(politics economy business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NewsPicks", "categories" => %w(business technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@diy4600", "categories" => %w(politics economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tsj_otb/videos", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@milirepo", "categories" => %w(politics economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-uy4cr9se8j", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@maomao96363", "categories" => %w(politics world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@oikawa_yukihisa1", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazuyachgx", "categories" => %w(politics economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@WWUK_TV", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ntv_news", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ANNnewsCH", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@FNNnewsCH", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbsnewsdig", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mbsnews", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@CHUKYOTV_NEWS", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@prime_ABEMA", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tvtokyobiz", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@abc6ch", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@takaponjp", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tvosakanews", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@htbnews", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@KyodoNews", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NagoyaTVnewsCH", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@khb", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@habmigochannel", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@cbctv_news", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@news_sokuho", "categories" => %w(politics)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@TsukasaJonen", "categories" => %w(politics)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@BBCNewsJapan", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Invest_and_Living", "categories" => %w(war)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@primenews/", "categories" => %w(world)},
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@USAMilitaryChannel2", "categories" => %w(military)},
+    
+    
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@monozukuritarou", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@erestage", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Ch-dp9or", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@YamatoNadeshiko", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@htbnews", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nex.kougyo", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@remote-work", "categories" => %w(technology business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@bouncy", "categories" => %w(technology business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nikkei", "categories" => %w(business technology)},
+
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@htbnews", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@manabusiness", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@honmanachannel", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@pivot8935", "categories" => %w(business, technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sam-book", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sonsera_ch", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gakushikisaron", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shin_R25", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@salatame", "categories" => %w(business lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ryukkebibinnba", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nensyu_channel", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ryogakucho", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tabbata", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@MABANK2018", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rakumachi", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@YoshikiOkamotoWorkshop", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@oohorisouta-doruma", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-cb7xb1lh2m", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@flier6114", "categories" => %w(business)},
+
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@cabbage_games", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@YoshikiOkamotoGameCh", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sora_sakurai_jp", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@OYAYUVI", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gameyawa", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-ys6bh5zc3k", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gameyawa", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@dengekionline", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nakaido", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@midnight_chimau", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NintendoJP", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@PlayStationJapan", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ichigo_Gamebeat", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@capcom", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@squareenix", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NayneGamez", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@chomes3104", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@keiji_ch", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@automatonchannel", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@pandaiku", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@steamharachin", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@stmatomato", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yamachan-game-giriikiteru", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@-ch-qx5lh", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@odesigame", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@omigames", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@akagitotoro", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kotoragame", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kentworldg", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@D_Galle", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@SmithAndGames", "categories" => %w(game)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kelloggsan_tv", "categories" => %w(game)},
+    
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hiyoko246", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sakki-tvch", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ttmtsuyoshi", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kasukabesouzoku", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ryohin", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sasayan", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@motomitsu", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@pukujiji", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kureanews_2", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-yz3ti4lf3m", "categories" => %w(trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gaguru.tubenews", "categories" => %w(trend)},
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@SonyXperia", "categories" => %w(gadget tour)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kentworldg", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@MrVR", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ArimaxVR", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mirais_vr", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@YamatoNadeshiko", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Takomaruuun", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gizmodojapan", "categories" => %w(gadget technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@takahashiyamada", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshidaaaaaaaaaaaaaaaaaaaaaaaa", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ThomasGadgemaga", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@harukanachannel", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sumasapo", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@masaru1088", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rbbtodaycom", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@WatanabeKazumasa", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@SGRT3rd", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ToviWorks", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gazyekichi", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Yuta_Hiraoka", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@MonogamaGadget", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tobalog_toba", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@RecPlus", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@masaru1088", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Usyasuraimu", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kajimack", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shinkichi39", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rebecca_miyama", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yamako_mini_free", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@daiking3", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@monograph_", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nikostyle_tk", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mamiyoshi", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yuji-lifehack", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kisuke", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@monograph_", "categories" => %w(gadget)},
+    
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazuch0924", "categories" => %w(life gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sumasapo", "categories" => %w(life gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@thedadsecretbase", "categories" => %w(gadget life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@SagaraGouchi", "categories" => %w(gadget life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@COM_Gadget", "categories" => %w(gadget life)},
+
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@oshare_iruka", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@smappy_channel", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mori_house", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mujio_mujirushi", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@MiD.", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@muji_hayashi", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@resky_ch", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@laffic", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@manmalunaLifeVlog", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sukinamon", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mlife.puchipura", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@miniminidiarist", "categories" => %w(life)},
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-lp1bg4qq7i", "categories" => %w(programmer technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@carwowJapan", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@jimny_kozakura", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@wansokutube", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@KG_motors", "categories" => %w(car technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@AMCacademic", "categories" => %w(car technology business economy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@bokutes", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kuhlracingtv906", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-sw8wr3xq1l", "categories" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yumiyoshida439", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@toyotatimes", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@driverchannel", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@newcarlife", "categories" => %w(car technology), "absolute" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(car)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(car)},
+    
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hayatasuuu", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@KiyotoUniv", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@pythonvtuber9917", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@TECHWORLD111", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kentatv2710", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@engineer_first", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@webit7652", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@it_bosatsu_moro", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-pl5cc5hs5m", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ara_sun_", "categories" => %w(programmer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@SES_CH", "categories" => %w(programmer)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@takehana_minds", "categories" => %w(切り抜き)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@honmanachannel", "categories" => %w(切り抜き)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@honmanachannel", "categories" => %w(切り抜き)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@honmanachannel", "categories" => %w(切り抜き)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@youseful_skill", "categories" => %w(lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yukipedia", "categories" => %w(lifehack business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@abemutsuki", "categories" => %w(lifehack business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@natsuko271/", "categories" => %w(lifehack life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yusuke_counselor", "categories" => %w(lifehack business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@king.blog05", "categories" => %w(lifehack life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hikopro6723", "categories" => %w(lifehack life gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Lifelogtube", "categories" => %w(lifehack life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-et8nn1rk7i", "categories" => %w(lifehack life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@LifeStyleJournal_saku", "categories" => %w(lifehack life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mususuma", "categories" => %w(lifehack gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@AppleJapan", "categories" => %w(lifehack other)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tanapi_fufu385", "categories" => %w(lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@techoutime", "categories" => %w(lifehack life)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mizuna_mama", "categories" => %w(lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@soeasy", "categories" => %w(lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@makonari_shacho", "categories" => %w(lifehack business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(lifehack)},
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(sports)},
+
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hiroyukikirinuki", "categories" => %w(hiroyuki trend)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hiroyukimind", "categories" => %w(hiroyuki)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Hiroyuke", "categories" => %w(hiroyuki trend life carrer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@erutorecruit", "categories" => %w(carrer)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@3utsu", "categories" => %w(lifehack)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(lifehack)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(lifehack)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(lifehack)},
+    #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch_yueki_5ch", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-sg6zr", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-matome", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shuuuukatu", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@d-niki", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ch-nz7yk", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@obaka-matome", "categories" => %w(board carrer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-matome", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chlab", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chyu-eking", "categories" => %w(board lifeevent)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chNanJ", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ch-lb8yr", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-kisoutengai", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Tetsujin28hiki", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ch-bs9es", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yukkuri-waraeru", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nanJsokutu", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-zl9js6pf9w", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-qt9jp", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chsyukatu", "categories" => %w(board carrer)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch2ch5ch4", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-ga-sukinandao", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@pokomake", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch612", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chNanJ", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch2ch5ch4", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@5ch_neko", "categories" => %w(board comedy)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ch-kq2mm", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch_dobutsu", "categories" => %w(board animal)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-sukatto", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-en5ci1hs3k", "categories" => %w(board lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-uj1gt5yj1y", "categories" => %w(board lifehack beauty)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-qm5tv6vs7e", "categories" => %w(board lifehack beauty)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@matomegirlsch", "categories" => %w(board lifehack beauty)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@girls-zarashi-ch", "categories" => %w(board lifehack beauty)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@girls-cosme", "categories" => %w(board beauty)},
+    
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nanJdx", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tarutaru2ch", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chdokaguibu", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Apparech", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch195", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/shorts/24V3tJipVGo", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/shorts/jescRX7T_9Q", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch300", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rice2ch", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@waraerusyo-to", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rice2ch", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rice2ch", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rice2ch", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@horrorro-adshowchannel", "categories" => %w(board)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-omoshiro-short", "categories" => %w(board)},
+    
 
     
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@monozukuritarou","categories"=>["technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@erestage","categories"=>["technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@Ch-dp9or","categories"=>["technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@YamatoNadeshiko","categories"=>["technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@htbnews","categories"=>["technology"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@nex.kougyo","categories"=>["technology"]},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ninninkyo", "categories" => %w(education)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@takashi_ch", "categories" => %w(education)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-omoshiro-short", "categories" => %w(education)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-omoshiro-short", "categories" => %w(education)},
 
-
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@htbnews","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@manabusiness","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@honmanachannel","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@pivot8935","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sam-book","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sonsera_ch","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@gakushikisaron","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@shin_R25","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@salatame","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ryukkebibinnba","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@nensyu_channel","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ryogakucho","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tabbata","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@MABANK2018","categories"=>["business"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@rakumachi","categories"=>["business"]},
-
-
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@cabbage_games","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@YoshikiOkamotoGameCh","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sora_sakurai_jp","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@OYAYUVI","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@gameyawa","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@user-ys6bh5zc3k","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@gameyawa","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@dengekionline","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@nakaido","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@midnight_chimau","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@NintendoJP","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@PlayStationJapan","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ichigo_Gamebeat","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@capcom","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@squareenix","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@NayneGamez","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@chomes3104","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@keiji_ch","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@automatonchannel","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@pandaiku","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@steamharachin","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@stmatomato","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@yamachan-game-giriikiteru","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@-ch-qx5lh","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@odesigame","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@omigames","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@akagitotoro","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kotoragame","categories"=>["game"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kentworldg","categories"=>["game"]},
-    
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@hiyoko246","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@YoshikiOkamotoGameCh","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sakki-tvch","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ttmtsuyoshi","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kasukabesouzoku","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ryohin","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@SmithAndGames","categories"=>["trend"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@D_Galle","categories"=>["trend"]},
-
-
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@SonyXperia","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kentworldg","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@MrVR","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ArimaxVR","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mirais_vr","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@YamatoNadeshiko","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@Takomaruuun","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@gizmodojapan","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@takahashiyamada","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@yoshidaaaaaaaaaaaaaaaaaaaaaaaa","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ThomasGadgemaga","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@harukanachannel","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sumasapo","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@masaru1088","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@rbbtodaycom","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@WatanabeKazumasa","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@SGRT3rd","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@ToviWorks","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@gazyekichi","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@Yuta_Hiraoka","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@MonogamaGadget","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@tobalog_toba","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@RecPlus","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@masaru1088","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@Usyasuraimu","categories"=>["gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kajimack","categories"=>["gadget"]},
-
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kazuch0924","categories"=>["life","gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sumasapo","categories"=>["life","gadget"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@oshare_iruka","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@smappy_channel","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mori_house","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mujio_mujirushi","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@MiD.","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@muji_hayashi","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@resky_ch","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@COM_Gadget","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@laffic","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@manmalunaLifeVlog","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@sukinamon","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@mlife.puchipura","categories"=>["life"]},
-    {"youtube_id"=>"","url"=>"https://www.youtube.com/@kazokushuno","categories"=>["life"]},
-    #{"youtube_id"=>"","url"=>"https://www.youtube.com/@takehana_minds","categories"=>["切り抜き"]},
-    #{"youtube_id"=>"","url"=>"https://www.youtube.com/@honmanachannel","categories"=>["切り抜き"]},
-    #{"youtube_id"=>"","url"=>"https://www.youtube.com/@honmanachannel","categories"=>["切り抜き"]},
-    #{"youtube_id"=>"","url"=>"https://www.youtube.com/@honmanachannel","categories"=>["切り抜き"]},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch-omoshiro-short", "categories" => %w(education)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(education)},
 ]
 
 channel_seeds.each do |seed|
-    category_ids = Category.where(name: seed["categories"]).pluck(:id)
-    channel = Channel.create(url:seed["url"])
+    category_names = seed["categories"]
+    categories = Category.where(name: category_names).map { |category| { "id" => category.id, "name" => category.name } }
+    channel = Channel.find_or_create_by(url:seed["url"])
     puts channel.id
-    category_ids.each do |id|
-        if category_ids.length == 1
-            ChannelCategory.create(channel: channel, category_id:id, is_absolute: true)
+    categories.each do |c|
+        if category_names.length == 1 || (seed["absolute"].present? && seed["absolute"].include?(c["name"]))
+            ChannelCategory.find_or_create_by(channel: channel, category_id:c["id"], is_absolute: true)
         else
-            ChannelCategory.create(channel: channel, category_id:id)
+            ChannelCategory.find_or_create_by(channel: channel, category_id:c["id"])
         end
     end
 end
 
-AdminUser.create!(email: ENV["EMAIL1"], password: ENV["PASSWORD"], password_confirmation: ENV["PASSWORD"]) if Rails.env.development?
+AdminUser.find_or_create_by!(email: ENV["EMAIL1"], password: ENV["PASSWORD"], password_confirmation: ENV["PASSWORD"]) if Rails.env.development?

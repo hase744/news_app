@@ -29,6 +29,28 @@ namespace :news do
     video_finder.check_all_channels
     #find_new_video.check_specific_category_channel
   end
+
+  desc "特定のカテゴリーの動画を収集"
+  task :curate_videos_of, :category do |task, args|
+    puts "Hello, #{args[:category]}!"
+    puts "curating video"
+    # rake news:"curate_videos_of[game]"　で実行するとなぜかエラーを起こす
+    video_finder = VideoCurator.new(category_name:"business")
+    video_finder.category_name = "business"
+    video_finder.check_specific_category_channels
+    #find_new_video.check_specific_category_channel
+  end
+  
+  desc "ゲームのカテゴリーの動画を収集"
+  task curate_game_videos: :environment do
+    puts "curating game videos"
+    #なぜかエラーを起こす
+    video_finder = VideoCurator.new(category_name:"game")
+    video_finder.category_name = "game"
+    video_finder.check_specific_category_channels
+    #find_new_video.check_specific_category_channel
+  end
+  
   
   task categorize_videos: :environment do
     puts "categorizing videos"

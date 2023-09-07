@@ -38,9 +38,9 @@ class VideoCurator
     def check_channels(channel)
       url = "https://www.youtube.com/feeds/videos.xml?channel_id=#{channel.youtube_id}"
       puts url
-      doc = REXML::Document.new(URI.open(url).read)
       begin
-          range_video(channel,doc)
+        doc = REXML::Document.new(URI.open(url).read)
+        range_video(channel,doc)
       rescue => e
         puts "エラー"
         if e.message == "404 Not Found"

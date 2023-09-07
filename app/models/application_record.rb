@@ -10,7 +10,7 @@ class ApplicationRecord < ActiveRecord::Base
       html = URI.open(url)
     rescue OpenURI::HTTPError => e
       puts "#{url} Error: #{e.message}"
-      exit
+      return
     end
     
     doc = Nokogiri::HTML(html)
