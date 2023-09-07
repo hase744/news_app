@@ -163,7 +163,7 @@ categories = [
 categories.each do |category_hash|
     start_at = nil
     start_at = DateTime.new(2023,1,1) if category_hash[:is_started]
-    category = Category.create(
+    category = Category.find_or_create_by(
         name: category_hash[:name], 
         japanese_name:category_hash[:japanese_name],
         start_at: start_at
@@ -243,14 +243,11 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@erestage", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Ch-dp9or", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@YamatoNadeshiko", "categories" => %w(technology)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@htbnews", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nex.kougyo", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@remote-work", "categories" => %w(technology business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@bouncy", "categories" => %w(technology business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nikkei", "categories" => %w(business technology)},
-
-
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@htbnews", "categories" => %w(business)},
+    
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@manabusiness", "categories" => %w(business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@honmanachannel", "categories" => %w(business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@pivot8935", "categories" => %w(business, technology)},
@@ -485,8 +482,6 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chdokaguibu", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Apparech", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch195", "categories" => %w(board)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/shorts/24V3tJipVGo", "categories" => %w(board)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/shorts/jescRX7T_9Q", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2ch300", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rice2ch", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@waraerusyo-to", "categories" => %w(board)},
@@ -521,4 +516,4 @@ channel_seeds.each do |seed|
     end
 end
 
-AdminUser.find_or_create_by!(email: ENV["EMAIL1"], password: ENV["PASSWORD"], password_confirmation: ENV["PASSWORD"]) if Rails.env.development?
+AdminUser.create(email: ENV["EMAIL1"], password: ENV["PASSWORD"], password_confirmation: ENV["PASSWORD"]) if not AdminUser.exists?(email:ENV["EMAIL1"])
