@@ -2,7 +2,8 @@ require_relative 'example_class'
 require_relative 'video_collection.rb'
 class VideoCurator
     YOUTUBE_API = Google::Apis::YoutubeV3::YouTubeService.new
-    YOUTUBE_API.key = ENV["YOUTUBE_KEY2"]
+    YOUTUBE_API.key = ENV["YOUTUBE_KEY"]
+    #YOUTUBE_API.key = ENV["YOUTUBE_KEY2"]
 
     attr_accessor :category_name
     attr_accessor :saving_videos
