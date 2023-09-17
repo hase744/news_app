@@ -11,7 +11,8 @@ class PressCreator
                      'youtube_id' => video.youtube_id, 
                      'title' => video.title, 
                      'channel_name' => video.channel.name,
-                     'channel_id' => video.channel.youtube_id
+                     'channel_id' => video.channel.youtube_id,
+                     'second' => video.second
                       } })
                 youtube_ids.push(bundle.pluck(:youtube_id).as_json)
             end

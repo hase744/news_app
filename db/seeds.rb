@@ -5,23 +5,26 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-economy = [
-    {sort:"exchange",words:%w(為替 円安 急騰 暴落 円高 値上 値下 ドル安 ドル高 ユーロ ポンド 人民元 ウォン 通貨)},
-    {sort:"invest",words:%w(
-       再投資 機関投資家 分散投資 長期投資 投資信託 不動産投資 利回り 株 株価 株式 債券 証券 ETF 社債 国債
-       新株 増資 増収 減収 増益 減益 優先株 IPO 信用取引 制裁 資本
-       証拠金取引 信用リスク 流動性リスク 配当 信託 米国株 買収 資産 運用
-       ファンド 普通株 償還 取引所 空売り 買い付け 売買 先物取引)},
-    {sort:"macro_economy",words:%w(
-   GDP 国内総生産 国民総生産 GNP インフレ デフレ 財政 金利 景気 収支 マーケット
-   恐慌 失業率 失業率 貿易収支 貿易統計 貿易赤字 財政黒字 財政赤字 貿易黒字 市場経済 計画経済 関税 雇用
-   財務 格付け バブル 不況 市場 生産性 格差 賃金 賃上げ 石油価格 原油価格 ガソリン価格 小麦価格 米価格 トウモロコシ価格 食料価格)},
-    {sort:"unique_noun",words:%w(アベノミクス リーマンショック バフェット フォール街)},
-    {sort:"general",words:%w(
-       金融 年金 決算 破綻 銀行 日銀 連邦準備 FRB
-       )},
-    {sort:"crypro_currency",words:%w(ビッドコイン 仮想通貨 暗号通貨 イーサリアム)}
-]
+
+currency = {sort:"currency",words:%w(
+    為替 円安 急騰 暴落 円高 値上 値下 ドル安 ドル高 ユーロ ポンド 人民元 ウォン 通貨)},
+investment = {sort:"investment",words:%w(
+    再投資 機関投資家 分散投資 長期投資 投資信託 不動産投資 利回り 株 株価 株式 債券 証券 ETF 社債 国債
+    新株 増資 増収 減収 増益 減益 優先株 IPO 信用取引 制裁 資本
+    証拠金取引 信用リスク 流動性リスク 配当 信託 米国株 買収 資産 運用
+    ファンド 普通株 償還 取引所 空売り 買い付け 売買 先物取引)},
+macro_economy = {sort:"macro_economy",words:%w(
+    GDP 国内総生産 国民総生産 GNP インフレ デフレ 財政 金利 景気 収支 マーケット
+    恐慌 失業率 失業率 貿易収支 貿易統計 貿易赤字 財政黒字 財政赤字 貿易黒字 市場経済 計画経済 関税 雇用
+    財務 格付け バブル 不況 市場 生産性 格差 賃金 賃上げ 石油価格 原油価格 ガソリン価格 小麦価格 米価格 トウモロコシ価格 食料価格)},
+unique_noun = {sort:"unique_noun",words:%w(
+    アベノミクス リーマンショック バフェット フォール街)},
+economy_general = {sort:"general",words:%w(
+   金融 年金 決算 破綻 銀行 日銀 連邦準備 FRB
+   )},
+crypro_currency = {sort:"crypro_currency",words:%w(ビッドコイン 仮想通貨 暗号通貨 イーサリアム)}
+
+economy = [currency investment macro_economy unique_noun unique_noun economy_general]
 
 technology = [
     {sort:"general",words:%w(技術力 新技術 テクノロジー テック 新型 次世代 自動化 自動翻訳 エンジニア)},
@@ -267,18 +270,22 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@News_ABEMA", "categories" => %w(politics economy world war trend)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@seikeidenronTV", "categories" => %w(business politics)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-td7uu8sb7u", "categories" => %w(politics)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ChGrandStrategy", "categories" => %w(politics technology economy world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@skoichi", "categories" => %w(politics trend)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shigoto", "categories" => %w(business work)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@USAMilitaryChannel2", "categories" => %w(military)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nikkanshunshun", "categories" => %w(politics economy world war trend)},
     
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-du7gi7mt4w", "categories" => %w(world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-xb3px7to3b", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoakemaeplayers", "categories" => %w(world)},
     
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@monozukuritarou", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@erestage", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Ch-dp9or", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@YamatoNadeshiko", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nex.kougyo", "categories" => %w(technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@stec1124", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://youtube.com/@semiconductor-industry", "categories" => %w(technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@AMANOSCOPE", "categories" => %w(technology business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@remote-work", "categories" => %w(technology business)},
@@ -303,6 +310,8 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@oohorisouta-doruma", "categories" => %w(business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-cb7xb1lh2m", "categories" => %w(business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@flier6114", "categories" => %w(business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@rehacq", "categories" => %w(business world politics)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-hr1by4lc1w", "categories" => %w(business world politics)},
 
 
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@cabbage_games", "categories" => %w(game)},
@@ -394,6 +403,7 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kisuke", "categories" => %w(gadget)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@monograph_", "categories" => %w(gadget)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@appleshinja-1okuninn", "categories" => %w(gadget)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@imamura4k", "categories" => %w(gadget)},
     
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazuch0924", "categories" => %w(life gadget)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sumasapo", "categories" => %w(life gadget)},
@@ -503,7 +513,7 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nbaku", "categories" => %w(lifehack work)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@saisuma-yoshida", "categories" => %w(lifehack)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sinminimallife", "categories" => %w(lifehack)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@curama_univ.", "categories" => %w(lifehack)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
@@ -566,6 +576,9 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@girls-cosme", "categories" => %w(board beauty)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-rf9ci6tl4r", "categories" => %w(board beauty)},
     
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@unnamedch", "categories" => %w(carrer)},
+
+
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@nanJdx", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tarutaru2ch", "categories" => %w(board)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@2chdokaguibu", "categories" => %w(board)},
@@ -679,6 +692,7 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-gz7vk2um3w", "categories" => %w(talent)},
 
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NipponFoundationPR", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@cbc_docu", "categories" => %w(documentary)},
@@ -689,6 +703,7 @@ channel_seeds = [
 
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@TBS_geino", "categories" => %w(talent)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mynavinews-entame", "categories" => %w(talent)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shuntyantv", "categories" => %w(talent)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
