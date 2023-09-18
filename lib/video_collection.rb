@@ -40,30 +40,30 @@ class VideoCollection
     end
   
     # コレクションをDBに保存するメソッド
+    #def save
+    #  is_success = true
+    #  if collection.present?
+    #    ActiveRecord::Base.transaction do
+    #      collection.each do |result|
+    #        # バリデーションを全てかけたいからsave!ではなくsaveを使用
+    #        is_success = false unless result.save
+    #      end
+    #      # バリデーションエラーがあった時は例外を発生させてロールバックさせる
+    #      raise ActiveRecord::RecordInvalid unless is_success
+    #    end
+    #  else
+    #    puts "保存する動画なし"
+    #  end
+    #    rescue => e
+    #      p 'エラー'
+    #      p e
+    #    ensure
+    #    return is_success
+    #end
+    
     def save
-      #is_success = true
-      #if collection.present?
-      #  ActiveRecord::Base.transaction do
-      #    collection.each do |result|
-      #      # バリデーションを全てかけたいからsave!ではなくsaveを使用
-      #      is_success = false unless result.save
-      #    end
-      #    # バリデーションエラーがあった時は例外を発生させてロールバックさせる
-      #    raise ActiveRecord::RecordInvalid unless is_success
-      #  end
-      #else
-      #  puts "保存する動画なし"
-      #end
-      #  rescue => e
-      #    p 'エラー'
-      #    p e
-      #  ensure
-      #  return is_success
-
-
       saved_models = [] # 保存に成功したモデルの配列
   
-      #check_all_channelsだとなぜかyoutube_idかかぶって一部保存できない
       if collection.present?
         ActiveRecord::Base.transaction do
           collection.each do |result|

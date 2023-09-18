@@ -526,12 +526,6 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hiroyukimind", "categories" => %w(hiroyuki)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@Hiroyuke", "categories" => %w(hiroyuki trend life carrer)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@hironuki", "categories" => %w(hiroyuki trend)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tbs5947", "categories" => %w(hiroyuki)},
     #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@erutorecruit", "categories" => %w(mobilityrer)},
     #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@3utsu", "categories" => %w(lifehack)},
     #{"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazokushuno", "categories" => %w(lifehack)},
@@ -725,6 +719,9 @@ Parallel.each(channel_seeds) do |seed|
     end
 end
 
+#被りを取得
+duplicates = channel_model.select(:youtube_id).group(:youtube_id).having('count(*) > 1')
+puts "被り : #{duplicates}"
 #channel_seeds.each do |seed|
 #    category_names = seed["categories"]
 #    categories = Category.where(name: category_names).map { |category| { "id" => category.id, "name" => category.name } }

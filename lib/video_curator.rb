@@ -18,11 +18,7 @@ class VideoCurator
     end
 
     def check_all_channels
-      valid_category_ids = Category.where.not(start_at: nil).pluck(:id)
-      channels = Channel.joins(:categories).where('categories.id IN (?)', valid_category_ids)
-      channels = channels.where.not(youtube_id: nil)
-
-      @saving_videos = Parallel.map(channels) do |channel|
+      @saving_videos = Parallel.map(Channel.all) do |channel|
         check_channels(channel)
       end
       @saving_videos = @saving_videos.flatten
@@ -42,6 +38,7 @@ class VideoCurator
         check_channels(channel)
       end
       @saving_videos = @saving_videos.flatten
+      @saving_videos = @saving_videos.compact
       detect_unsaved_model
       add_index
       update_video_second
