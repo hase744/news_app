@@ -12,7 +12,8 @@ class VideoCollection
       if attributes.present?
         self.collection = attributes.map do |value|
             if value['id'].present?
-                video = Video.find(value['id'])
+              puts "既存 : #{value['id']}"
+                video = value['model']
                 video.total_views = value["total_views"]
                 video
             else
@@ -40,23 +41,49 @@ class VideoCollection
   
     # コレクションをDBに保存するメソッド
     def save
-      is_success = true
+      #is_success = true
+      #if collection.present?
+      #  ActiveRecord::Base.transaction do
+      #    collection.each do |result|
+      #      # バリデーションを全てかけたいからsave!ではなくsaveを使用
+      #      is_success = false unless result.save
+      #    end
+      #    # バリデーションエラーがあった時は例外を発生させてロールバックさせる
+      #    raise ActiveRecord::RecordInvalid unless is_success
+      #  end
+      #else
+      #  puts "保存する動画なし"
+      #end
+      #  rescue => e
+      #    p 'エラー'
+      #    p e
+      #  ensure
+      #  return is_success
+
+
+      saved_models = [] # 保存に成功したモデルの配列
+  
+      #check_all_channelsだとなぜかyoutube_idかかぶって一部保存できない
       if collection.present?
         ActiveRecord::Base.transaction do
           collection.each do |result|
-            # バリデーションを全てかけたいからsave!ではなくsaveを使用
-            is_success = false unless result.save
+            begin
+              # バリデーションを全てかけたいからsave!ではなくsaveを使用
+              result.save!
+              saved_models << result # 保存に成功したモデルを配列に追加
+            rescue ActiveRecord::RecordInvalid => e
+              result.categories.each do |category|
+                p category.name
+              end
+              p e
+              # バリデーションエラーがあった場合、エラーをキャッチして何もしない
+            end
           end
-          # バリデーションエラーがあった時は例外を発生させてロールバックさせる
-          raise ActiveRecord::RecordInvalid unless is_success
         end
       else
         puts "保存する動画なし"
       end
-        rescue => e
-          p 'エラー'
-          p e
-        ensure
-        return is_success
+  
+      saved_models # 保存に成功したモデルの配列を返す
     end
   end

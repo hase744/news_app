@@ -1,36 +1,49 @@
 require_relative 'example_class'
 require_relative 'video_collection.rb'
+require_relative 'youtube_key_manager.rb'
 class VideoCurator
     YOUTUBE_API = Google::Apis::YoutubeV3::YouTubeService.new
-    YOUTUBE_API.key = ENV["YOUTUBE_KEY"]
+    #YOUTUBE_API.key = ENV["YOUTUBE_KEY"]
     #YOUTUBE_API.key = ENV["YOUTUBE_KEY2"]
 
     attr_accessor :category_name
     attr_accessor :saving_videos
 
     def initialize(category_name = nil)
-        category_name
-        @saving_videos = []
+      category_name
+      @saving_videos = []
+      youtube_key_manager = YoutubeKeyManager.new()
+      YOUTUBE_API.key = youtube_key_manager.get_key
+      YOUTUBE_API.key = ENV["YOUTUBE_KEY4"]
     end
 
     def check_all_channels
-      Channel.all.each do |channel|
-      #@saving_videos = Parallel.map(Channel.all) do |channel|
-        #@saving_videos = []
+      valid_category_ids = Category.where.not(start_at: nil).pluck(:id)
+      channels = Channel.joins(:categories).where('categories.id IN (?)', valid_category_ids)
+      channels = channels.where.not(youtube_id: nil)
+
+      @saving_videos = Parallel.map(channels) do |channel|
         check_channels(channel)
-        puts "動画数：#{@saving_videos.length}"
-        #return @saving_videos
       end
+      @saving_videos = @saving_videos.flatten
+      @saving_videos = @saving_videos.compact
+
+      detect_unsaved_model
+      add_index
       update_video_second
+      
       puts "最終動画数：#{@saving_videos.length}"
       @collection = VideoCollection.new(@saving_videos)
       @collection.save
     end  
 
     def check_specific_category_channels
-      Category.find_by(name: category_name).channels.each do |channel|
+      @saving_videos = Parallel.map(Category.find_by(name: category_name).channels) do |channel|
         check_channels(channel)
       end
+      @saving_videos = @saving_videos.flatten
+      detect_unsaved_model
+      add_index
       update_video_second
       @collection = VideoCollection.new(@saving_videos)
       @collection.save
@@ -51,8 +64,33 @@ class VideoCurator
       end
     end
 
+    def detect_unsaved_model
+      youtube_ids = @saving_videos.map { |video| video["youtube_id"] }
+      saved_videos = Video.where(youtube_id: youtube_ids).map {|video| { 
+        "id" => video.id, 
+        "youtube_id" => video.youtube_id, 
+        "second" => video.second,
+        "model" => video
+      }}
+      puts saved_videos.length
+
+      saved_videos.each do |saved_video|
+        #puts saved_video['youtube_id']
+        @saving_videos.each_with_index do |saving_video, index|
+          #puts index
+          if saving_video['youtube_id'] == saved_video['youtube_id']
+            @saving_videos[index]["id"] = saved_video["id"]
+            #puts "モデル"
+            #puts saved_video["model"]
+            @saving_videos[index]["model"] = saved_video["model"]
+          end
+        end
+      end
+    end
+
     #過去該当チャンネルの動画を15件取得
     def range_video(channel, doc)
+      params = []
       for num in 1..15 do
         #puts "num : #{num}"
         youtube_id = doc.elements["feed/entry[#{num}]/yt:videoId"].text
@@ -61,61 +99,70 @@ class VideoCurator
         description = video_info.elements["media:group/media:description"].text
         total_views = video_info.elements["media:group/media:community/media:statistics"].attributes["views"]
 
-        if youtube_id
-          video = Video.find_by(youtube_id: youtube_id)
-          if video.present? #既存のは再生数を更新
-            puts "the video is already saved"
-            param = {
-              "id"=>video.id,
-              "youtube_id"=>youtube_id, 
-              "total_views" => total_views
-            }
-          else #新規のは全てのカラムを保存
-              param = {
-                "youtube_id"=>youtube_id, 
-                #"second"=>video_second,
-                "channel_id"=>channel.id,
-                "description"=>description,
-                "published_at"=>video_info.elements["published"].text,
-                "title"=> title,
-                "total_views" => total_views
-              }
-            puts "the video is new"
-          end
-          @saving_videos.push(param)
+        if youtube_id.present?
+          param = {
+            "youtube_id"=>youtube_id, 
+            #"second"=>video_second,
+            "channel_id"=>channel.id,
+            "description"=>description,
+            "published_at"=>video_info.elements["published"].text,
+            "title"=> title,
+            "total_views" => total_views
+          }
+          params.push(param)
         end
+      end
+      return params
+    end
+
+    def add_index
+      @saving_videos.each_with_index do |video, index|
+        @saving_videos[index]["index"] = index
       end
     end
 
     def update_video_second
-      puts "update_video_second"
-      second_params = []
-      second_params = Parallel.map(@saving_videos) do |video|
-        param = {}
-        param["youtube_id"] = video["youtube_id"]
-        param["second"] = get_video_second(video["youtube_id"])
-        param
+      #YoutubeAPIの一度に取得できる動画数が50本であるため
+      #{"index"=>"3", "second"=>"2232"}のようなハッシュの配列を取得
+      unsaved_videos = @saving_videos.select { |video| !video.key?("id") }
+      index_and_seconds = []
+      index_and_seconds = Parallel.map(unsaved_videos.each_slice(50)) do |video_slice|
+        result = get_total_second_in_slice(video_slice)
+        p result
       end
-
-      id_to_second = {}
-      second_params.each do |param|
-        id_to_second[param["youtube_id"]] = param["second"]
+      index_and_seconds = index_and_seconds.flatten #二次元配列を解除
+      index_and_seconds.each do |index_and_second|
+        @saving_videos[index_and_second['index']]['second'] = index_and_second['second']
       end
-
-      @saving_videos.each_with_index do |video, index|
-        @saving_videos[index]["second"] = id_to_second[video["youtube_id"]]
-      end
-
     end
     
-    def get_video_second(youtube_id)
+    def get_total_second_in_slice(video_slice)
       begin
-        timeresponse = YOUTUBE_API.list_videos('contentDetails', id: youtube_id).to_json
-        video_second = JSON.parse(timeresponse)["items"][0]["contentDetails"]["duration"]
-        minits_of_video_second = ActiveSupport::Duration.parse(video_second)
-        return minits_of_video_second.to_i
+        youtube_ids = video_slice.map { |hash| hash["youtube_id"] }
+        timeresponse = YOUTUBE_API.list_videos('contentDetails', id:youtube_ids)
+        index_and_seconds = []
+        timeresponse.items.each_with_index do |video, index|
+          index_and_second = {}
+          time_str = video.content_details.duration
+          minutes, seconds = time_str.scan(/\d+/).map(&:to_i)
+          minutes ||= 0
+          seconds ||= 0
+          total_seconds = minutes * 60 + seconds #秒数を生成
+          index_and_second["second"] = total_seconds #秒数を格納
+          index_and_second["index"] = video_slice[index]['index'] #indexを格納
+          index_and_seconds.push(index_and_second)
+        end
+        puts index_and_seconds
+        return index_and_seconds
       rescue => e
-        puts e
+        if e.to_s.include?('quotaExceeded')
+          puts "使い切った"
+          puts e
+        elsif e.to_s.include?('forbidden')
+          puts e
+        else
+          puts e
+        end
       end
     end
 end
