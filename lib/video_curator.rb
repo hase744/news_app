@@ -14,7 +14,7 @@ class VideoCurator
       @saving_videos = []
       youtube_key_manager = YoutubeKeyManager.new()
       YOUTUBE_API.key = youtube_key_manager.get_key
-      YOUTUBE_API.key = ENV["YOUTUBE_KEY4"]
+      YOUTUBE_API.key = ENV["YOUTUBE_KEY"]
     end
 
     def check_all_channels
