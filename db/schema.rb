@@ -92,6 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
   create_table "video_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "video_id"
+    t.string "word"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_video_categories_on_category_id"
@@ -100,12 +101,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
 
   create_table "videos", force: :cascade do |t|
     t.string "youtube_id"
-    t.integer "second"
+    t.integer "total_seconds"
     t.text "description"
     t.string "title"
     t.bigint "channel_id"
     t.datetime "published_at"
     t.integer "total_views", default: 0
+    t.string "live_status", default: ""
     t.datetime "categorized_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -14,6 +14,7 @@ class VideoCategoryCollection
           VideoCategory.new(
               video_id:value['video_id'],
               category_id:value['category_id'],
+              word:value['word'],
           )
       end
     else

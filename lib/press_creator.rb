@@ -12,7 +12,7 @@ class PressCreator
                      'title' => video.title, 
                      'channel_name' => video.channel.name,
                      'channel_id' => video.channel.youtube_id,
-                     'second' => video.second
+                     'total_seconds' => video.total_seconds
                       } })
                 youtube_ids.push(bundle.pluck(:youtube_id).as_json)
             end

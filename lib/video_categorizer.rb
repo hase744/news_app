@@ -42,12 +42,12 @@ class VideoCategorizer
                 #param = @category_words_params[category.name]
                 channel_category = ChannelCategory.find_by(channel:video.channel, category:category)
                 if channel_category.is_absolute
-                    params.push({"video_id"=>video.id,"category_id"=>category.id})
+                    params.push({"video_id"=>video.id,"category_id"=>category.id, 'word'=>nil})
                     puts "#{video.title}を#{category.name}にカテゴライズ"
                 else
                     @category_words_param[category.name].each do |word|
                         if video.title.index(word) != nil
-                            params.push({"video_id"=>video.id,"category_id"=>category.id})
+                            params.push({"video_id"=>video.id,"category_id"=>category.id, 'word'=>word})
                             puts "#{video.title}を#{category.name}にカテゴライズ"
                             break;
                         end

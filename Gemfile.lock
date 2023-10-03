@@ -354,6 +354,7 @@ DEPENDENCIES
   google-apis-drive_v3
   importmap-rails
   jbuilder
+  kaminari
   parallel
   pg (~> 1.1)
   puma (~> 5.0)

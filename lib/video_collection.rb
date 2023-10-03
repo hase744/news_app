@@ -19,7 +19,8 @@ class VideoCollection
             else
                 Video.new(
                   total_views: value["total_views"],
-                  second: value["second"],
+                  total_seconds: value["total_seconds"],
+                  live_status: value["live_status"],
                   youtube_id: value['youtube_id'],
                   description: value['description'],
                   channel_id: value['channel_id'],

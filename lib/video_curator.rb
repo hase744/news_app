@@ -66,7 +66,7 @@ class VideoCurator
       saved_videos = Video.where(youtube_id: youtube_ids).map {|video| { 
         "id" => video.id, 
         "youtube_id" => video.youtube_id, 
-        "second" => video.second,
+        "total_seconds" => video.total_seconds,
         "model" => video
       }}
       puts saved_videos.length
@@ -129,25 +129,30 @@ class VideoCurator
       end
       index_and_seconds = index_and_seconds.flatten #二次元配列を解除
       index_and_seconds.each do |index_and_second|
-        @saving_videos[index_and_second['index']]['second'] = index_and_second['second']
+        @saving_videos[index_and_second['index']]['total_seconds'] = index_and_second['total_seconds']
+        @saving_videos[index_and_second['index']]['live_status'] = index_and_second['live_status']
       end
     end
     
     def get_total_second_in_slice(video_slice)
       begin
         youtube_ids = video_slice.map { |hash| hash["youtube_id"] }
-        timeresponse = YOUTUBE_API.list_videos('contentDetails', id:youtube_ids)
+        youtube_ids = youtube_ids.join(',')
+        video_response = YOUTUBE_API.list_videos('contentDetails', id:youtube_ids)
         index_and_seconds = []
-        timeresponse.items.each_with_index do |video, index|
+        video_response.items.each_with_index do |video, index|
           index_and_second = {}
           time_str = video.content_details.duration
-          minutes, seconds = time_str.scan(/\d+/).map(&:to_i)
-          minutes ||= 0
-          seconds ||= 0
-          total_seconds = minutes * 60 + seconds #秒数を生成
-          index_and_second["second"] = total_seconds #秒数を格納
+          total_seconds = time_str_to_seconds(time_str)
+
+          index_and_second["total_seconds"] = total_seconds #秒数を格納
           index_and_second["index"] = video_slice[index]['index'] #indexを格納
           index_and_seconds.push(index_and_second)
+        end
+
+        video_response = YOUTUBE_API.list_videos('snippet', id: youtube_ids)
+        video_response.items.each_with_index do |video, index|
+          index_and_seconds[index]["live_status"] = video.snippet.live_broadcast_content
         end
         puts index_and_seconds
         return index_and_seconds
@@ -161,5 +166,13 @@ class VideoCurator
           puts e
         end
       end
+    end
+
+    def time_str_to_seconds(time_str)
+      minutes, seconds = time_str.scan(/\d+/).map(&:to_i)
+      minutes ||= 0
+      seconds ||= 0
+      total_seconds = minutes * 60 + seconds #秒数を生成
+      total_seconds
     end
 end
