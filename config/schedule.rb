@@ -20,6 +20,6 @@
 # Learn more: http://github.com/javan/whenever
 # 出力先のログファイルの指定]
 require File.expand_path(File.dirname(__FILE__) + "/environment")
-every 6.hours, at: '00:00' do
+every 2.hours, at: '00:00' do
     rake 'news:update_all_info'
 end

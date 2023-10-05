@@ -14,6 +14,7 @@ class HomesController < ApplicationController
   def search
     word = params[:word]
     @videos = Video.where("title LIKE ?", "%#{word}%").page(20).page(params[:page])
+    @videos
     respond_to do |format|
       format.html
       format.json { render json: @videos.to_json }

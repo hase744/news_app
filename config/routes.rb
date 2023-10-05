@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resource  :videos
+  #get 'videos/index'
   get 'categories/index'
   get 'homes/index'
   get 'homes/search'
