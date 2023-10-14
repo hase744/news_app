@@ -8,11 +8,13 @@ class PressCreator
             days_ago.each do |day|
                 bundle = bundled_videos({"category"=>category, "day_ago"=>day})
                 news.concat(bundle.map { |video| {
+                     'id' => video.id, 
                      'youtube_id' => video.youtube_id, 
                      'title' => video.title, 
                      'channel_name' => video.channel.name,
                      'channel_id' => video.channel.youtube_id,
-                     'total_seconds' => video.total_seconds
+                     'total_seconds' => video.total_seconds,
+                     'published_at' => video.published_at, 
                       } })
                 youtube_ids.push(bundle.pluck(:youtube_id).as_json)
             end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_07_092413) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -79,6 +79,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "favorites", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "video_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_favorites_on_user_id"
+    t.index ["video_id"], name: "index_favorites_on_video_id"
+  end
+
   create_table "presses", force: :cascade do |t|
     t.bigint "category_id"
     t.text "youtube_ids"
@@ -87,6 +96,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_presses_on_category_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "uuid"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "video_categories", force: :cascade do |t|
@@ -125,5 +140,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_29_164758) do
 
   add_foreign_key "channel_categories", "categories"
   add_foreign_key "channel_categories", "channels"
+  add_foreign_key "favorites", "users"
+  add_foreign_key "favorites", "videos"
   add_foreign_key "word_lists", "categories"
 end

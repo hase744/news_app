@@ -85,3 +85,4 @@ gem 'rexml', '~> 3.2', '>= 3.2.4'
 gem 'parallel'
 gem 'whenever', require: false
 gem 'kaminari'
+gem 'devise'

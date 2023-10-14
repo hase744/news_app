@@ -2,7 +2,8 @@ class VideosController < ApplicationController
   def show
     word = params[:word]
     @videos = Video.includes(:channel)
-    @videos = @videos.where("title LIKE ?", "%#{word}%").page(20).page(params[:page])
+    @videos = @videos.where("title LIKE ?", "%#{word}%")
+    @videos = @videos.page(20).page(params[:page])
     @videos = @videos.map {|video| {
       'title'=>video.title,
       'id'=>video.id,

@@ -1,5 +1,12 @@
 Rails.application.routes.draw do
   resource  :videos
+  namespace :user do
+    delete  '/favorites/delete_multiple'
+    delete  '/favorites/delete_all'
+    post  '/favorites/create_multiple'
+    get  '/favorites/search'
+    resources :favorites
+  end
   #get 'videos/index'
   get 'categories/index'
   get 'homes/index'
@@ -11,4 +18,6 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
   root "homes#index"
+
+  
 end
