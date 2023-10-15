@@ -6,6 +6,12 @@ Rails.application.routes.draw do
     post  '/favorites/create_multiple'
     get  '/favorites/search'
     resources :favorites
+
+    delete  '/histories/delete_multiple'
+    delete  '/histories/delete_all'
+    post  '/histories/create_multiple'
+    get  '/histories/search'
+    resources :histories
   end
   #get 'videos/index'
   get 'categories/index'
