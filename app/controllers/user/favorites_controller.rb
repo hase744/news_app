@@ -4,7 +4,6 @@ class User::FavoritesController < User::Base
     @favorites = current_user.favorites
     @favorites = @favorites.includes(:video, video: :channel)
     @favorites = @favorites.order(id: "DESC")
-    puts params[:page]
     @favorites = @favorites.page(20).page(params[:page])
     @favorites = @favorites.map {|favorite| {
       'title'=> favorite.video.title,
@@ -14,6 +13,7 @@ class User::FavoritesController < User::Base
       'channel_name'=> favorite.video.channel_name,
       'channel_id'=> favorite.video.channel_id,
       'total_seconds'=> favorite.video.total_seconds,
+      'published_at'=> favorite.video.published_at,
     }}
     #raise RuntimeError
     respond_to do |format|
@@ -37,6 +37,7 @@ class User::FavoritesController < User::Base
       'channel_name'=> favorite.video.channel_name,
       'channel_id'=> favorite.video.channel_id,
       'total_seconds'=> favorite.video.total_seconds,
+      'published_at'=> favorite.video.published_at,
     }}
     respond_to do |format|
       format.html

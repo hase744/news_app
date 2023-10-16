@@ -13,6 +13,7 @@ class User::HistoriesController < User::Base
       'channel_name'=> history.video.channel_name,
       'channel_id'=> history.video.channel_id,
       'total_seconds'=> history.video.total_seconds,
+      'published_at'=> history.video.published_at,
     }}
     #raise RuntimeError
     respond_to do |format|
@@ -36,6 +37,7 @@ class User::HistoriesController < User::Base
       'channel_name'=> history.video.channel_name,
       'channel_id'=> history.video.channel_id,
       'total_seconds'=> history.video.total_seconds,
+      'published_at'=> history.video.published_at,
     }}
     respond_to do |format|
       format.html

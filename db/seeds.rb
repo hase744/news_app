@@ -187,8 +187,7 @@ categories = [
     {name:"mobility", japanese_name:"モビリティ", is_started: true},
 ]
 categories.each do |category_hash|
-    start_at = nil
-    start_at = DateTime.new(2023,1,1) if category_hash[:is_started]
+    start_at = category_hash[:is_started] ? DateTime.new(2023, 1, 1) : nil
     category = Category.find_or_create_by(
         name: category_hash[:name], 
         japanese_name:category_hash[:japanese_name],
