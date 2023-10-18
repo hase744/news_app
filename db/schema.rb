@@ -133,6 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_155142) do
     t.integer "total_views", default: 0
     t.string "live_status", default: ""
     t.datetime "categorized_at"
+    t.boolean "is_live"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["channel_id"], name: "index_videos_on_channel_id"

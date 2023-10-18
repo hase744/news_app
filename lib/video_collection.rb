@@ -18,14 +18,15 @@ class VideoCollection
                 video
             else
                 Video.new(
-                  total_views: value["total_views"],
-                  total_seconds: value["total_seconds"],
-                  live_status: value["live_status"],
+                  total_views: value['total_views'],
+                  total_seconds: value['total_seconds'],
+                  live_status: value['live_status'],
+                  is_live: value['is_live'],
                   youtube_id: value['youtube_id'],
                   description: value['description'],
                   channel_id: value['channel_id'],
-                  published_at: value["published_at"],
-                  title: value["title"],
+                  published_at: value['published_at'],
+                  title: value['title'],
                 )
             end
         end

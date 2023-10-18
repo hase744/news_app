@@ -26,7 +26,7 @@ class VideoCurator
 
       detect_unsaved_model
       add_index
-      update_video_second
+      update_video_detail
       
       puts "最終動画数：#{@saving_videos.length}"
       @collection = VideoCollection.new(@saving_videos)
@@ -41,7 +41,7 @@ class VideoCurator
       @saving_videos = @saving_videos.compact
       detect_unsaved_model
       add_index
-      update_video_second
+      update_video_detail
       @collection = VideoCollection.new(@saving_videos)
       @collection.save
     end
@@ -118,44 +118,52 @@ class VideoCurator
       end
     end
 
-    def update_video_second
+    def update_video_detail
       #YoutubeAPIの一度に取得できる動画数が50本であるため
       #{"index"=>"3", "second"=>"2232"}のようなハッシュの配列を取得
       unsaved_videos = @saving_videos.select { |video| !video.key?("id") }
-      index_and_seconds = []
-      index_and_seconds = Parallel.map(unsaved_videos.each_slice(50)) do |video_slice|
-        result = get_total_second_in_slice(video_slice)
+      index_and_details = []
+      index_and_details = Parallel.map(unsaved_videos.each_slice(50)) do |video_slice|
+        result = get_detail_in_slice(video_slice)
         p result
       end
-      index_and_seconds = index_and_seconds.flatten #二次元配列を解除
-      index_and_seconds.each do |index_and_second|
-        @saving_videos[index_and_second['index']]['total_seconds'] = index_and_second['total_seconds']
-        @saving_videos[index_and_second['index']]['live_status'] = index_and_second['live_status']
+      index_and_details = index_and_details.flatten #二次元配列を解除
+      index_and_details.each do |index_and_detail|
+        @saving_videos[index_and_detail['index']]['total_seconds'] = index_and_detail['total_seconds']
+        @saving_videos[index_and_detail['index']]['live_status'] = index_and_detail['live_status']
+        @saving_videos[index_and_detail['index']]['is_live'] = index_and_detail['is_live']
       end
     end
     
-    def get_total_second_in_slice(video_slice)
+    def get_detail_in_slice(video_slice)
       begin
         youtube_ids = video_slice.map { |hash| hash["youtube_id"] }
         youtube_ids = youtube_ids.join(',')
+
+        index_and_details = []
         video_response = YOUTUBE_API.list_videos('contentDetails', id:youtube_ids)
-        index_and_seconds = []
         video_response.items.each_with_index do |video, index|
-          index_and_second = {}
+          index_and_detail = {}
           time_str = video.content_details.duration
           total_seconds = time_str_to_seconds(time_str)
 
-          index_and_second["total_seconds"] = total_seconds #秒数を格納
-          index_and_second["index"] = video_slice[index]['index'] #indexを格納
-          index_and_seconds.push(index_and_second)
+          index_and_detail["total_seconds"] = total_seconds #秒数を格納
+          index_and_detail["index"] = video_slice[index]['index'] #indexを格納
+          index_and_details.push(index_and_detail)
         end
 
         video_response = YOUTUBE_API.list_videos('snippet', id: youtube_ids)
         video_response.items.each_with_index do |video, index|
-          index_and_seconds[index]["live_status"] = video.snippet.live_broadcast_content
+          index_and_details[index]["live_status"] = video.snippet.live_broadcast_content
         end
-        puts index_and_seconds
-        return index_and_seconds
+
+        video_response = YOUTUBE_API.list_videos('liveStreamingDetails', id: youtube_ids)
+        video_response.items.each_with_index do |video, index|
+          index_and_details[index]["is_live"] = video.live_streaming_details != nil
+        end
+
+        puts index_and_details
+        return index_and_details
       rescue => e
         if e.to_s.include?('quotaExceeded')
           puts "使い切った"

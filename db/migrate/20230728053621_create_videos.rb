@@ -10,6 +10,7 @@ class CreateVideos < ActiveRecord::Migration[7.0]
       t.integer :total_views, default: 0
       t.string :live_status, default: ''
       t.datetime :categorized_at
+      t.boolean :is_live
 
       t.timestamps
     end
