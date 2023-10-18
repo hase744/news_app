@@ -31,7 +31,7 @@ class PressCreator
         beginning_time = DateTime.now - day_ago - 1
         ending_time = DateTime.now - day_ago
         puts "#{beginning_time} ~ #{ending_time}のニュースを作成"
-        press_section = category.videos.includes(:channel).where(published_at: beginning_time..ending_time).order(:total_views)
+        press_section = category.videos.where(live_status: "none").includes(:channel).where(published_at: beginning_time..ending_time).order(total_views: :DESC)
         press_section
     end
 end
