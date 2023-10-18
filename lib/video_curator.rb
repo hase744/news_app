@@ -177,10 +177,10 @@ class VideoCurator
     end
 
     def time_str_to_seconds(time_str)
-      minutes, seconds = time_str.scan(/\d+/).map(&:to_i)
-      minutes ||= 0
-      seconds ||= 0
-      total_seconds = minutes * 60 + seconds #秒数を生成
+      hours = time_str.scan(/\d+H/)[0].to_i
+      minutes = time_str.scan(/\d+M/)[0].to_i
+      seconds = time_str.scan(/\d+S/)[0].to_i
+      total_seconds = (minutes + hours *60) *60 + seconds #秒数を生成
       total_seconds
     end
 end
