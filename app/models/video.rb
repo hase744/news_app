@@ -4,12 +4,7 @@ class Video < ApplicationRecord
     has_many :categories,through: :video_categories
     has_many :favorites
     validates :youtube_id, uniqueness: true
-
-    def channel_name
-        self.channel.name
-    end
-    
-    def channel_id
-        self.channel.id
-    end
+    delegate :id, to: :channel, prefix: true
+    delegate :name, to: :channel, prefix: true
+    delegate :youtube_id, to: :channel, prefix: true
 end

@@ -11,8 +11,9 @@ class PressCreator
                      'id' => video.id, 
                      'youtube_id' => video.youtube_id, 
                      'title' => video.title, 
-                     'channel_name' => video.channel.name,
-                     'channel_id' => video.channel.youtube_id,
+                     'channel_name' => video.channel_name,
+                     'channel_id' => video.channel_id,
+                     'channel_youtube_id' => video.channel_youtube_id,
                      'total_seconds' => video.total_seconds,
                      'published_at' => video.published_at, 
                       } })
