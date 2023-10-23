@@ -1,16 +1,15 @@
 class CategoriesController < ApplicationController
-  def index
+  def show
     @categories = Category.where("start_at < ?", DateTime.now)
-    categories_param = @categories.map do |category|
+    @categories_params = @categories.map do |c|
       {
-      "name" => category.name,
-      "japanese_name" => category.japanese_name,
-      "press" => Press.where(category: category).last.news_json
-    }
+        'name' => 'name',
+        'japanese_name' => 'japanese_name'
+      }
     end
     respond_to do |format|
       format.html
-      format.json { render json: categories_param.to_json }
+      format.json { render json: @categories_params.to_json }
     end
   end
 end

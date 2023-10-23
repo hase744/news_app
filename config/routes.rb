@@ -14,7 +14,9 @@ Rails.application.routes.draw do
     resources :histories
   end
   #get 'videos/index'
-  get 'categories/index'
+  resource :presses, only: [:show]
+  resource :categories, only: [:show]
+  #get 'presses/index'
   get 'homes/index'
   get 'homes/search'
   devise_for :admin_users, ActiveAdmin::Devise.config
