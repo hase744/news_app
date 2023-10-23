@@ -3,7 +3,7 @@ class CreateVideoCategories < ActiveRecord::Migration[7.0]
     create_table :video_categories do |t|
       t.references :category
       t.references :video
-      t.string :word
+      t.string :words
 
       t.timestamps
     end

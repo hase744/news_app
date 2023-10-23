@@ -7,6 +7,9 @@ class CreateCategories < ActiveRecord::Migration[7.0]
       t.text :description
       t.datetime :start_at
       t.datetime :end_at
+      t.boolean :is_default
+      t.references :parent_category, foreign_key: { to_table: :categories }
+
       t.timestamps
     end
   end

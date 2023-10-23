@@ -12,18 +12,18 @@ class VideoCategorizer
         #    param = {}
         #    param["category_name"] = category.name
         #    param["words"] = []
-        #    WordList.where(category:category).each do |wl|
+        #    Enumeration.where(category:category).each do |wl|
         #        words_array = wl.words.split(',')
         #        param["words"] = param["words"].concat words_array
         #    end
         #    @category_words_params.push(param)
         #end
 
-        @category_words_params = Parallel.map(Category.all) do |category|
+        @category_words_params = Parallel.map(Category.where.not(start_at: nil)) do |category|
             param = {}
             param[category.name] = []
-            WordList.where(category:category).each do |wl|
-                words_array = wl.words.split(',')
+            category.enumerations.each do |enum|
+                words_array = enum.words.split(',')
                 param[category.name] = param[category.name].concat words_array
             end
             @category_words_param[category.name] = param[category.name]
@@ -42,16 +42,23 @@ class VideoCategorizer
                 #param = @category_words_params[category.name]
                 channel_category = ChannelCategory.find_by(channel:video.channel, category:category)
                 if channel_category.is_absolute
-                    params.push({"video_id"=>video.id,"category_id"=>category.id, 'word'=>nil})
+                    params.push({"video_id"=>video.id,"category_id"=>category.id, 'words'=>nil})
                     puts "#{video.title}を#{category.name}にカテゴライズ"
                 else
+                    hash = nil
+                    words = []
                     @category_words_param[category.name].each do |word|
                         if video.title.index(word) != nil
-                            params.push({"video_id"=>video.id,"category_id"=>category.id, 'word'=>word})
+                            hash = {"video_id"=>video.id,"category_id"=>category.id}
+                            #params.push({"video_id"=>video.id,"category_id"=>category.id, 'word'=>word})
+                            words.push(word)
                             puts "#{video.title}を#{category.name}にカテゴライズ"
-                            break;
                         end
                     end 
+                    if hash.present?
+                        hash['words'] = words.join(',')
+                        params.push(hash)
+                    end
                 end
             end
             params

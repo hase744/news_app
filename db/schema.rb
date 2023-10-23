@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_14_155142) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_23_090939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,8 +47,20 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_155142) do
     t.text "description"
     t.datetime "start_at"
     t.datetime "end_at"
+    t.boolean "is_default"
+    t.bigint "parent_category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
+  end
+
+  create_table "category_enumerations", force: :cascade do |t|
+    t.bigint "enumeration_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_category_enumerations_on_category_id"
+    t.index ["enumeration_id"], name: "index_category_enumerations_on_enumeration_id"
   end
 
   create_table "channel_categories", force: :cascade do |t|
@@ -75,6 +87,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_155142) do
     t.string "name"
     t.text "content"
     t.string "version"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "enumerations", force: :cascade do |t|
+    t.text "words"
+    t.string "sort"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -116,7 +135,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_155142) do
   create_table "video_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "video_id"
-    t.string "word"
+    t.string "words"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_video_categories_on_category_id"
@@ -139,20 +158,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_14_155142) do
     t.index ["channel_id"], name: "index_videos_on_channel_id"
   end
 
-  create_table "word_lists", force: :cascade do |t|
-    t.bigint "category_id"
-    t.text "words"
-    t.string "sort"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["category_id"], name: "index_word_lists_on_category_id"
-  end
-
+  add_foreign_key "categories", "categories", column: "parent_category_id"
+  add_foreign_key "category_enumerations", "categories"
+  add_foreign_key "category_enumerations", "enumerations"
   add_foreign_key "channel_categories", "categories"
   add_foreign_key "channel_categories", "channels"
   add_foreign_key "favorites", "users"
   add_foreign_key "favorites", "videos"
   add_foreign_key "histories", "users"
   add_foreign_key "histories", "videos"
-  add_foreign_key "word_lists", "categories"
 end

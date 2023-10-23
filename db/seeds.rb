@@ -173,18 +173,18 @@ military_general = {sort:"military_general",words:
 military = [weopon, war, military_general]
 
 categories = [
-    {name:"business", japanese_name:"ビジネス", variable:business, is_started: true},
-    {name:"politics", japanese_name:"政治", variable:politics, is_started: true},
-    {name:"technology", japanese_name:"テクノロジー", variable:technology, is_started: true},
-    {name:"economy", japanese_name:"経済", variable:economy, is_started: true},
-    {name:"world", japanese_name:"世界", variable:world, is_started: true},
-    {name:"military", japanese_name:"軍事", variable:military, is_started: true},
+    {name:"business", japanese_name:"ビジネス", variable:business, is_started: true, is_default: true},
+    {name:"politics", japanese_name:"政治", variable:politics, is_started: true, is_default: true},
+    {name:"technology", japanese_name:"テクノロジー", variable:technology, is_started: true, is_default: true},
+    {name:"economy", japanese_name:"経済", variable:economy, is_started: true, is_default: true},
+    {name:"world", japanese_name:"世界", variable:world, is_started: true, is_default: true},
+    {name:"military", japanese_name:"軍事", variable:military, is_started: true, is_default: true},
     {name:"game", japanese_name:"ゲーム", is_started: true},
-    {name:"trend", japanese_name:"トレンド", is_started: true},
-    {name:"life goods", japanese_name:"ライフグッズ", is_started: true},
+    {name:"trend", japanese_name:"話題", is_started: true, is_default: true},
+    {name:"life goods", japanese_name:"ライフグッズ", is_started: true, is_default: true},
     {name:"lifehack", japanese_name:"ライフハック", is_started: true},
     {name:"beauty", japanese_name:"美容", is_started: true},
-    {name:"mobility", japanese_name:"モビリティ", is_started: true},
+    {name:"mobility", japanese_name:"自動車", is_started: true},
 ]
 categories.each do |category_hash|
     start_at = category_hash[:is_started] ? DateTime.new(2023, 1, 1) : nil
@@ -196,18 +196,19 @@ categories.each do |category_hash|
     puts category_hash[:name]
     if category_hash[:variable]
         category_hash[:variable].each do |words_hash|
-            list = WordList.find_by(sort: words_hash[:sort])
+            list = Enumeration.find_by(sort: words_hash[:sort])
             if list.present?
                 list.update(
-                    category:category,
                     sort:words_hash[:sort],
                     words:words_hash[:words].join(",")
                 )
             else
-                WordList.create(
-                    category:category,
+                enum = Enumeration.create(
                     sort:words_hash[:sort],
                     words:words_hash[:words].join(",")
+                )
+                enum.category_enumerations.create(
+                    category:category,
                 )
             end
         end
@@ -222,7 +223,7 @@ exceptions = {
 channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@takahashi_yoichi", "categories" => %w(business politics economy world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mykey-sano", "categories" => %w(business politics technology economy)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@3.0/videos", "categories" => %w(politics economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@3.0", "categories" => %w(politics economy world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mitsuhashipress", "categories" => %w(politics economy world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@FIFIchannel", "categories" => %w(politics economy world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kazuyachgx", "categories" => %w(politics economy world)},
@@ -232,7 +233,7 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mofmof-investor", "categories" => %w(politics economy business)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NewsPicks", "categories" => %w(business technology)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@diy4600", "categories" => %w(politics economy)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tsj_otb/videos", "categories" => %w(world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@tsj_otb", "categories" => %w(world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@milirepo", "categories" => %w(politics economy)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-uy4cr9se8j", "categories" => %w(world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@maomao96363", "categories" => %w(politics world)},
@@ -270,7 +271,7 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@News_ABEMA", "categories" => %w(politics economy world war trend)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@seikeidenronTV", "categories" => %w(business politics)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-td7uu8sb7u", "categories" => %w(politics)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ChGrandStrategy", "categories" => %w(politics technology economy world)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ChGrandStrategy", "categories" => %w(politics technology economy world war)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@skoichi", "categories" => %w(politics trend)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shigoto", "categories" => %w(business work)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@USAMilitaryChannel2", "categories" => %w(military)},
@@ -278,9 +279,9 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@toranomonnews", "categories" => %w(politics economy world war trend)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-le9qv3yz9r", "categories" => %w(politics economy world war trend)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gototatsuya", "categories" => %w(economy)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NikkeiCNBC", "categories" => %w(economy technology)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NikkeiCNBC", "categories" => %w(economy technology war)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@ReutersJapan", "categories" => %w(world economy technology)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@aichi-news", "categories" => %w(economy technology business)},
+    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@aichi-news", "categories" => %w(economy technology business war)},
     
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-du7gi7mt4w", "categories" => %w(world)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-xb3px7to3b", "categories" => %w(world)},
@@ -542,8 +543,6 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@sinminimallife", "categories" => %w(lifehack)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@curama_univ.", "categories" => %w(lifehack)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@osouji-taro", "categories" => %w(lifehack)},
 
 
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@kentaro_saving", "categories" => %w(finance)},
@@ -709,24 +708,17 @@ channel_seeds = [
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@uwasathefootball", "categories" => %w(sports soccor), 'absolute' => %w(soccor)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@SPOTVNOWJAPAN", "categories" => %w(sports soccor baseball), 'absolute' => %w(sports)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(sports)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@user-gz7vk2um3w", "categories" => %w(talent)},
 
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@NipponFoundationPR", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@cbc_docu", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@gairokuch", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
     
 
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@TBS_geino", "categories" => %w(talent)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@mynavinews-entame", "categories" => %w(talent)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@shuntyantv", "categories" => %w(talent)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
-    {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
     {"youtube_id"=>"", "url"=>"https://www.youtube.com/@yoshi-koba", "categories" => %w(documentary)},
 
 
