@@ -59,6 +59,15 @@ namespace :news do
     #find_new_video.check_specific_category_channel
   end
 
+  task recategorize_videos: :environment do
+    puts "recategorizing videos"
+    videos = Video.where(published_at: (DateTime.now-1)..DateTime.now)
+    videos.update_all(categorized_at:nil)
+    video_categorizer = VideoCategorizer.new
+    video_categorizer.categorize
+    #find_new_video.check_specific_category_channel
+  end
+
   task create_news: :environment do
     puts "creating pressw"
     press_creator = PressCreator.new

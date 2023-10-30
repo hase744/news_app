@@ -5,7 +5,7 @@ ActiveAdmin.register Category do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :name, :japanese_name, :word, :description, :start_at, :end_at
+  permit_params :name, :japanese_name, :word, :description, :start_at, :end_at
   #
   # or
   #

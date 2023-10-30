@@ -21,6 +21,7 @@ ActiveAdmin.register Video do
       link_to(model.title, "https://www.youtube.com/watch?v=#{model.youtube_id}")
     end
     column :total_views
+    column :words
     #column :description
 
     actions
