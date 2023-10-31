@@ -13,7 +13,7 @@ class HomesController < ApplicationController
 
   def search
     word = params[:word]
-    @videos = Video.where("title LIKE ?", "%#{word}%").page(20).page(params[:page])
+    @videos = Video.where("title LIKE ?", "%#{word}%").page(params[:page]).per(20)
     @videos
     respond_to do |format|
       format.html

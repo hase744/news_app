@@ -4,7 +4,7 @@ class User::FavoritesController < User::Base
     @favorites = current_user.favorites
     @favorites = @favorites.includes(:video, video: :channel)
     @favorites = @favorites.order(id: "DESC")
-    @favorites = @favorites.page(20).page(params[:page])
+    @favorites = @favorites.page(params[:page])
     @favorites = @favorites.map {|favorite| {
       'title'=> favorite.video.title,
       'id'=> favorite.id,
@@ -28,7 +28,7 @@ class User::FavoritesController < User::Base
     @videos = @videos.where("title LIKE ?", "%#{word}%")
     @favorites = Favorite.where(video_id: @videos.pluck(:id), user: current_user)
     @favorites = @favorites.includes(:video, video: :channel)
-    @favorites = @favorites.page(20).page(params[:page])
+    @favorites = @favorites.page(params[:page]).per(20)
     @favorites = @favorites.map {|favorite| {
       'title'=> favorite.video.title,
       'id'=> favorite.id,

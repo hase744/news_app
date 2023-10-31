@@ -4,7 +4,7 @@ class User::HistoriesController < User::Base
     @histories = current_user.histories
     @histories = @histories.includes(:video, video: :channel)
     @histories = @histories.order(id: "DESC")
-    @histories = @histories.page(20).page(params[:page])
+    @histories = @histories.page(params[:page]).per(20)
     @histories = @histories.map {|history| {
       'title'=> history.video.title,
       'id'=> history.id,
@@ -28,7 +28,7 @@ class User::HistoriesController < User::Base
     @videos = @videos.where("title LIKE ?", "%#{word}%")
     @histories = History.where(video_id: @videos.pluck(:id), user: current_user)
     @histories = @histories.includes(:video, video: :channel)
-    @histories = @histories.page(20).page(params[:page])
+    @histories = @histories.page(params[:page]).per(20)
     @histories = @histories.map {|history| {
       'title'=> history.video.title,
       'id'=> history.id,
