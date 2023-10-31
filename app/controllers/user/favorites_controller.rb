@@ -4,7 +4,7 @@ class User::FavoritesController < User::Base
     @favorites = current_user.favorites
     @favorites = @favorites.includes(:video, video: :channel)
     @favorites = @favorites.order(id: "DESC")
-    @favorites = @favorites.page(params[:page])
+    @favorites = @favorites.page(params[:page]).per(20)
     @favorites = @favorites.map {|favorite| {
       'title'=> favorite.video.title,
       'id'=> favorite.id,
