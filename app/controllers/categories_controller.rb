@@ -6,6 +6,7 @@ class CategoriesController < ApplicationController
       {
         'name' => c.name,
         'japanese_name' => c.japanese_name,
+        'emoji' => c.emoji
       }
     end
     respond_to do |format|

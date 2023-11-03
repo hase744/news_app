@@ -69,7 +69,7 @@ namespace :news do
   end
 
   task create_news: :environment do
-    puts "creating pressw"
+    puts "creating press"
     press_creator = PressCreator.new
     press_creator.create_news
     #find_new_video.check_specific_category_channel

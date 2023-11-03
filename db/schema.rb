@@ -49,6 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_23_090939) do
     t.datetime "end_at"
     t.boolean "is_default"
     t.bigint "parent_category_id"
+    t.string "emoji"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"

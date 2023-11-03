@@ -9,6 +9,7 @@ class CreateCategories < ActiveRecord::Migration[7.0]
       t.datetime :end_at
       t.boolean :is_default
       t.references :parent_category, foreign_key: { to_table: :categories }
+      t.string :emoji
 
       t.timestamps
     end

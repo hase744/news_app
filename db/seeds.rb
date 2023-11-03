@@ -11,12 +11,25 @@ require_relative 'channels.rb'
 def save_categories(categories)
     categories.each do |category_hash|
         start_at = category_hash[:is_started] ? DateTime.new(2023, 1, 1) : nil
-        category = Category.find_or_create_by(
-            name: category_hash[:name], 
-            japanese_name:category_hash[:japanese_name],
-            start_at: start_at,
-            parent_category: Category.find_by(name: category_hash[:parent_category])
-            )
+        category = Category.find_by(name: category_hash[:name])
+        if category.present?
+            category.update(
+                japanese_name:category_hash[:japanese_name],
+                emoji:category_hash[:emoji],
+                is_default:category_hash[:is_default],
+                start_at: start_at,
+                parent_category: Category.find_by(name: category_hash[:parent_category])
+                )
+        else
+            Category.create(
+                name: category_hash[:name], 
+                japanese_name:category_hash[:japanese_name],
+                emoji:category_hash[:emoji],
+                is_default:category_hash[:is_default],
+                start_at: start_at,
+                parent_category: Category.find_by(name: category_hash[:parent_category])
+                )
+        end
         puts category_hash[:name]
         if category_hash[:variable]
             category_hash[:variable].each do |words_hash|
@@ -41,34 +54,34 @@ def save_categories(categories)
 end
 
 parent_categories = [
-    {name:"business", japanese_name:"ビジネス", variable: @business, is_started: true, is_default: true},
-    {name:"politics", japanese_name:"政治", variable: @politics, is_started: true, is_default: true},
-    {name:"technology", japanese_name:"テクノロジー", variable: @technology, is_started: true, is_default: true},
-    {name:"economy", japanese_name:"経済", variable: @economy, is_started: true, is_default: true},
-    {name:"world", japanese_name:"世界", variable: @world, is_started: true, is_default: true},
-    {name:"military", japanese_name:"軍事", variable: @military, is_started: true, is_default: true},
-    {name:"game", japanese_name:"ゲーム", is_started: true},
-    {name:"trend", japanese_name:"話題", is_started: true, is_default: true},
-    {name:"necessity", japanese_name:"日用品", variable: @life_goods, is_started: true, is_default: true},
-    {name:"lifehack", japanese_name:"ライフハック", is_started: true},
-    {name:"beauty", japanese_name:"美容", is_started: true},
-    {name:"mobility", japanese_name:"自動車", is_started: true},
-    {name:"gadget", japanese_name:"ガジェット", is_started: true},
-    {name:"sports", japanese_name:"スポーツ", is_started: true},
-    {name:"male_love", japanese_name:"男性向け恋愛", is_started: true},
-    {name:"female_love", japanese_name:"女性向け恋愛", is_started: true},
-    {name:"womens_fashion", japanese_name:"女性ファッション", is_started: true},
-    {name:"money_finance", japanese_name:"家計・資産", variable: @money_finance, is_started: true},
-    {name:"equity_investment", japanese_name:"株式投資", variable: @equity_investment, is_started: true},
-    {name:"real_estate_investment", japanese_name:"不動産投資", variable: @real_estate_investment, is_started: true},
-    {name:"fx_trade", japanese_name:"FX", variable: @fx_trade, is_started: true},
+    {name:"business", japanese_name:"ビジネス", variable: @business, is_started: true, is_default: true, emoji:'💼'},
+    {name:"politics", japanese_name:"政治", variable: @politics, is_started: true, is_default: true, emoji:'🏛️'},
+    {name:"technology", japanese_name:"テクノロジー", variable: @technology, is_started: true, is_default: true, emoji:'🤖'},
+    {name:"economy", japanese_name:"経済", variable: @economy, is_started: true, is_default: true, emoji:'🏦'},
+    {name:"world", japanese_name:"世界", variable: @world, is_started: true, is_default: true, emoji:'🌍'},
+    {name:"military", japanese_name:"軍事", variable: @military, is_started: true, is_default: true, emoji:'🪖'},
+    {name:"game", japanese_name:"ゲーム", is_started: true, emoji:'🎮'},
+    {name:"trend", japanese_name:"話題", is_started: true, is_default: true, emoji:'💬'},
+    {name:"necessity", japanese_name:"日用品", variable: @life_goods, is_started: true, is_default: true, emoji:'🛒'},
+    {name:"lifehack", japanese_name:"ライフハック", is_started: true, emoji:'🔧'},
+    {name:"beauty", japanese_name:"美容", is_started: true, emoji:'💄'},
+    {name:"mobility", japanese_name:"自動車", is_started: true, emoji:'🚙'},
+    {name:"gadget", japanese_name:"ガジェット", is_started: true, emoji:'🖥'},
+    {name:"sports", japanese_name:"スポーツ", is_started: true, emoji:'🏃'},
+    {name:"male_love", japanese_name:"男性恋愛", is_started: true, emoji:'💙'},
+    {name:"female_love", japanese_name:"女性恋愛", is_started: true, emoji:'💜'},
+    {name:"womens_fashion", japanese_name:"女性ファッション", is_started: true, emoji:'👗'},
+    {name:"money_finance", japanese_name:"家計・資産", variable: @money_finance, is_started: true, emoji:'💸'},
 ]
 
 save_categories(parent_categories)
 
 child_categories = [
-    {name:"soccer", japanese_name:"サッカー", variable: @soccer, is_started: true, parent_category: 'sports'},
-    {name:"baseball", japanese_name:"野球", variable: @baseball, is_started: true, parent_category: 'sports'},
+    {name:"soccer", japanese_name:"サッカー", variable: @soccer, is_started: true, parent_category: 'sports', emoji:'⚽'},
+    {name:"baseball", japanese_name:"野球", variable: @baseball, is_started: true, parent_category: 'sports', emoji:'⚾'},
+    {name:"equity_investment", japanese_name:"株式投資", variable: @equity_investment, is_started: true, parent_category: 'business', emoji:'📈'},
+    {name:"real_estate_investment", japanese_name:"不動産投資", variable: @real_estate_investment, is_started: true, parent_category: 'business', is_default: true, emoji:'🏢'},
+    {name:"fx_trade", japanese_name:"FX", variable: @fx_trade, is_started: true, parent_category: 'business', is_default: true, emoji:'💱'},
 ]
 
 save_categories(child_categories)
