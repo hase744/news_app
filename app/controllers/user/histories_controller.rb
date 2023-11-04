@@ -46,16 +46,16 @@ class User::HistoriesController < User::Base
   end
 
   def create
-    @video = Video.find(params[:video_id])
+    @video = Video.find_by(youtube_id: params[:youtube_id])
     @history = current_user.histories.build(video: @video)
     @history.save!
   end
 
   def create_multiple
-    video_ids = params[:video_ids]
-    history_params = video_ids.map{|id|{
+    youtube_ids = params[:youtube_ids]
+    history_params = youtube_ids.map{|id|{
       user_id: current_user.id,
-      video_id: id
+      youtube_id: id
     }}
     render json: History.create!(history_params)
   end

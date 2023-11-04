@@ -46,17 +46,23 @@ class User::FavoritesController < User::Base
   end
 
   def create
-    @video = Video.find(params[:video_id])
+    @video = Video.find_by(youtube_id: params[:youtube_id])
     @favorite = current_user.favorites.build(video: @video)
     @favorite.save!
   end
 
   def create_multiple
-    video_ids = params[:video_ids]
-    favorite_params = video_ids.map{|id|{
+    puts "ID"
+    puts params[:youtube_ids]
+    youtube_ids = params[:youtube_ids]
+    video_ids = Video.where(youtube_id: youtube_ids).pluck(:id)
+    puts "ID"
+    puts video_ids
+    favorite_params = video_ids.map{|video_id|{
       user_id: current_user.id,
-      video_id: id
+      video_id: video_id
     }}
+    puts favorite_params
     render json: Favorite.create!(favorite_params)
   end
 
