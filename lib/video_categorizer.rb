@@ -35,6 +35,8 @@ class VideoCategorizer
         end
 
         videos = Video.where(categorized_at: nil)
+        puts "ビデオ数"
+        puts videos.count
         @video_category_params = Parallel.map(videos) do |video|
             params = []
             categories = video.channel.categories
@@ -71,9 +73,6 @@ class VideoCategorizer
             @video_category_collection.save
         end
 
-        video_ids = []
-        video_ids = VideoCategory.all.pluck(:video_id)
-        video_ids = video_ids.uniq
-        Video.where(id: video_ids, categorized_at:nil).update_all(categorized_at: DateTime.now)
+        videos.update_all(categorized_at: DateTime.now)
     end
 end
