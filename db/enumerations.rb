@@ -66,7 +66,7 @@ cabinet = {sort:"cabinet",words:%w(
      )}
 politics_person = {sort:"politics_person",words:%w(岸田 河野 麻生 高市)}
 party = {sort:"party",words:%w(自民党 民主党 公明党 日本維新 共産党 れいわ新選組 賛成党 政治家女子48党 総裁 幹事長 総務会長 政務調査会長 特別補佐)}
-politics = [politics_general, cabinet, politics_person, party]
+@politics = [politics_general, cabinet, politics_person, party]
 
 life_general = {sort:"general",words:%w(グッズ 商品 アイテム 便利 小物 生活 対策グッズ 用品 コスパ 掘り出し物 ベストバイ 防寒 用品) }
 life_item = {sort:"item",words:%w(文具 文房具 手帳 ノート ボールペン 財布 靴 ホルダー 家電)}
