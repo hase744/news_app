@@ -33,6 +33,7 @@ class VideoCategorizer
         @category_words_params.each do |param|
             @category_words_param[param.keys[0]] = param.values[0]
         end
+        puts @category_words_params
 
         videos = Video.where(categorized_at: nil)
         puts "ビデオ数"
@@ -45,8 +46,9 @@ class VideoCategorizer
                 channel_category = ChannelCategory.find_by(channel:video.channel, category:category)
                 if channel_category.is_absolute
                     params.push({"video_id"=>video.id,"category_id"=>category.id, 'words'=>nil})
-                    puts "#{video.title}を#{category.name}にカテゴライズ"
+                    #puts "#{video.title}を#{category.name}にカテゴライズ"
                 else
+                    puts "not absolute"
                     hash = nil
                     words = []
                     @category_words_param[category.name].each do |word|

@@ -19,8 +19,8 @@ fx_general = {sort: 'fx_general', words:%w(
     FX 相場
 )}
 
-@fx = [fx_general, currency]
-
+@fx_trade = [fx_general, currency]
+@equity_investment = [investment]
 crypro_currency = {sort:"crypro_currency",words:%w(ビッドコイン 仮想通貨 暗号通貨 イーサリアム)}
 @economy = [currency, investment, macro_economy, unique_noun, unique_noun, economy_general]
 
@@ -28,6 +28,7 @@ technology_general = {sort:"technology_general",words:%w(
     テクノロジー テック 発明 ノーベル 自動化 自動翻訳 全自動 自動追跡 自動検出 3Dプリンタ)}
 technology_phrase = {sort:"technology_phrase",words:%w(
     技術力 新技術 技術国 新型 次世代 新機能 新端末 新サービス 自動化 自動翻訳 全自動 自動追跡 3Dプリンタ)}
+technology_companies = {sort: "", words: %w(GAFA メタ Meta テスラ Tesla Microsoft マイクロソフト Google グーグル Apple アップル TSMC Nvidea)}
 space = {sort:"space",words:%w(ロケット 宇宙船 推進剤 エンジン 推力 探査機 探査船 有人
         軌道 宇宙空間 宇宙飛行士 有人宇宙飛行 無人宇宙探査 宇宙ミッション 打ち上げ台 空力学 地球周回軌道
         静止軌道 ペイロード ペイロードフェアリング コントロールシステム スターリンク コンステレーション
@@ -50,7 +51,7 @@ vehicle = {sort:"vehicle",words:%w(
     ドローン 空飛ぶ 超電導 無人機 無人レジ 無人店舗 無人自動車 無人車 無人ヘリ 無人タクシー
     無人航空 自動運転 急速充電)}
 tech_person = {sort:"tech_person",words:%w(イーロン マスク氏 ザッカーバーグ ティムクック サム・アルトマン)}
-@technology = [technology_general, space, it, biotech, energy, vehicle]
+@technology = [technology_general, space, it, biotech, energy, vehicle, technology_companies]
 
 politics_general = {sort:"politics_general",words:%w(
     政治 内閣 政府 政策 法律 参議院 衆議院 議員 議会 選挙 与党 野党 首相 大統領 大臣 補佐官 担当官 官庁 省庁
@@ -77,7 +78,7 @@ lifehack_method = {sort:"method",words:%w(活用法 活用術 生活術 裏技 �
 lifehack_phrase = {sort:"lifehack_phrase",words:%w(買うべき 買ってよかった 買って良かった 買わないと損 これ１台 これ１冊 おすすめ 激推し ラク 時短 )}
 lifehack_brand = {sort:"brand",words:%w(無印 ニトリ ダイソー DAISO Seria セリア キャンドゥー ワークマン IKEA イケア 百均 100均 100円)}
 lifehack_tool = {sort:'lifehack_tool', words: %w(Excel エクセル Word Powerpoint パワポ)}
-lifehack = [lifehack_method, lifehack_phrase, lifehack_brand, life_general, lifehack_tool]
+@lifehack = [lifehack_method, lifehack_phrase, lifehack_brand, life_general, lifehack_tool]
 
 money_finance = {sort:"money", words:%w(お金 貯金 家計 節約 手取り 貯め 収入 月収 年収 NISA iDeCo 積立 貯蓄 蓄え 出費 生活費 食費 衣食住 雑費 服代 家賃 納税 節税 節電 節水 セール 半額 安い 割引)}
 
@@ -108,9 +109,9 @@ gadget_general = {sort:"general",words:%w(
         イヤホン ヘッドフォン スピーカー ウォッチ カメラ プロジェクター モバイル マウス キーボード タッチスクリーン USB lightning コントローラー スタンド ノイズキャンセリング ノイキャン
     )}
 gadget_brand = {sort:"gadget_brand",words:%w(Apple Samsung Huawei Xiaomi Oppo Vivo Sony LG Google OnePlus Motorola Nokia)}
-gadget_seris = {sort:"gadget_seris",words:%w(iPhone iPad MacBook AirPods Galaxy Mata Redmi AQUOS ChromeBook Xperia Pixel Anker GoPro Switch スイッチ ps5 プレステ プレイステーション)}
+gadget_seris = {sotrt:"gadget_seris",words:%w(iPhone iPad MacBook AirPods Galaxy Mata Redmi AQUOS ChromeBook Xperia Pixel Anker GoPro Switch スイッチ ps5 プレステ プレイステーション)}
 gadget_phrase = {sort:"gadget_phrase",words:%w(高音質 高画質 高性能 高容量 大容量 高出力 大出力)}
-gadget = [gadget_general, gadget_brand, gadget_seris, gadget_phrase]
+@gadget = [gadget_general, gadget_brand, gadget_seris, gadget_phrase]
 
 sales = {sort:"sales",words:%w(営業 セールス 商談 売る 売れる 客 クロージング アポ プレゼン)}
 accounting = {sort:"accounting",words:%w(収益 コスト 利益 ROI 資産 負債 利益 コスト キャッシュフロー マージン 単価)}
@@ -232,7 +233,7 @@ minor_sports = {sorts:'minor_sports', words:
         %w(テニス 陸上 卓球 ラグビー バレー バドミントン)
 }
 @baseball = [baseball_general, baseball_general, baseball_competition, baseball_team, baseball_players]
-@sports = @soccer.concat(@baseball).concat()
+@sports = [minor_sports].concat(@soccer).concat(@baseball).concat()
 
 love_general = {sorts: 'love_general',  words:
         %w(恋 愛 好 抱 モテ 落とす 惚れ 付き合 本気 本命 デート キス イケメン あざと ボディ カップル 別れ 浮気 彼氏 彼女 男 女)
@@ -243,4 +244,4 @@ male_love = {sorts: 'male_love',  words:
 female_love = {sorts: 'female_love',  words:
     %w(彼氏 男)
     }
-@love =  [love_general]
+@love =  [love_general, male_love, female_love]
