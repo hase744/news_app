@@ -48,7 +48,6 @@ class VideoCategorizer
                     params.push({"video_id"=>video.id,"category_id"=>category.id, 'words'=>nil})
                     #puts "#{video.title}を#{category.name}にカテゴライズ"
                 else
-                    puts "not absolute"
                     hash = nil
                     words = []
                     @category_words_param[category.name].each do |word|

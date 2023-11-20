@@ -8,7 +8,6 @@
     {"url"=>"https://www.youtube.com/@habmigochannel", "categories" => %w(politics technology economy sports)},
     {"url"=>"https://www.youtube.com/@cbctv_news", "categories" => %w(politics technology economy sports)},
     {"url"=>"https://www.youtube.com/@SankeiNews", "categories" => %w(politics technology economy sports)},
-    {"url"=>"https://www.youtube.com/@watanabetetuya-show", "categories" => %w(politics economy military sports)},
     {"url"=>"https://www.youtube.com/@aichi-news", "categories" => %w(economy technology business military sports)},
     {"url"=>"https://www.youtube.com/@ThepageJp", "categories" => %w(politics economy military sports technology)},
     {"url"=>"https://www.youtube.com/@newsone4365", "categories" => %w(politics economy military sports technology)},
@@ -26,6 +25,7 @@
     {"url"=>"https://www.youtube.com/@tvtokyobiz", "categories" => %w(politics technology economy world sports)},
     {"url"=>"https://www.youtube.com/@abc6ch", "categories" => %w(politics technology economy world sports)},
     {"url"=>"https://www.youtube.com/@takaponjp", "categories" => %w(politics technology economy world sports)},
+    {"url"=>"https://www.youtube.com/@watanabetetuya-show", "categories" => %w(politics economy military sports)},
 
     {"url"=>"https://www.youtube.com/@ChGrandStrategy", "categories" => %w(politics technology economy world military)},
     {"url"=>"https://www.youtube.com/@ReutersJapan", "categories" => %w(world economy technology)},

@@ -26,6 +26,7 @@ class User::FavoritesController < User::Base
     word = params[:word]
     @videos = Video.includes(:channel)
     @videos = @videos.where("title LIKE ?", "%#{word}%")
+    @videos = @videos.order(published_at: :DESC)
     @favorites = Favorite.where(video_id: @videos.pluck(:id), user: current_user)
     @favorites = @favorites.includes(:video, video: :channel)
     @favorites = @favorites.page(params[:page]).per(20)

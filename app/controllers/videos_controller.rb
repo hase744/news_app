@@ -3,6 +3,7 @@ class VideosController < ApplicationController
     word = params[:word]
     @videos = Video.includes(:channel)
     @videos = @videos.where("title LIKE ?", "%#{word}%")
+    @videos = @videos.order(published_at: :DESC)
     @videos = @videos.page(20).page(params[:page])
     @videos = @videos.map {|video| {
       'title'=> video.title,

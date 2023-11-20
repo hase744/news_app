@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   #get 'videos/index'
   resource :presses, only: [:show]
   resource :categories, only: [:show]
+  resource :versions, only: [:show]
   #get 'presses/index'
   get 'homes/index'
   get 'homes/search'

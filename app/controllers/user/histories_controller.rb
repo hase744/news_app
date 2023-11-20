@@ -26,6 +26,7 @@ class User::HistoriesController < User::Base
     word = params[:word]
     @videos = Video.includes(:channel)
     @videos = @videos.where("title LIKE ?", "%#{word}%")
+    @videos = @videos.order(published_at: :DESC)
     @histories = History.where(video_id: @videos.pluck(:id), user: current_user)
     @histories = @histories.includes(:video, video: :channel)
     @histories = @histories.page(params[:page]).per(20)
