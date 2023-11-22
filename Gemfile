@@ -86,3 +86,4 @@ gem 'parallel'
 gem 'whenever', require: false
 gem 'kaminari'
 gem 'devise'
+gem 'carrierwave'

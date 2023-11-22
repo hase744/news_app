@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_20_042948) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_22_121121) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_20_042948) do
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_histories_on_user_id"
     t.index ["video_id"], name: "index_histories_on_video_id"
+  end
+
+  create_table "pdf_files", force: :cascade do |t|
+    t.string "title"
+    t.string "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "presses", force: :cascade do |t|
