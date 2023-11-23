@@ -3,7 +3,6 @@ class PdfFile < ApplicationRecord
   validates :title, uniqueness: true, presence: true
 
   before_validation do #ファイル名を指定
-    old_file_name = file.identifier
     self.file.name = title
   end
 
