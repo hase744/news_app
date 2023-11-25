@@ -5,7 +5,7 @@ ActiveAdmin.register Press do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :category_id, :youtube_ids, :news_json, :is_published
+  permit_params :category_id, :youtube_ids, :news_json, :is_published
   #
   # or
   #
@@ -14,5 +14,14 @@ ActiveAdmin.register Press do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+  index do
+    selectable_column
+    column :id
+    column :category
+    column :youtube_ids
+    column :is_published
+
+    actions
+  end
   
 end

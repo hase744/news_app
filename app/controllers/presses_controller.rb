@@ -7,7 +7,8 @@ class PressesController < ApplicationController
       "name" => category.name,
       "japanese_name" => category.japanese_name,
       'emoji' => category.emoji,
-      "press" =>category.presses.last.news_json
+      'is_default' => category.is_default,
+      "press" =>category.presses.last.news_json,
     }
     end
     respond_to do |format|

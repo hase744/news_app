@@ -6,6 +6,7 @@ ActiveAdmin.register Video do
   # Uncomment all parameters which should be permitted for assignment
   #
   # permit_params :youtube_id, :second, :description, :title, :channel_id, :published_at, :total_views, :is_categorized
+  permit_params :is_categorized
   #
   # or
   #
@@ -20,8 +21,15 @@ ActiveAdmin.register Video do
     column :title do |model|
       link_to(model.title, "https://www.youtube.com/watch?v=#{model.youtube_id}")
     end
+    column :channel do |model|
+      link_to(model.channel_name, "channels/#{model.channel.id}")
+    end
+    column :words do |model|
+      model.video_categories.pluck(:words).each do |vc|
+      end
+    end
     column :total_views
-    column :words
+    column :categories
     #column :description
 
     actions
