@@ -7,7 +7,7 @@ class Category < ApplicationRecord
     has_many :videos, through: :video_categories
     has_many :category_enumerations
     has_many :enumerations, through: :category_enumerations
-    has_many :presse
+    has_many :presses
 
     #validates :name, uniqueness:true
 end
