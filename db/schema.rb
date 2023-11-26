@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_22_121121) do
+ActiveRecord::Schema[7.0].define(version: 2023_11_26_054110) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -47,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_22_121121) do
     t.text "description"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.boolean "is_default"
+    t.boolean "is_default", default: false, null: false
     t.bigint "parent_category_id"
     t.string "emoji"
     t.datetime "created_at", null: false
