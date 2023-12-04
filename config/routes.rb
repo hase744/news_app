@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'documents/privacy_policy'
   resource  :videos
   namespace :user do
     delete  '/favorites/delete_multiple'

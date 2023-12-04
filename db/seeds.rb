@@ -64,28 +64,28 @@ parent_categories = [
     {name:"economy", japanese_name:"経済", variable: @economy, is_started: true, is_default: true, emoji:'🏦'},
     {name:"world", japanese_name:"世界", variable: @world, is_started: true, is_default: true, emoji:'🌍'},
     {name:"military", japanese_name:"軍事", variable: @military, is_started: true, is_default: true, emoji:'🪖'},
-    {name:"game", japanese_name:"ゲーム", is_started: true, emoji:'🎮'},
+    {name:"game", japanese_name:"ゲーム", is_started: true, is_default: true, emoji:'🎮'},
     {name:"trend", japanese_name:"話題", is_started: true, is_default: true, emoji:'💬'},
     {name:"necessity", japanese_name:"日用品", variable: @necessity, is_started: true, is_default: true, emoji:'🛒'},
-    {name:"lifehack", japanese_name:"ライフハック", variable:@lifehack, is_started: true, emoji:'🔧'},
-    {name:"beauty", japanese_name:"美容",variable: @beauty, is_started: true, emoji:'💄'},
-    {name:"mobility", japanese_name:"自動車", is_started: true, emoji:'🚙'},
-    {name:"gadget", japanese_name:"ガジェット", variable: @gadget, is_started: true, emoji:'🖥'},
-    {name:"sports", japanese_name:"スポーツ", variable: @sports, is_started: true, emoji:'🏃'},
-    {name:"male_love", japanese_name:"男性恋愛", variable:@love, is_started: true,variable: @fashion, emoji:'💙'},
-    {name:"female_love", japanese_name:"女性恋愛", variable:@love, is_started: true, emoji:'💜'},
-    {name:"womens_fashion", japanese_name:"女性ファッション",variable: @fashion, is_started: true, emoji:'👗'},
-    {name:"money_finance", japanese_name:"家計・資産", variable: @money_finance, is_started: true, emoji:'💸'},
+    {name:"lifehack", japanese_name:"ライフハック", variable:@lifehack, is_started: true, is_default: true, emoji:'🔧'},
+    {name:"beauty", japanese_name:"美容",variable: @beauty, is_started: true, is_default: true, emoji:'💄'},
+    {name:"mobility", japanese_name:"自動車", is_started: true, is_default: true, emoji:'🚙'},
+    {name:"gadget", japanese_name:"ガジェット", variable: @gadget, is_started: true, is_default: true, emoji:'🖥'},
+    {name:"sports", japanese_name:"スポーツ", variable: @sports, is_started: true, is_default: true, emoji:'🏃'},
+    {name:"male_love", japanese_name:"男性恋愛", variable:@love, is_started: true, is_default: true,variable: @fashion, emoji:'💙'},
+    {name:"female_love", japanese_name:"女性恋愛", variable:@love, is_started: true, is_default: true, emoji:'💜'},
+    {name:"womens_fashion", japanese_name:"女性ファッション",variable: @fashion, is_started: true, is_default: true, emoji:'👗'},
+    {name:"money_finance", japanese_name:"家計・資産", variable: @money_finance, is_started: true, is_default: true, emoji:'💸'},
 ]
 
 save_categories(parent_categories)
 
 child_categories = [
-    {name:"soccer", japanese_name:"サッカー", variable: @soccer, is_started: true, parent_category: 'sports', emoji:'⚽'},
-    {name:"baseball", japanese_name:"野球", variable: @baseball, is_started: true, parent_category: 'sports', emoji:'⚾'},
-    {name:"equity_investment", japanese_name:"株式投資", variable: @equity_investment, is_started: true, parent_category: 'business', emoji:'📈'},
-    {name:"real_estate_investment", japanese_name:"不動産投資", variable: @real_estate_investment, is_started: true, parent_category: 'business', is_default: true, emoji:'🏢'},
-    {name:"fx_trade", japanese_name:"FX", variable: @fx_trade, is_started: true, parent_category: 'business', is_default: true, emoji:'💱'},
+    {name:"soccer", japanese_name:"サッカー", variable: @soccer, is_started: true, is_default: true, parent_category: 'sports', emoji:'⚽'},
+    {name:"baseball", japanese_name:"野球", variable: @baseball, is_started: true, is_default: true, parent_category: 'sports', emoji:'⚾'},
+    {name:"equity_investment", japanese_name:"株式投資", variable: @equity_investment, is_started: true, is_default: true, parent_category: 'business', emoji:'📈'},
+    {name:"real_estate_investment", japanese_name:"不動産投資", variable: @real_estate_investment, is_started: true, is_default: true, parent_category: 'business', is_default: true, emoji:'🏢'},
+    {name:"fx_trade", japanese_name:"FX", variable: @fx_trade, parent_category: 'business', is_started: true, is_default: true, emoji:'💱'},
 ]
 
 save_categories(child_categories)
