@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     resources :histories
   end
   #get 'videos/index'
-  resource :presses, only: [:show]
+  resources :presses, only: [:show, :index]
   resource :categories, only: [:show]
   resource :versions, only: [:show]
   #get 'presses/index'
