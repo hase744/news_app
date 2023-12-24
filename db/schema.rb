@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_11_26_054110) do
+ActiveRecord::Schema[7.0].define(version: 2023_12_24_104243) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -99,6 +99,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_26_054110) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "error_logs", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "error_class"
+    t.text "error_message"
+    t.text "error_backtrace"
+    t.string "request_method"
+    t.string "request_controller"
+    t.string "request_action"
+    t.integer "request_id_number"
+    t.text "request_parameter"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_error_logs_on_user_id"
+  end
+
   create_table "favorites", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "video_id", null: false
@@ -179,6 +194,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_11_26_054110) do
   add_foreign_key "category_enumerations", "enumerations"
   add_foreign_key "channel_categories", "categories"
   add_foreign_key "channel_categories", "channels"
+  add_foreign_key "error_logs", "users"
   add_foreign_key "favorites", "users"
   add_foreign_key "favorites", "videos"
   add_foreign_key "histories", "users"
