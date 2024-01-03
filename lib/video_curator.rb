@@ -72,16 +72,9 @@ class VideoCurator
       puts saved_videos.length
 
       saved_videos.each do |saved_video|
-        #puts saved_video['youtube_id']
-        @saving_videos.each_with_index do |saving_video, index|
-          #puts index
-          if saving_video['youtube_id'] == saved_video['youtube_id']
-            @saving_videos[index]["id"] = saved_video["id"]
-            #puts "モデル"
-            #puts saved_video["model"]
-            @saving_videos[index]["model"] = saved_video["model"]
-          end
-        end
+        index = @saving_videos.index { |hash| hash['youtube_id'] == saved_video['youtube_id'] }
+        @saving_videos[index]["id"] = saved_video["id"]
+        @saving_videos[index]["model"] = saved_video["model"]
       end
     end
 
@@ -122,10 +115,12 @@ class VideoCurator
       #YoutubeAPIの一度に取得できる動画数が50本であるため
       #{"index"=>"3", "second"=>"2232"}のようなハッシュの配列を取得
       unsaved_videos = @saving_videos.select { |video| !video.key?("id") }
+      puts "総数 : #{@saving_videos.count}"
+      puts "新規 : #{unsaved_videos.count}"
       index_and_details = []
       index_and_details = Parallel.map(unsaved_videos.each_slice(50)) do |video_slice|
         result = get_detail_in_slice(video_slice)
-        p result
+        #p result
       end
       index_and_details = index_and_details.flatten #二次元配列を解除
       index_and_details.each do |index_and_detail|
@@ -162,7 +157,7 @@ class VideoCurator
           index_and_details[index]["is_live"] = video.live_streaming_details != nil
         end
 
-        puts index_and_details
+        #puts index_and_details
         return index_and_details
       rescue => e
         if e.to_s.include?('quotaExceeded')

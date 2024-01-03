@@ -12,7 +12,7 @@ class VideoCollection
       if attributes.present?
         self.collection = attributes.map do |value|
             if value['id'].present?
-              puts "既存 : #{value['id']}"
+              #puts "既存 : #{value['id']}"
                 video = value['model']
                 video.total_views = value["total_views"]
                 video
@@ -75,7 +75,7 @@ class VideoCollection
               saved_models << result # 保存に成功したモデルを配列に追加
             rescue ActiveRecord::RecordInvalid => e
               result.categories.each do |category|
-                p category.name
+                #p category.name
               end
               p e
               # バリデーションエラーがあった場合、エラーをキャッチして何もしない
