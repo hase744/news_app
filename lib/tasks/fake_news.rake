@@ -15,28 +15,37 @@ namespace :fake_news do
         .videos
         .where
         .not(total_seconds:nil)
-        .where(total_seconds: 3..)
+        .where(total_seconds: 61..)
         .order(total_seconds: :ASC)
-        .limit(1)
+        .limit(10)
       #video = videos.first
       #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
-      Parallel.each(videos) do |video|
-        #YoutubeDL.download "https://www.youtube.com/watch?v=#{video.youtube_id}", output: '#{video.youtube_id}.mp4'
-        system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
-      end
+      #Parallel.each(videos) do |video|
+      #  #YoutubeDL.download "https://www.youtube.com/watch?v=#{video.youtube_id}", output: '#{video.youtube_id}.mp4'
+      #  message = system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+      #  puts "message : #{message}"
+      #end
+      #video_count = 0
       videos.each do |video|
-        video_param = {
-          'id' => video.id, 
-          'youtube_id' => video.youtube_id, 
-          'title' => video.title, 
-          'channel_name' => video.channel_name,
-          'channel_id' => video.channel_id,
-          'channel_youtube_id' => video.channel_youtube_id,
-          'total_seconds' => video.total_seconds,
-          'published_at' => video.published_at, 
-          }
-        category_param['press'].push(video_param)
-        video_list.push(video_param)
+        system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+        #puts video_count
+        if File.exist?("public/videos/#{video.youtube_id}.mp4")
+          video_param = {
+            'id' => video.id, 
+            'youtube_id' => video.youtube_id, 
+            'title' => video.title, 
+            'channel_name' => video.channel_name,
+            'channel_id' => video.channel_id,
+            'channel_youtube_id' => video.channel_youtube_id,
+            'total_seconds' => video.total_seconds,
+            'published_at' => video.published_at, 
+            }
+          category_param['press'].push(video_param)
+          video_list.push(video_param)
+          #video_count +=1
+          #print("video_count : #{video_count}")
+          #break if video_count > 1
+        end
       end
       presses.push(category_param)
     end
