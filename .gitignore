@@ -25,6 +25,7 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
+/public/videos
 /public/assets
 /public/uploads/*
 

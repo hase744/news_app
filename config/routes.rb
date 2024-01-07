@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resource :fakes, only: [:show]
+  get 'fakes/videos'
+  get 'fakes/presses'
   get 'documents/privacy_policy'
   resource  :videos
   namespace :user do
