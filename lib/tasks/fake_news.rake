@@ -15,13 +15,16 @@ namespace :fake_news do
         .videos
         .where
         .not(total_seconds:nil)
-        .where(total_seconds: 10..)
+        .where(total_seconds: 3..)
         .order(total_seconds: :ASC)
-        .limit(10)
+        .limit(1)
       #video = videos.first
       #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+      Parallel.each(videos) do |video|
+        YoutubeDL.download "https://www.youtube.com/watch?v=#{video.youtube_id}", output: '#{video.youtube_id}.mp4'
+        #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+      end
       videos.each do |video|
-        system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
         video_param = {
           'id' => video.id, 
           'youtube_id' => video.youtube_id, 

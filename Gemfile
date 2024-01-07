@@ -87,3 +87,4 @@ gem 'whenever', require: false
 gem 'kaminari'
 gem 'devise'
 gem 'carrierwave'
+gem 'youtube-dl.rb'

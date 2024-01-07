@@ -1,10 +1,11 @@
 from yt_dlp import YoutubeDL
 
 options = {
-  'outtmpl': 'public/sample.%(ext)s',
+  'format':'best[height=360]',
+  'outtmpl': 'public/sample3.%(ext)s',
 }
 
 with YoutubeDL(options) as ydl:
   result = ydl.download([
-    'https://www.youtube.com/watch?v=gvdf5n-zI14',
+    'https://www.youtube.com/watch?v=wLsBkickVo8',
   ])

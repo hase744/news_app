@@ -3,7 +3,7 @@ from yt_dlp import YoutubeDL
 
 def download_video(id, output_path, file_name):
   options = {
-    'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4',
+    'format': 'best[height=360]',
     'outtmpl': f'{output_path}/{file_name}.%(ext)s',
   }
 
