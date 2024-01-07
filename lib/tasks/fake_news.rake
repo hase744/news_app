@@ -21,8 +21,8 @@ namespace :fake_news do
       #video = videos.first
       #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
       Parallel.each(videos) do |video|
-        YoutubeDL.download "https://www.youtube.com/watch?v=#{video.youtube_id}", output: '#{video.youtube_id}.mp4'
-        #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+        #YoutubeDL.download "https://www.youtube.com/watch?v=#{video.youtube_id}", output: '#{video.youtube_id}.mp4'
+        system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
       end
       videos.each do |video|
         video_param = {
