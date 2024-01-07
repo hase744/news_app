@@ -102,6 +102,9 @@ GEM
       marcel (~> 1.0.0)
       ssrf_filter (~> 1.0)
     chronic (0.10.2)
+    climate_control (0.2.0)
+    cocaine (0.6.0)
+      terrapin (= 0.6.0)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     date (3.3.3)
@@ -318,6 +321,8 @@ GEM
     ssrf_filter (1.1.2)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    terrapin (0.6.0)
+      climate_control (>= 0.0.3, < 1.0)
     thor (1.2.2)
     tilt (2.2.0)
     timeout (0.4.0)
@@ -352,6 +357,8 @@ GEM
       chronic (>= 0.6.3)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    youtube-dl.rb (0.3.1.2016.09.11.1)
+      cocaine (>= 0.5.4)
     zeitwerk (2.6.9)
 
 PLATFORMS
@@ -385,6 +392,7 @@ DEPENDENCIES
   web-console
   webdrivers
   whenever
+  youtube-dl.rb
 
 RUBY VERSION
    ruby 3.1.3p185

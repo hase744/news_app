@@ -3,7 +3,7 @@ class FakesController < ApplicationController
     word = params[:word]
     json_data = File.read("public/videos/fake_videos.json")
     @videos = JSON.parse(json_data)
-    @videos = @videos.select { |hash| hash["title"].include?(word) }
+    @videos = @videos.select { |hash| hash["title"].include?(word) } if word
     respond_to do |format|
       format.html
       format.json { render json: @videos.to_json }
