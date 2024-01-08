@@ -15,8 +15,8 @@ namespace :fake_news do
         .videos
         .where
         .not(total_seconds:nil)
-        .where(total_seconds: 61..)
-        .order(total_seconds: :ASC)
+        .where(total_seconds: 62..120)
+        .order(published_at: :ASC)
         .limit(10)
       #video = videos.first
       #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
