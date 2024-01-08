@@ -34,7 +34,7 @@ namespace :fake_news do
             }
             puts video.id
           image_url = "http://img.youtube.com/vi/#{video.youtube_id}/sddefault.jpg"
-          local_path = Rails.root.join('public', 'images', "#{video.youtube_id}.jpg")
+          local_path = "public/images/#{video.youtube_id}.jpg"
                 
           URI.open(image_url) do |image|
             File.open(local_path, "wb") do |file|
@@ -60,6 +60,11 @@ namespace :fake_news do
   desc "delete youtube_videos"
   task delete: :environment do
     directory_path = Rails.root.join('public', 'videos')
+    files = Dir.glob("#{directory_path}/*")
+    files.each do |file|
+      File.delete(file)
+    end
+    directory_path = Rails.root.join('public', 'images')
     files = Dir.glob("#{directory_path}/*")
     files.each do |file|
       File.delete(file)
