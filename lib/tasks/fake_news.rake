@@ -12,13 +12,20 @@ namespace :fake_news do
         'is_default' => category.is_default,
         "press" => [],
       }
-      videos = category
+      @videos = category
         .videos
         .where
         .not(total_seconds:nil)
-        .where(total_seconds: 62..120)
         .order(published_at: :DESC)
-      videos.each do |video|
+      (2..10).each do |num|
+        videos = @videos.where(total_seconds: 62..num*60)
+        puts num
+        if videos.count >= 10
+          @videos = videos
+          break
+        end
+      end
+      @videos.each do |video|
         system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
         #puts video_count
         if File.exist?("public/videos/#{video.youtube_id}.mp4")
@@ -45,7 +52,7 @@ namespace :fake_news do
           video_list.push(video_param)
         end
         puts category_param['press'].length
-        break if category_param['press'].length > 10
+        break if category_param['press'].length >= 10
       end
       presses.push(category_param)
     end
