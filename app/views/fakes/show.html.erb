@@ -1,6 +1,7 @@
 <h1>Fake#index</h1>
 <p>Find me in app/views/fake/show.html.erb</p>
 <% @videos.each do |video| %>
+  <p><%= video['published_at'] %></p>
   <p><%= video['youtube_id'] %></p>
   <video src=<%="videos/#{video['youtube_id']}.mp4" %> controls></video>
 <% end %>

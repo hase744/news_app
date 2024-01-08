@@ -1,3 +1,4 @@
+require "open-uri"
 namespace :fake_news do
   desc "download youtube_videos"
   task download: :environment do
@@ -16,16 +17,7 @@ namespace :fake_news do
         .where
         .not(total_seconds:nil)
         .where(total_seconds: 62..120)
-        .order(published_at: :ASC)
-        .limit(10)
-      #video = videos.first
-      #system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
-      #Parallel.each(videos) do |video|
-      #  #YoutubeDL.download "https://www.youtube.com/watch?v=#{video.youtube_id}", output: '#{video.youtube_id}.mp4'
-      #  message = system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
-      #  puts "message : #{message}"
-      #end
-      #video_count = 0
+        .order(published_at: :DESC)
       videos.each do |video|
         system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
         #puts video_count
@@ -40,12 +32,20 @@ namespace :fake_news do
             'total_seconds' => video.total_seconds,
             'published_at' => video.published_at, 
             }
+            puts video.id
+          image_url = "http://img.youtube.com/vi/#{video.youtube_id}/sddefault.jpg"
+          local_path = Rails.root.join('public', 'images', "#{video.youtube_id}.jpg")
+                
+          URI.open(image_url) do |image|
+            File.open(local_path, "wb") do |file|
+              file.write(image.read)
+            end
+          end
           category_param['press'].push(video_param)
           video_list.push(video_param)
-          #video_count +=1
-          #print("video_count : #{video_count}")
-          #break if video_count > 1
         end
+        puts category_param['press'].length
+        break if category_param['press'].length > 10
       end
       presses.push(category_param)
     end
