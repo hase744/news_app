@@ -5,7 +5,7 @@ ActiveAdmin.register ChannelCategory do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :channel_id, :category_id, :is_absolute
+  permit_params :channel_id, :category_id, :is_absolute
   #
   # or
   #

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_24_104243) do
+ActiveRecord::Schema[7.0].define(version: 2024_01_21_023354) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -52,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_24_104243) do
     t.string "emoji"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "is_formal", default: false
     t.index ["parent_category_id"], name: "index_categories_on_parent_category_id"
   end
 

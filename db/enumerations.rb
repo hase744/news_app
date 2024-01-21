@@ -17,17 +17,22 @@ economy_general = {sort:"general",words:%w(
    )}
 fx_general = {sort: 'fx_general', words:%w(
     FX 相場
+    XMtrading TitanFX FBS AXIORY iFOREX LAND-FX
 )}
 
 @fx_trade = [fx_general, currency]
 @equity_investment = [investment]
-crypro_currency = {sort:"crypro_currency",words:%w(ビッドコイン 仮想通貨 暗号通貨 イーサリアム)}
+crypro_currency = {sort:"crypro_currency",words:%w(
+    コイン Coin ビット bit BTC 仮想通貨 暗号通貨 
+    イーサ XRP リップル しば犬コイン イーサ TTH ENJ AVAX
+    CoinCheck コインチェック Binance KraKen KuCoin ByBit OKX
+    )}
 @economy = [currency, investment, macro_economy, unique_noun, unique_noun, economy_general]
 
 technology_general = {sort:"technology_general",words:%w(
-    テクノロジー テック 発明 ノーベル 自動化 自動翻訳 全自動 自動追跡 自動検出 3Dプリンタ)}
+    テクノロジー テック 発明 実用化 ノーベル 自動化 自動翻訳 全自動 自動追跡 自動検出 3Dプリンタ)}
 technology_phrase = {sort:"technology_phrase",words:%w(
-    技術力 新技術 技術国 新型 次世代 新機能 新端末 新サービス 自動化 自動翻訳 全自動 自動追跡 3Dプリンタ)}
+    技術力 新技術 技術国 新型 次世代 新機能 新端末 新サービス 新発電 新エネルギー 自動化 自動翻訳 全自動 自動追跡 3Dプリンタ)}
 technology_companies = {sort: "", words: %w(GAFA メタ Meta テスラ Tesla Microsoft マイクロソフト Google グーグル Apple アップル TSMC Nvidea)}
 space = {sort:"space",words:%w(ロケット 宇宙船 推進剤 エンジン 推力 探査機 探査船 有人
         軌道 宇宙空間 宇宙飛行士 有人宇宙飛行 無人宇宙探査 宇宙ミッション 打ち上げ台 空力学 地球周回軌道
@@ -69,7 +74,15 @@ party = {sort:"party",words:%w(自民党 民主党 公明党 日本維新 共産
 @politics = [politics_general, cabinet, politics_person, party]
 
 life_general = {sort:"general",words:%w(グッズ 商品 アイテム 便利 小物 生活 対策グッズ 用品 コスパ 掘り出し物 ベストバイ 防寒 用品) }
-life_item = {sort:"item",words:%w(文具 文房具 手帳 ノート ボールペン 財布 靴 ホルダー 家電)}
+life_item = {sort:"item",words:%w(財布 靴 ホルダー 家電)}
+stationary = {sort:"stationary",words:%w(
+    文具 文房具 手帳 ノート ペン 万年筆 鉛筆 付箋 マーカー ペーパー ノートブック 消しゴム 定規
+    スタンプ ロフトLOFT メモ カレンダー ぺんてる クリップ スケッチブック ブック
+    )}
+stationary_maker = {sort:"stationary_maker",words:%w(
+    パイロット 三菱鉛筆 ゼブラ 菊水 セーラー プラチナ万年筆 ファーバーカステル ルミオン トンボ
+    )}
+@stationary = [stationary, stationary_maker]
 life_phrase = {sort:"phrase",words:%w(買うべき 買ってよかった 買って良かった 買わないと損 購入 買った これ１台 これ１冊 これ１本 おすすめ オススメ 一推し イチオシ 激推し ベスバイ)}
 brand_brand = {sort:"brand",words:%w(無印 ニトリ ダイソー DAISO キャンドゥ セリア Seria ワークマン ドンキ コストコ 百均 100均 100円 )}
 @necessity = [life_general, life_item, life_phrase, brand_brand]
@@ -80,12 +93,24 @@ lifehack_brand = {sort:"brand",words:%w(無印 ニトリ ダイソー DAISO Seri
 lifehack_tool = {sort:'lifehack_tool', words: %w(Excel エクセル Word Powerpoint パワポ)}
 @lifehack = [lifehack_method, lifehack_phrase, lifehack_brand, life_general, lifehack_tool]
 
-money_finance = {sort:"money", words:%w(お金 貯金 家計 節約 手取り 貯め 収入 月収 年収 NISA iDeCo 積立 貯蓄 蓄え 出費 生活費 食費 衣食住 雑費 服代 家賃 納税 節税 節電 節水 セール 半額 安い 割引)}
+money_finance = {sort:"money", words:%w(
+    お金 貯金 家計 節約 手取り 貯め 収入 月収 年収 NISA iDeCo 積立 貯蓄 蓄え 出費 破産 ローン 特典 契約
+    生活費 食費 衣食住 雑費 服代 家賃 納税 節税 節電 節水 セール 半額 安い 割引
+    還元 OFF オフ 値下げ 値上げ Amazon 楽天 中古 得 トク 貯め ギフト コスパ
+    )}
+payment = {sort:"payment", words:%w(
+    Pay ペイ ポイント 決済 point ポイ活 dカード カード クレカ クレジット デビット d払い
+    アメックス ビザ VISA マスター アメックス プラチナ ゴールド ウォレット マイル
+    )}
+telecom = {sort:"telecom", words:%w(
+        携帯 キャリア 料金 プラン 通信 ルーター モデム 回線 プロバイダー ネット環境 wifi W-Fi SIM sim 本体代 端末代 本体料金 端末料金 オプション
+        au KDDI ドコモ docomo ソフトバンク Softbank 楽天モバイル モバイル ahamo NURO So-net VPN 速度 乗り換え
+    )}
 
-@money_finance = [money_finance]
+@money_finance = [money_finance, telecom, payment]
 
 real_estate = {real_estate: 'real_estate', words: %w(
-    不動産 物件 住宅 マンション アパート 賃貸 持ち家 空き家 一軒家 新築 持ち家 ワンルーム
+    不動産 物件 住宅 マンション タワマン アパート 賃貸 持ち家 空き家 一軒家 新築 持ち家 ワンルーム
     )}
 @real_estate_investment = [real_estate]
 cosmetic = {sort:"cosmetic",words:%w(化粧 美容 コスメ メイク ファンデーション リップスティック アイシャドウ マスカラ ブラッシュ アイライナー 
@@ -95,13 +120,18 @@ cosmetic = {sort:"cosmetic",words:%w(化粧 美容 コスメ メイク ファン
     )}
 body = {sort:"body",words:%w(肌 髪 スキン 皮膚 しわ シワ しみ シミ たるみ 鼻 毛穴 角栓 皮脂 まつ毛 まつげ ニキビ にきび ほうれい線)}
 shape = {sort:"shape",words:%w(整形 2重 ツルツル すべすべ つや ツヤ 美白 癖毛 剛毛 軟毛 さらさら サラサラ 赤み 墨 乾燥)}
-fashion = {sort:"fashion",words:%w(ファッション コーデ トレンド 着せ替え 着こな トップス ボトムス)}
-@beauty = [cosmetic, body, shape, fashion]
+mens_beauty = {sort:"mens_beauty",words:%w(髭)}
+@beauty = [cosmetic, body, shape]
+@mens_beauty = [cosmetic, body, shape, mens_beauty]
 
 fashion_general = {sort: "fashion_general", words: %w(
-    ファッション アパレル コーデ トレンド 着せ替え 着こな トップス ボトムス ブランド 服 衣 着 バッグ
+    ファッション アパレル コーデ トレンド 着せ替え 着こな トップス ボトムス ブランド 服 衣 着 バッグ 靴 サンダル スニーカー
+    シューズ インナー アウター ジャケット スウェット ダウン シャツ ロンT 短パン ジーンズ ジーパン パンツ ズボン デニム 帽 ハット 
+    キャップ カジュアル バッグ カバン 財布 スーツ
 )}
-fashion_brand = {sort: "fashion_brand", words: %w(ユニクロ UNIQLO GU ZARA H&M SHEIN GRL)}
+fashion_brand = {sort: "fashion_brand", words: %w(
+    ユニクロ UNIQLO GU ZARA H&M SHEIN GRL Dickies ディッキーズ チャンピオン Champion ニューエラ
+    )}
 
 @fashion = [fashion_general, fashion_brand]
 gadget_general = {sort:"general",words:%w(
@@ -113,24 +143,77 @@ gadget_seris = {sotrt:"gadget_seris",words:%w(iPhone iPad MacBook AirPods Galaxy
 gadget_phrase = {sort:"gadget_phrase",words:%w(高音質 高画質 高性能 高容量 大容量 高出力 大出力)}
 @gadget = [gadget_general, gadget_brand, gadget_seris, gadget_phrase]
 
-sales = {sort:"sales",words:%w(営業 セールス 商談 売る 売れる 客 クロージング アポ プレゼン)}
+new_job = {sorts: 'new_job',  words:
+    %w(
+        資格 稼 儲 副業 収入 収益 販売 売れ 所得 ワーク 月収 仕入れ 外注 単価 時給 仕事
+        クラウドワーク 営業 受注 未経験 独立 起業 辞め 辞表
+        )
+    }
+reselling = {sorts: 'reselling',  words:
+    %w(
+        転売 物販 輸入 直販 せどり 仕入れ Amazon メルカリ ヤフオク ラクマ
+        外注 商品 利益 不用品
+        )
+    }
+@reselling = [reselling]
+sales = {sort:"sales",words:%w(
+    営業 セールス 新規 ルート 開拓 飛び込み 商談 売る 売れる 一位 お客 カスタマー クロージング アポ 好かれ 嫌われ
+    見せ 見え 髪型 服装 見た目
+    トーク プレゼン レスポンス コミュ 敬語 話し 会話 わか 分か 伝え 交渉 商談 談話 質問 聞き 雑談 沈黙 切り返し 心理 セリフ 台詞 言葉 言い 心をつかむ 欲し
+    洗脳
+    マナー 失礼 挨拶 電話 メール あいさつ ビビ
+    ヒアリング 正論 説明 客 自信 即決 契約
+    操ら 操り 操る 操れ 操ろ 断ら 断り 断る 断れ 断ろ
+    )}
 accounting = {sort:"accounting",words:%w(収益 コスト 利益 ROI 資産 負債 利益 コスト キャッシュフロー マージン 単価)}
-management = {sort:"management",words:%w(経営 マネジメント チームビルディング リーダーシップ  組織文化 ガバナンス オペレーション 戦略計画 目標設定)}
+enterprise = {sort:"enterprise",words:%w(
+    経営 会社 企業 営利 ユニコーン 時価総額
+    )}
+consulting = {sort:"consulting",words:%w(
+    コンサル 課題 DX
+    )}
+management = {sort:"management",words:%w(
+        経営 マネジメント チーム リーダー 組織 
+        詰め 反省 叱責 褒め 研修 信頼 サイコパス ハラスメント パワハラ セクハラ
+        組織 管理 上司 部下 新人 出世 マネジメント リーダー 人望 人から
+        ガバナンス オペレーション 戦略 セグメント 事業 セグメンテーション
+        任さ 任し 任す 任せ 任そ 頼ま 頼み 頼む 頼め 頼も 頼ら 頼り 頼る 頼れ 頼ろ
+    )}
 marketing = {sort:"marketing",words:%w(
-        マーケティング  ターゲット ターゲティング マーケット プロモーション ブランディング 事業 セグメンテーション フランチャイズ SWOT
-        ニッチ市場 マーケットリサーチ 市場シェア 顧客満足度 顧客ロイヤルティ チャネル戦略 供給チェーン バリュエーション
-        販売戦略 コアコンピタンス 販売促進 販促 グローバル戦略 コンバージョン率
+        マーケティング マーケット アウトソーシング パートナーシップ ライセンスリサーチ ニッチ 市場 シェア ターゲット ターゲティング 
+        プロモーション ブランディング フランチャイズ SWOT 見せ
+        顧客 顧客ロイヤルティ チャネル 供給 需要 バリュエーション コンサル 集客 広告 顧客
+        販売戦略 コアコンピタンス 販売促進 販促 戦略 コンバージョン率
     )}
-business_model = {sort:"business_model",words:%w(
-        アウトソーシング パートナーシップ ライセンス
-    )}
-business_general = {sort:"business_general",words:%w(
-    ビジネス KPI  顧客 リサーチ ミッションステートメント グロースハック バリュープロポジション バリューチェーン ステークホルダー
-    シェアホルダー ピッチ 起業 ビジョン  パフォーマンス
-)}
-@business = [sales, accounting, management, marketing, business_model, business_general]
 
-work = [sales]
+business_general = {sort:"business_general",words:%w(
+        ビジネス  顧客 リサーチ ミッションステートメント グロース バリュー プロポジション ステークホルダー
+        シェアホルダー ピッチ ビジョン パフォーマンス タスク 個人 法人 入社
+    )}
+business_skill = {sort:"business_skill",words:%w(
+        職 時間 タスク 会議 能 仕事 残業 メモ 口癖 手帳 忙し 忘れ 集中 メール 給料 マナー
+        メンタル やる気 モチベ ストレス
+        成功 成長 評価 成果 結果 生産性 上手 下手 センス 一流 二流 三流 スピード
+    )}
+business_method  = {sort:"business_method",words:%w(
+    マインドセット モチベーション ステップ フレームワーク ルーティーン 行動 習慣 ロードマップ スケジュール できる
+    PDCA シンキング マニュアル やり方 テク KPI
+    )}
+
+@business = [sales, accounting, management, marketing, business_method, business_general, business_skill]
+
+carrier = {sort:"carrier",words:%w(
+    キャリア 福利厚生 年収 手取り 手当 研修
+    )}
+job_hunting = {sort:"job_hunting",words:%w(
+    就活 就職 転職 ES エントリーシート 面接 職歴 経歴 入社 内定 求人 人事 採用 応募
+    ト 大手 中小 ベンチャー スタートアップ
+    )}
+
+new_graduate = {sort:"new_graduate",words:%w(
+    新卒 卒 大学 自己分析 ガクチカ 人気 グループ グルディス GD 集団 インターン 業界 配属 職種 リクルー
+    学部 フィルター 持ち駒 軸 Fラン ニッコマ 日東駒専 早慶 旧帝 マーチ March
+    )}
 
 treaty = {sort:"treaty",words:%w(協定 クアッド 条約 ASEAN EU RCEP NATO TPP Quad)}
 two_countries = {sort:"two_countries",words:%w(日印 日英 日韓 日豪 日中 日朝 日独 日仏 日米 日露 米中 米露)}
@@ -245,3 +328,164 @@ female_love = {sorts: 'female_love',  words:
     %w(彼氏 男)
     }
 @love =  [love_general, male_love, female_love]
+
+
+mental_health_general = {sorts: 'mental_health_general',  words:
+    %w(メンタル 愛 精神 心 笑 泣 気持ち 干渉 過保護 苦し 疲れ 不安 不幸 不運 不満 ケア わがまま ストレス 不安 カウンセリング 自律神経 つら 傷つ)
+    }
+mental_health_verb = {sorts: 'mental_health_verb',  words:
+    %w(病ま 病み 病む 病め 病も 病ん)
+    }
+mental_illness = {sorts: 'mental_illness',  words:
+    %w(双曲 うつ 精神 適応障害 燃え尽き コミュ障 依存 過敏 ノイローゼ 対人恐怖 社交不安 HSP リストカット)
+    }
+developmentally_disabled = {sorts: 'developmentally_disabled',  words:
+    %w(発達障害 ADHD ASD アスペ PTSD 統合失調 統失)
+    }
+mental_health =  [developmentally_disabled]
+
+vagitables = {sorts: 'vagitables',  words:
+    %w(ニンジン キャベツ レタス ピーマン トマト ジャガイモ キュウリ ピクルス
+    パプリカ インゲンマメ カリフラワー ブロッコリー ゴーヤ ナス トウモロコシ
+    ピーマン ピーマン レッドキャベツ アスパラガス サツマイモ タマネギ
+    レンコン サラダほうれんそう ダイコン カボチャ ミニトマト キノコ
+    セロリ オクラ グリーンピース パセリ パセリ ルッコラ ラディッシュ
+    セロリ タケノコ 竹の子 ホウレンソウ シュンギク 大根
+    カボチャ エンダイブ ブロッコリースプラウト パクチー ブルースケール
+    インゲンマメ オクラ ヤングコーン ベビーリーフ とうもろこし)
+    }
+fruits = {sorts: 'fruits',  words:
+    %w(
+    リンゴ りんご 林檎 バナナ オレンジ グレープ ピーチ もも 桃
+    パイナップル ストロベリー マンゴー パッションフルーツ メロン
+    キウイ パプリカ ブルーベリー ラズベリー チェリー
+    アプリコット プラム キウイフルーツ ライム レモン
+    ネクタリン グアバ ゴールデンキウイ パパイア
+    キウイゴールド グースベリー クランベリー フィグ パッション
+    ブラックベリー クラムボイ セイヨウナシ マンゴスチン プルーン
+    ライチ ミカン フジリンゴ セイヨウナシ ダークチェリー
+    カキ ナシ ゴボウ カリン
+    ドラゴンフルーツ グアバ グレープフルーツ ハチミツメロン ナシ
+    アボカド ミニバナナ カシス)
+    }
+pepper = {sorts: 'pepper',  words:
+    %w(
+        胡椒 塩 醤油 みりん だし 酢 みそ ごま油
+        にんにく ショウガ 砂糖 おろしポン酢
+        ケチャップ マヨネーズ ワサビ タバスコ
+        ウスターソース ソイソース ホイシンソース
+        カレー粉 ターメリック ガーリックパウダー
+        オレガノ バジル パセリ ローズマリー
+        クミン パプリカ チリパウダー
+        ナツメグ カルダモン コリアンダー
+        フィッシュソース オイスターソース
+        ポン酢 すし酢 レモン汁 マスタード
+        ホットソース ガーリックソルト バーベキューソース
+        五香粉 レンコンおろし ポン酢 ワカメ
+        )
+    }
+japanese = {sorts: 'japanese',  words:
+    %w(
+        寿司 刺身 天ぷら うどん そば おでん 焼き鳥 おにぎり おむすび
+        焼き魚 お好み焼き たこ焼き すき焼き しゃぶしゃぶ 煮物 
+        お茶漬け 丼もの 麺類 揚げ物 煮魚 寄せ鍋 雑炊 茶碗蒸し 鰻重 わらび餅 
+        煮豆 漬物 ごま団子 みそ汁 すし飯 蕎麦 ざるそば ひつまぶし 
+        おせち料理 だんご 酢の物 鮭の塩焼き とんかつ からあげ おしんこ 
+        あんみつ わらびもち ぜんざい 漬物
+        )
+    }
+italian = {sorts: 'italian',  words:
+    %w(
+        イタリアン ピザ パスタ ラザニア リゾット カルボナーラ 
+        トリッパ オッソブーコ カプレーゼ ブルスケッタ カンピオーネ 
+        グリッシーニ ミネストローネ オシエット フリットゥーラ・ディ・カラマリ 
+        カチョエペペ インヴォルティーニ クレープ・アッラ・ジェノヴェーゼ ペスカトーレ 
+        アラビアータ ピシリンカ カッチョエペペ オリーブ・オイル・ケーキ ババ・アッ・ラム 
+        カナッローニ カンノーロ カルツォーネ カッパリエッロ カルチョフィ・アッラ・ロマーナ カルネ・アッラ・パッペラ 
+        クラッキング・デ・ガンバリ グラニータ グリュイエール・オスト グリーユ グルゴンゾーラ 
+        コストレット・ディ・アニョロ コットレータ・アッラ・カッチャトーラ コツェッティ 
+        コトレッタ・アッラ・ミラネーゼ タリオリーニ ティラミス トリパ トリッパ・アッラ・フィオレンティーナ 
+        ネッカ・アッラ・パッロミータ パンナ・コッタ ピザ・マルゲリータ ピザ・アル・トラモント ピッツァイオーラ 
+        ピンザ・ロマーナ フリッタータ ブリオッシュ プロシュート ポレンタ リガトーニ
+        )
+    }
+sweets = {sorts: 'sweets',  words:
+    %w(
+        ケーキ ドーナッツ クリーム アイス アイスクリーム パフェ クッキー チョコ チョコレート
+        マカロン カップケーキ プリン シュークリーム タルト ワッフル エクレア トースト
+        パンケーキ モンブラン チーズケーキ パイ モチ クレープ プフ スイート スムージー
+        ブラウニー マフィン クリームブリュレ ヨーグルト チーズ キャラメル
+        フルーツタルト シフォンケーキ カスタードプリン レアチーズケーキ ジャム ゼリー 抹茶
+        マンゴープリン チョコバナナ ババロア プチフール チーズタルト あめ 飴 ドロップ きな粉
+        シナモン ブリオッシュ レモンタルト クロワッサン アップルパイ おもち 餅 琥珀糖
+        スコーン フロマージュブラン ミント
+        ホットケーキ パッションフルーツムース ラズベリータルト
+        バニラソフトクリーム スポンジ
+        カヌレ マドレーヌ ブレッド フレジェ トリュフ バームクーヘン ミルフィーユ ビスコッティ
+        チョロす カステラ パンナコッタ アヒージョ シフォン ティラミス ショコラ ムース ココア
+        ブラウニー スフレ マリトッツォ テリーヌ シトロン タタン ラング・ド・シャ フィナンシェ
+        ジェノワーズ
+        )
+    }
+japanese_sweets = {sorts: 'japanese_sweets',  words:
+    %w(
+        ようかん 大福 もなか 餡子 あんこ 餡 だんご せんべい
+        まんじゅう わらびもち あんみつ おしるこ 団子 もち きなこ
+        ぜんざい ほうじ茶羊羹 ふりかけもち あずきバー みたらし 
+        わらび どら焼き あられ 黒蜜 饅頭
+        )
+    }
+@sweet_cooking = [sweets, japanese_sweets]
+
+diet = {sorts: 'diet',  words:
+    %w(ダイエット カロリー 糖質 オートミール 痩せ ノンオイル)
+    }
+bread = {sorts: 'bread',  words:
+    %w(パン ブレッド ベーグル ミルクハース スイートブール あんぱん クロワッサン クッペ フォカッチャ サンド エピリース ピザ)
+    }
+@bread_cooking = [bread]
+bento = {sorts: 'bento',  words:
+    %w(弁当 おにぎり おむすび)
+    }
+@cooking = [vagitables, fruits, pepper, bento]
+
+game = {sorts: 'game',  words:
+    %w(ゲーム ゲーミング Steam スチーム 任天堂 Switch PS プレステ プレーステーション)
+    }
+@game = [game]
+sweets_gourmet = {sorts: 'sweets_gourmet',  words:
+    %w(カフェ 喫茶)
+    }
+gourmet  = {sorts: 'gourmet',  words:
+    %w(ランチ グルメ ごはん 焼肉 抵触 食べ歩き 飲み屋 食べ放題 ビュッフェ バイキング ミシュラン)
+    }
+device  = {sorts: 'device',  words:
+    %w(
+        裏技 小技 方法 使い方 テクニック やり方 見方 便利 機能
+        設定 操作 入力 スワイプ クリック 初期化 自動化 消耗 アップデート 接続 搭載 起動 通信 通知 検索
+        カーソル スクショ 画面 スクリーン ホーム画面 ショート
+        バッテリー 電池 寿命 広告 画像 システム データ ログ 履歴 スリープ モード 能的 ストレージ アカウント 
+        アドレス ロック パスワード スタンプ ポート 
+        サービス アプリ サイト Wifi 不具合 バグ 決済 キャッシュレス
+        セキュリティ ウイルス マルウェア アクセス
+        ブロック メッセージ Android アンドロイド OS Windows Microsoft Google Apple
+        )
+    }
+
+application  = {sorts: 'application',  words:
+    %w(
+        LINE ライン Twitter インスタ Treads Word Excel Office GPT VPN Notion ノーション
+        Safari Spark Chrome Edge Drive google 
+        メッセンジャー アラーム メモ マップ メール SNS Cloud mail map クラウド リマインダ
+        )
+    }
+@it_tool= [device, application]
+
+sns = {sorts: 'sns',  words:
+    %w(
+        インスタ Instagram ツイッター twitter x TikTok threads いいね フォロ 登録者 ストーリーズ
+        プロフィール サイト トレンド アカウント 収益化 ネット 凍結 アルゴリズム インサイト 流入 伸び
+        インフルエンサー ブロガー ライター ネタ 投稿 DM バズ リール
+        )
+    }
+@sns = [sns]

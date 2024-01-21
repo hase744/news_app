@@ -9,6 +9,7 @@ class PressesController < ApplicationController
       "japanese_name" => category.japanese_name,
       'emoji' => category.emoji,
       'is_default' => category.is_default,
+      'child_categories' => category.child_categories.pluck(:name),
       "press" =>category.presses.last.news_json,
     }
     end
