@@ -17,6 +17,7 @@ def save_categories(categories)
                 japanese_name:category_hash[:japanese_name],
                 emoji:category_hash[:emoji],
                 is_default:category_hash[:is_default],
+                is_formal:category_hash[:is_formal],
                 start_at: start_at,
                 parent_category: Category.find_by(name: category_hash[:parent_category])
                 )
@@ -26,6 +27,7 @@ def save_categories(categories)
                 japanese_name:category_hash[:japanese_name],
                 emoji:category_hash[:emoji],
                 is_default:category_hash[:is_default],
+                is_formal:category_hash[:is_formal],
                 start_at: start_at,
                 parent_category: Category.find_by(name: category_hash[:parent_category])
                 )
