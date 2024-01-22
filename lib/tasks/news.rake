@@ -11,23 +11,52 @@ namespace :news do
     example_class.test
   end
 
-  desc "動画を収集してカテゴライズしてニュースを作成"
+  desc "動画を収集・カテゴライズ・ニュース生成"
   task update_all_info: :environment do
-    puts "creating pressw"
+    puts "creating press"
+    history = BacthHistory.create(task_name: :curate_videos)
     video_finder = VideoCurator.new
     video_finder.check_all_channels
+    history.update(is_completed: true)
+
+    history = BacthHistory.create(task_name: :categorize_videos)
     video_categorizer = VideoCategorizer.new
     video_categorizer.categorize
+    history.update(is_completed: true)
+
+    history = BacthHistory.create(task_name: :create_news)
     press_creator = PressCreator.new
     press_creator.create_news
+    history.update(is_completed: true)
     #find_new_video.check_specific_category_channel
   end
 
   desc "動画を収集"
   task curate_videos: :environment do
     puts "curating video"
+    history = BacthHistory.create(task_name: :curate_videos)
     video_finder = VideoCurator.new
     video_finder.check_all_channels
+    history.update(is_completed: true)
+  end
+
+  desc "動画をカテゴライズ"
+  task categorize_videos: :environment do
+    puts "categorizing videos"
+    history = BacthHistory.create(task_name: :categorize_videos)
+    video_categorizer = VideoCategorizer.new
+    video_categorizer.categorize
+    history.update(is_completed: true)
+    #find_new_video.check_specific_category_channel
+  end
+
+  desc "ニュースを生成"
+  task create_news: :environment do
+    puts "creating press"
+    history = BacthHistory.create(task_name: :create_news)
+    press_creator = PressCreator.new
+    press_creator.create_news
+    history.update(is_completed: true)
     #find_new_video.check_specific_category_channel
   end
 
@@ -78,26 +107,12 @@ namespace :news do
     video_finder.check_specific_category_channels
   end
   
-  task categorize_videos: :environment do
-    puts "categorizing videos"
-    video_categorizer = VideoCategorizer.new
-    video_categorizer.categorize
-    #find_new_video.check_specific_category_channel
-  end
-
   task recategorize_videos: :environment do
     puts "recategorizing videos"
     videos = Video.where(published_at: (DateTime.now-1)..DateTime.now)
     videos.update_all(categorized_at:nil)
     video_categorizer = VideoCategorizer.new
     video_categorizer.categorize
-    #find_new_video.check_specific_category_channel
-  end
-
-  task create_news: :environment do
-    puts "creating press"
-    press_creator = PressCreator.new
-    press_creator.create_news
     #find_new_video.check_specific_category_channel
   end
 

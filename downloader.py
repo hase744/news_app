@@ -23,31 +23,3 @@ if __name__ == "__main__":
     download_video(args.id, args.output, args.filename)
   except:
     print("失敗")
-  #  try:
-  #    download_video(args.id, args.output, args.filename, 240)
-  #  except:
-  #    try:
-  #      download_video(args.id, args.output, args.filename, 360)
-  #    except:
-  #      try:
-  #        download_video(args.id, args.output, args.filename, 480)
-  #      except:
-  #        try:
-  #          download_video(args.id, args.output, args.filename, 720)
-  #        except:
-  #          try:
-  #            download_video(args.id, args.output, args.filename, 1080)
-  #          except:
-  #            try:
-  #              download_video(args.id, args.output, args.filename, 1440)
-  #            except:
-  #              try:
-  #                download_video(args.id, args.output, args.filename, 2160)
-  #              except:
-  #                try:
-  #                  download_video(args.id, args.output, args.filename, 4320)
-  #                except:
-  #                  print("失敗")
-
-  #status = download_video(args.id, args.output, args.filename)
-  #print(f"Download status: {status}")
