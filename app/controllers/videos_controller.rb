@@ -1,8 +1,14 @@
 class VideosController < ApplicationController
   def show
     word = params[:word]
-    @videos = Video.includes(:channel)
-    @videos = @videos.where("title LIKE ?", "%#{word}%")
+    category_name = params[:category]
+    if category_name
+      @videos = Category.find_by(name: category_name).videos if category_name
+    else
+      @videos = Video
+    end
+    @videos = @videos.includes(:channel)
+    @videos = @videos.where("title LIKE ?", "%#{word}%") if word 
     @videos = @videos.order(published_at: :DESC)
     @videos = @videos.page(20).page(params[:page])
     @videos = @videos.map {|video| {
