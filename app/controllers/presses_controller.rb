@@ -1,7 +1,6 @@
 class PressesController < ApplicationController
   def index
     @categories = Category.where("start_at < ?", DateTime.now)
-    @categories = @categories.where(is_formal: false)
     #@categories = @categories.includes(:presses)
     #なぜか上を追加すると本番環境で処理が遅くなってタイムアウトになる
     categories_param = @categories.map do |category|
