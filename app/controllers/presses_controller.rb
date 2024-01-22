@@ -1,6 +1,7 @@
 class PressesController < ApplicationController
   def index
     @categories = Category.where("start_at < ?", DateTime.now)
+    @categories = @categories.where(is_formal: false)
     #@categories = @categories.includes(:presses)
     #なぜか上を追加すると本番環境で処理が遅くなってタイムアウトになる
     categories_param = @categories.map do |category|
@@ -9,6 +10,7 @@ class PressesController < ApplicationController
       "japanese_name" => category.japanese_name,
       'emoji' => category.emoji,
       'is_default' => category.is_default,
+      'is_formal' => category.is_formal,
       'child_categories' => category.child_categories.pluck(:name),
       "press" =>category.presses.last.news_json,
     }

@@ -24,6 +24,7 @@
     {"url"=>"https://www.youtube.com/@prime_ABEMA", "categories" => %w(politics technology economy world sports)},
     {"url"=>"https://www.youtube.com/@tvtokyobiz", "categories" => %w(politics technology economy world sports)},
     {"url"=>"https://www.youtube.com/@takaponjp", "categories" => %w(politics technology economy world sports)},
+    {"url"=>"https://www.youtube.com/@abc6ch", "categories" => %w(politics technology economy world)},
     {"url"=>"https://www.youtube.com/@watanabetetuya-show", "categories" => %w(politics economy military sports)},
     {"url"=>"https://www.youtube.com/@diamond.officialch", "categories" => %w(politics economy business technology)},
 
@@ -1621,6 +1622,9 @@
 
     {"url"=>"https://www.youtube.com/@moteotv", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@HikikomoriKyabajo", "categories" => %w(male_love)},
+    {"url"=>"https://www.youtube.com/@-fuzi.rina0606", "categories" => %w(male_love)},
+    {"url"=>"https://www.youtube.com/@user-ss1dl4gd1x", "categories" => %w(male_love)},
+    {"url"=>"https://www.youtube.com/@risuko_25", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@user-kc3vh7zs5u", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@rennai-yuri", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@love_lab_pug", "categories" => %w(male_love)},
@@ -1640,6 +1644,7 @@
     {"url"=>"https://www.youtube.com/@user-jg2jr6kp7l", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@namitube", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@ch-hb4wi", "categories" => %w(male_love)},
+    {"url"=>"https://youtube.com/@user-ev7zh8vp4u", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@otokonomondai", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@user-uw1vj5gg7s", "categories" => %w(male_love)},
     {"url"=>"https://www.youtube.com/@rietv8602", "categories" => %w(male_love)},

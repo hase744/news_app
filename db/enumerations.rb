@@ -135,7 +135,7 @@ fashion_brand = {sort: "fashion_brand", words: %w(
 
 @fashion = [fashion_general, fashion_brand]
 gadget_general = {sort:"general",words:%w(
-        機器 端末 デバイス ガジェット バッテリー スマートフォン スマホ ラップトップ デスクトップ PC パソコン 充電 Bluetooth ブルートゥース wi-fi wifi 加湿器
+        機器 端末 デバイス ガジェット バッテリー スマートフォン スマホ ラップトップ デスクトップ PC パソコン 充電 Bluetooth ブルートゥース wi-fi wifi 加湿器 VR
         イヤホン ヘッドフォン スピーカー ウォッチ カメラ プロジェクター モバイル マウス キーボード タッチスクリーン USB lightning コントローラー スタンド ノイズキャンセリング ノイキャン
     )}
 gadget_brand = {sort:"gadget_brand",words:%w(Apple Samsung Huawei Xiaomi Oppo Vivo Sony LG Google OnePlus Motorola Nokia)}
