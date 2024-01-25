@@ -182,7 +182,6 @@
     {"url"=>"https://www.youtube.com/@sora_sakurai_jp", "categories" => %w(game)},
     {"url"=>"https://www.youtube.com/@OYAYUVI", "categories" => %w(game)},
     {"url"=>"https://www.youtube.com/@gameyawa", "categories" => %w(game)},
-    {"url"=>"https://www.youtube.com/@user-ys6bh5zc3k", "categories" => %w(game)},
     {"url"=>"https://www.youtube.com/@dengekionline", "categories" => %w(game)},
     {"url"=>"https://www.youtube.com/@nakaido", "categories" => %w(game)},
     {"url"=>"https://www.youtube.com/@midnight_chimau", "categories" => %w(game)},
@@ -1048,6 +1047,7 @@
     {"url"=>"https://www.youtube.com/@CATANUKI", "categories" => %w(new_job it_tool)},#転売
 
     {"url"=>"https://www.youtube.com/@bc-labo", "categories" => %w(new_job carrier)},
+    {"url"=>"https://www.youtube.com/@user-ys6bh5zc3k", "categories" => %w(carrier other)},
     {"url"=>"https://www.youtube.com/@merukami_gakuen", "categories" => %w(new_job lifehack)},
     {"url"=>"https://www.youtube.com/@user-jb8rb8rl7n", "categories" => %w(new_job lifehack)},
     {"url"=>"https://www.youtube.com/@user-wf5wd4xx7e", "categories" => %w(new_job lifehack)},

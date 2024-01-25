@@ -97,8 +97,8 @@ save_categories(parent_categories)
 child_categories = [
     {name:"soccer", japanese_name:"サッカー", variable: @soccer, is_started: true, is_default: true, parent_category: 'sports', is_formal:true, emoji:'⚽'},
     {name:"baseball", japanese_name:"野球", variable: @baseball, is_started: true, is_default: true, parent_category: 'sports', is_formal:true, emoji:'⚾'},
-    {name:"sweets_cooking", japanese_name:"スイーツ作り", variable: @sweets_cooking, is_started: true, is_default: false, is_formal:true, emoji:'🍰'},
-    {name:"bread_cooking", japanese_name:"パン作り", variable: @bread_cooking, is_started: true, is_default: false, is_formal:false, emoji:'🍞'},
+    {name:"sweets_cooking", japanese_name:"スイーツ作り", variable: @sweets_cooking, is_started: true, is_default: false, parent_category: 'cooking', is_formal:true, emoji:'🍰'},
+    {name:"bread_cooking", japanese_name:"パン作り", variable: @bread_cooking, is_started: true, is_default: false, parent_category: 'cooking', is_formal:false, emoji:'🍞'},
     {name:"reselling", japanese_name:"転売・せどり", variable: @reselling, is_started: true, is_default: false, parent_category: 'new_job', is_formal:false, emoji:''},
     {name:"sns", japanese_name:"SNS", variable: @sns, is_started: true, is_default: false, parent_category: 'new_job', is_formal:false, emoji:''},
 ]
