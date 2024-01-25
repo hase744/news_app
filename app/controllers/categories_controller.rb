@@ -7,6 +7,7 @@ class CategoriesController < ApplicationController
         'name' => c.name,
         'japanese_name' => c.japanese_name,
         'is_default' => c.is_default,
+        'is_formal' => c.is_formal,
         'emoji' => c.emoji
       }
     end
