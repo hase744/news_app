@@ -26,7 +26,7 @@ namespace :fake_news do
         end
       end
       @videos.each do |video|
-        system("python downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+        system("python3 downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
         #puts video_count
         if File.exist?("public/videos/#{video.youtube_id}.mp4")
           video_param = {
@@ -34,18 +34,31 @@ namespace :fake_news do
             'youtube_id' => video.youtube_id, 
             'title' => video.title, 
             'channel_name' => video.channel_name,
+            'child_categories' => category.child_categories.pluck(:name),
             'channel_id' => video.channel_id,
             'channel_youtube_id' => video.channel_youtube_id,
             'total_seconds' => video.total_seconds,
             'published_at' => video.published_at, 
             }
             puts video.id
-          image_url = "http://img.youtube.com/vi/#{video.youtube_id}/sddefault.jpg"
           local_path = "public/images/#{video.youtube_id}.jpg"
-                
-          URI.open(image_url) do |image|
-            File.open(local_path, "wb") do |file|
-              file.write(image.read)
+             
+          begin
+            image_url = "http://img.youtube.com/vi/#{video.youtube_id}/sddefault.jpg"   
+            puts image_url
+            URI.open(image_url) do |image|
+              File.open(local_path, "wb") do |file|
+                file.write(image.read)
+              end
+            end
+          rescue => e
+            puts e
+            image_url = "http://img.youtube.com/vi/#{video.youtube_id}/default.jpg"   
+            puts image_url
+            URI.open(image_url) do |image|
+              File.open(local_path, "wb") do |file|
+                file.write(image.read)
+              end
             end
           end
           category_param['press'].push(video_param)

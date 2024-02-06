@@ -33,6 +33,7 @@ class ApplicationRecord < ActiveRecord::Base
       return channel_name
     rescue StandardError => e
       puts "#{channel_name}でエラーが発生しました: #{e.message}"
+      return ''
     end
   end
 end
