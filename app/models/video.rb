@@ -7,4 +7,17 @@ class Video < ApplicationRecord
     delegate :id, to: :channel, prefix: true
     delegate :name, to: :channel, prefix: true
     delegate :youtube_id, to: :channel, prefix: true
+
+    def hash
+        {
+        'id' => id, 
+        'youtube_id' => youtube_id, 
+        'title' => title, 
+        'channel_name' => channel_name,
+        'channel_id' => channel_id,
+        'channel_youtube_id' => channel_youtube_id,
+        'total_seconds' => total_seconds,
+        'published_at' => published_at, 
+        }
+    end
 end

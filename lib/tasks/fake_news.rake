@@ -69,12 +69,53 @@ namespace :fake_news do
       end
       presses.push(category_param)
     end
-    fake_news_file = File.new("public/videos/fake_news.json","w")
-    fake_videos_file = File.new("public/videos/fake_videos.json","w")
+    fake_news_file = File.new("public/presses/fake_news.json","w")
+    fake_videos_file = File.new("public/presses/fake_videos.json","w")
     #puts presses.to_json
     fake_news_file.puts(presses.to_json)
     fake_videos_file.puts(video_list.to_json)
     #system("python downloader.py gvdf5n-zI14 -o public/economy -f sample")
+  end
+
+  desc "update_json"
+  task update_json: :environment do
+    presses = []
+    video_list = []
+    video_ids = []
+    
+    directory_path = Rails.root.join('public', 'images')
+    file_paths = Dir[Rails.root.join('public', 'images', '*')]
+    file_paths.each do |file_path|
+      id = file_path.split('/').last.split('.').first
+      video_ids.push(id)
+    end
+
+    Category.where("start_at < ?", DateTime.now).each do |category|
+      category_param = {
+        "name" => category.name,
+        "japanese_name" => category.japanese_name,
+        'emoji' => category.emoji,
+        'is_default' => category.is_default,
+        'is_formal' => category.is_formal,
+        "press" => [],
+      }
+      presses.push(category_param)
+    end
+
+    video_ids.each do |id|
+      video = Video.find_by(youtube_id:id)
+      if video
+        video.categories.each do |category|
+          category_index = presses.find_index {|hash| hash['name'] == category.name }
+          presses[category_index]["press"].push(video.hash)
+          video_list.push(video.hash)
+        end
+      end
+    end
+    fake_news_file = File.new("public/presses/fake_news.json","w")
+    fake_videos_file = File.new("public/presses/fake_videos.json","w")
+    fake_news_file.puts(presses.to_json)
+    fake_videos_file.puts(video_list.to_json)
   end
 
   desc "delete youtube_videos"
