@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  has_many :favorites
-  has_many :videos, through: :favorites
-  has_many :histories
-  has_many :videos, through: :histories
+  has_many :favorites, dependent: :destroy
+  has_many :histories, dependent: :destroy
 end

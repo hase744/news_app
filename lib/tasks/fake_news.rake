@@ -90,4 +90,9 @@ namespace :fake_news do
       File.delete(file)
     end
   end
+
+  desc "delete_fake_user"
+  task delete_fake_user: :environment do
+    User.where(is_released: false).destroy_all
+  end
 end
