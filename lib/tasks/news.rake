@@ -71,12 +71,13 @@ namespace :news do
     #find_new_video.check_specific_category_channel
   end
   
-  desc "特定のカテゴリーの動画を収集"
+  desc "それぞれのカテゴリーの動画を収集"
   task curate_each_video: :environment do
     puts "curating video"
     Category.all.each do |category|
       video_finder = VideoCurator.new(category_name: category.name)
       video_finder.category_name = category.name
+      video_finder.check_specific_category_channels
     end
     #find_new_video.check_specific_category_channel
   end
