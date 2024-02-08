@@ -70,8 +70,15 @@ class VideoCategorizer
 
         if videos.present?
             puts "ある"
-            @video_category_collection = VideoCategoryCollection.new(@video_category_params)
-            @video_category_collection.save
+            #@video_category_collection = VideoCategoryCollection.new(@video_category_params)
+            #@video_category_collection.save
+            VideoCategory.upsert_all(
+                @video_category_params.map{|video|{
+                    video_id:video['video_id'],
+                    category_id:video['category_id'],
+                    words:video['words'],
+                }}
+            )
         end
 
         videos.update_all(categorized_at: DateTime.now)
