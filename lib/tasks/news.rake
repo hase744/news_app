@@ -50,6 +50,16 @@ namespace :news do
     #find_new_video.check_specific_category_channel
   end
 
+  desc "動画を100ごとにカテゴライズ"
+  task categorize_each_video: :environment do
+    puts "categorizing videos"
+    history = BacthHistory.create(task_name: :categorize_videos)
+    video_categorizer = VideoCategorizer.new
+    video_categorizer.categorize_each_video
+    history.update(is_completed: true)
+    #find_new_video.check_specific_category_channel
+  end
+
   desc "ニュースを生成"
   task create_news: :environment do
     puts "creating press"
