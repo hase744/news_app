@@ -35,7 +35,7 @@ class VideoCurator
     end  
 
     def check_channels_in_slice
-      Channel.all.each_slice(1000).each do |channels|
+      Channel.all.each_slice(300).each do |channels|
         @saving_videos = Parallel.map(channels) do |channel|
           check_channels(channel)
         end
