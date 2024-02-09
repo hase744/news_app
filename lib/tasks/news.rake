@@ -11,7 +11,7 @@ namespace :news do
     example_class.test
   end
 
-  desc "動画を収集・カテゴライズ・ニュース生成"
+  desc "それぞれの動画を収集・カテゴライズ・ニュース生成"
   task update_all_info: :environment do
     puts "creating press"
     history = BacthHistory.create(task_name: :curate_videos)
@@ -22,6 +22,26 @@ namespace :news do
     history = BacthHistory.create(task_name: :categorize_videos)
     video_categorizer = VideoCategorizer.new
     video_categorizer.categorize
+    history.update(is_completed: true)
+
+    history = BacthHistory.create(task_name: :create_news)
+    press_creator = PressCreator.new
+    press_creator.create_news
+    history.update(is_completed: true)
+    #find_new_video.check_specific_category_channel
+  end
+
+  desc "動画を収集・カテゴライズ・ニュース生成"
+  task update_each_info: :environment do
+    puts "creating press"
+    history = BacthHistory.create(task_name: :curate_videos)
+    video_curator = VideoCurator.new
+    video_curator.check_channels_in_slice
+    history.update(is_completed: true)
+
+    history = BacthHistory.create(task_name: :categorize_videos)
+    video_categorizer = VideoCategorizer.new
+    video_categorizer.categorize_in_slice
     history.update(is_completed: true)
 
     history = BacthHistory.create(task_name: :create_news)
