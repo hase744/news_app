@@ -1,12 +1,14 @@
 class PressCreator
+    LENGTH = 3.days
+    SPAN = 6.hours
     def create_news
         Category.where.not(start_at: nil).all.each do |category|
             puts "#{category.name}関連"
             news = []
             youtube_ids = []
             days_ago = [0,1,2]
-            days_ago.each do |day|
-                bundle = bundled_videos({"category"=>category, "day_ago"=>day})
+            (LENGTH/SPAN).times.each do |time|
+                bundle = bundled_videos({"category"=>category, "before"=>time*SPAN})
                 news.concat(bundle.map { |video| video.hash })
                 youtube_ids.push(bundle.pluck(:youtube_id).as_json)
             end
@@ -19,9 +21,9 @@ class PressCreator
 
     def bundled_videos(parameter)
         category = parameter["category"]
-        day_ago = parameter["day_ago"]
-        beginning_time = DateTime.now - day_ago - 1
-        ending_time = DateTime.now - day_ago
+        before = parameter["before"]
+        beginning_time = DateTime.now - before - SPAN
+        ending_time = DateTime.now - before
         puts "#{beginning_time} ~ #{ending_time}のニュースを作成"
         press_section = category.videos.where(is_live:false).includes(:channel).where(published_at: beginning_time..ending_time).order(total_views: :DESC)
         press_section
