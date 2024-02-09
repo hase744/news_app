@@ -15,8 +15,8 @@ namespace :news do
   task update_all_info: :environment do
     puts "creating press"
     history = BacthHistory.create(task_name: :curate_videos)
-    video_finder = VideoCurator.new
-    video_finder.check_all_channels
+    video_curator = VideoCurator.new
+    video_curator.check_all_channels
     history.update(is_completed: true)
 
     history = BacthHistory.create(task_name: :categorize_videos)
@@ -35,8 +35,17 @@ namespace :news do
   task curate_videos: :environment do
     puts "curating video"
     history = BacthHistory.create(task_name: :curate_videos)
-    video_finder = VideoCurator.new
-    video_finder.check_all_channels
+    video_curator = VideoCurator.new
+    video_curator.check_all_channels
+    history.update(is_completed: true)
+  end
+
+  desc "動画を1000ごとに収集"
+  task curate_videos_in_slice: :environment do
+    puts "curating video"
+    history = BacthHistory.create(task_name: :curate_videos)
+    video_curator = VideoCurator.new
+    video_curator.check_channels_in_slice
     history.update(is_completed: true)
   end
 
@@ -50,12 +59,12 @@ namespace :news do
     #find_new_video.check_specific_category_channel
   end
 
-  desc "動画を100ごとにカテゴライズ"
-  task categorize_each_video: :environment do
+  desc "動画を1000ごとにカテゴライズ"
+  task categorize_videos_in_slice: :environment do
     puts "categorizing videos"
     history = BacthHistory.create(task_name: :categorize_videos)
     video_categorizer = VideoCategorizer.new
-    video_categorizer.categorize_each_video
+    video_categorizer.categorize_in_slice
     history.update(is_completed: true)
     #find_new_video.check_specific_category_channel
   end
@@ -75,9 +84,9 @@ namespace :news do
     puts "Hello, #{args[:category]}!"
     puts "curating video"
     # rake news:"curate_videos_of[game]"　で実行するとなぜかエラーを起こす
-    video_finder = VideoCurator.new(category_name:"business")
-    video_finder.category_name = "business"
-    video_finder.check_specific_category_channels
+    video_curator = VideoCurator.new(category_name:"business")
+    video_curator.category_name = "business"
+    video_curator.check_specific_category_channels
     #find_new_video.check_specific_category_channel
   end
   
@@ -85,9 +94,9 @@ namespace :news do
   task curate_each_video: :environment do
     puts "curating video"
     Category.all.each do |category|
-      video_finder = VideoCurator.new(category_name: category.name)
-      video_finder.category_name = category.name
-      video_finder.check_specific_category_channels
+      video_curator = VideoCurator.new(category_name: category.name)
+      video_curator.category_name = category.name
+      video_curator.check_specific_category_channels
     end
     #find_new_video.check_specific_category_channel
   end
@@ -96,26 +105,26 @@ namespace :news do
   task curate_game_videos: :environment do
     puts "curating game videos"
     #なぜかエラーを起こす
-    video_finder = VideoCurator.new(category_name:"game")
-    video_finder.category_name = "game"
-    video_finder.check_specific_category_channels
+    video_curator = VideoCurator.new(category_name:"game")
+    video_curator.category_name = "game"
+    video_curator.check_specific_category_channels
     #find_new_video.check_specific_category_channel
   end
   
   desc "文房具のカテゴリーの動画を収集"
   task curate_stationary_videos: :environment do
     puts "curating videos of stationary"
-    video_finder = VideoCurator.new(category_name:"stationary")
-    video_finder.category_name = "stationary"
-    video_finder.check_specific_category_channels
+    video_curator = VideoCurator.new(category_name:"stationary")
+    video_curator.category_name = "stationary"
+    video_curator.check_specific_category_channels
   end
 
   desc "弁当のカテゴリーの動画を収集"
   task curate_bento_videos: :environment do
     puts "curating videos of bento"
-    video_finder = VideoCurator.new(category_name:"bento")
-    video_finder.category_name = "bento"
-    video_finder.check_specific_category_channels
+    video_curator = VideoCurator.new(category_name:"bento")
+    video_curator.category_name = "bento"
+    video_curator.check_specific_category_channels
   end
   
   task recategorize_videos: :environment do

@@ -29,22 +29,29 @@ class VideoCurator
       update_video_detail
       
       puts "最終動画数：#{@saving_videos.length}"
-      Video.upsert_all(
-        @saving_videos.map{|video|{
-          total_views: video['total_views'],
-          total_seconds: video['total_seconds'],
-          live_status: video['live_status'],
-          is_live: video['is_live'],
-          youtube_id: video['youtube_id'],
-          description: video['description'],
-          channel_id: video['channel_id'],
-          published_at: video['published_at'],
-          title: video['title'],
-        }}
-      )
+      Video.upsert_all(filter_keys(@saving_videos))
       #@collection = VideoCollection.new(@saving_videos)
       #@collection.save
     end  
+
+    def check_channels_in_slice
+      Channel.all.each_slice(1000).each do |channels|
+        @saving_videos = Parallel.map(channels) do |channel|
+          check_channels(channel)
+        end
+        @saving_videos = @saving_videos.flatten
+        @saving_videos = @saving_videos.compact
+
+        detect_unsaved_model
+        add_index
+        update_video_detail
+
+        puts "最終動画数：#{@saving_videos.length}"
+        Video.upsert_all(filter_keys(@saving_videos))
+        #@collection = VideoCollection.new(@saving_videos)
+        #@collection.save
+      end
+    end
 
     def check_specific_category_channels
       @saving_videos = Parallel.map(Category.find_by(name: category_name).channels) do |channel|
@@ -55,19 +62,7 @@ class VideoCurator
       detect_unsaved_model
       add_index
       update_video_detail
-      Video.upsert_all(
-        @saving_videos.map{|video|{
-          total_views: video['total_views'],
-          total_seconds: video['total_seconds'],
-          live_status: video['live_status'],
-          is_live: video['is_live'],
-          youtube_id: video['youtube_id'],
-          description: video['description'],
-          channel_id: video['channel_id'],
-          published_at: video['published_at'],
-          title: video['title'],
-        }}
-      )
+      Video.upsert_all(filter_keys(@saving_videos))
       #@collection = VideoCollection.new(@saving_videos)
       #@collection.save
     end
@@ -203,5 +198,20 @@ class VideoCurator
       seconds = time_str.scan(/\d+S/)[0].to_i
       total_seconds = (minutes + hours *60) *60 + seconds #秒数を生成
       total_seconds
+    end
+
+    def filter_keys(hash)
+      hash.map{|video|{
+          total_views: video['total_views'],
+          total_seconds: video['total_seconds'],
+          live_status: video['live_status'],
+          is_live: video['is_live'],
+          youtube_id: video['youtube_id'],
+          description: video['description'],
+          channel_id: video['channel_id'],
+          published_at: video['published_at'],
+          title: video['title'],
+        }
+      }
     end
 end
