@@ -90,7 +90,10 @@ class VideoCategorizer
         @category_words_params.each do |param|
             @category_words_param[param.keys[0]] = param.values[0]
         end
+        @videos = Video.where(categorized_at: nil)
+        @videos.each_slice(1000) do |videos|
+            categorize_videos(videos)
+        end
         puts @category_words_params
-
     end
 end
