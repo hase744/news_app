@@ -1,6 +1,6 @@
 class PressCreator
     def create_news
-        Category.includes(:videos).all.each do |category|
+        Category.where.not(start_at: nil).all.each do |category|
             puts "#{category.name}関連"
             news = []
             youtube_ids = []
