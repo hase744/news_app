@@ -9,7 +9,7 @@ class PressCreator
             days_ago = [0,1,2]
             (LENGTH/SPAN).times.each do |time|
                 bundle = bundled_videos({"category"=>category, "before"=>time*SPAN})
-                news.concat(bundle.map { |video| video.hash })
+                news.concat(bundle.map { |video| video.savind_hash })
                 youtube_ids.push(bundle.pluck(:youtube_id).as_json)
             end
             Press.create(category:category,youtube_ids: youtube_ids.join(","), news_json:news.to_json)
