@@ -21,4 +21,8 @@ class Video < ApplicationRecord
         'published_at' => published_at, 
         }
     end
+
+    def views_per_published
+        total_views/(DateTime.now.to_f - published_at.to_f)
+    end
 end

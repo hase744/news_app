@@ -25,7 +25,11 @@ class PressCreator
         beginning_time = DateTime.now - before - SPAN
         ending_time = DateTime.now - before
         puts "#{beginning_time} ~ #{ending_time}のニュースを作成"
-        press_section = category.videos.where(is_live:false).includes(:channel).where(published_at: beginning_time..ending_time).order(total_views: :DESC)
+        press_section = category
+            .videos.where(is_live:false)
+            .includes(:channel)
+            .where(published_at: beginning_time..ending_time)
+            .order(Arel.sql("total_views / EXTRACT(EPOCH FROM (NOW() - published_at)) DESC"))
         press_section
     end
 end
