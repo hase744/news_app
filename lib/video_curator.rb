@@ -29,7 +29,7 @@ class VideoCurator
       update_video_detail
       
       puts "最終動画数：#{@saving_videos.length}"
-      Video.upsert_all(filter_keys(@saving_videos))
+      Video.insert_all(filter_keys(@saving_videos))
       #@collection = VideoCollection.new(@saving_videos)
       #@collection.save
     end  
@@ -47,7 +47,7 @@ class VideoCurator
         update_video_detail
 
         puts "最終動画数：#{@saving_videos.length}"
-        Video.upsert_all(filter_keys(@saving_videos))
+        Video.insert_all(filter_keys(@saving_videos))
         #@collection = VideoCollection.new(@saving_videos)
         #@collection.save
       end
@@ -62,7 +62,7 @@ class VideoCurator
       detect_unsaved_model
       add_index
       update_video_detail
-      Video.upsert_all(filter_keys(@saving_videos))
+      Video.insert_all(filter_keys(@saving_videos))
       #@collection = VideoCollection.new(@saving_videos)
       #@collection.save
     end
