@@ -22,7 +22,7 @@ class VideoCategorizer
     end
 
     def categorize_videos(videos)
-        @video_category_params = Parallel.map(videos) do |video|
+        @video_category_params = Parallel.map(videos, in_threads: 1) do |video|
             params = []
             categories = video.channel.categories
             categories.each do |category|

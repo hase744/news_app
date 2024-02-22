@@ -647,6 +647,7 @@
     {"url"=>"https://www.youtube.com/@RoperunCH", "categories" => %w(stationary)},
     {"url"=>"https://www.youtube.com/@haru.kimama", "categories" => %w(stationary)},
     {"url"=>"https://www.youtube.com/@Shigoto_no_Kodougu", "categories" => %w(stationary)},
+    {"url"=>"https://www.youtube.com/@bunbougushinja-1okunin", "categories" => %w(stationary)},
 
     {"url"=>"https://www.youtube.com/@communication_cafe", "categories" => %w(necessity stationary), "absolute" => %w(necessity stationary)},
     {"url"=>"https://www.youtube.com/@sakurabookmarks", "categories" => %w(necessity stationary), "absolute" => %w(necessity stationary)},
