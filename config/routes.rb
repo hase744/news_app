@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     post  '/histories/create_multiple'
     get  '/histories/search'
     resources :histories
+    resources :summaries, only: [:create, :index]
   end
   #get 'videos/index'
   resources :presses, only: [:show, :index]

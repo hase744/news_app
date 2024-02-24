@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_02_09_184837) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_24_132811) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -157,6 +157,19 @@ ActiveRecord::Schema[7.0].define(version: 2024_02_09_184837) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["category_id"], name: "index_presses_on_category_id"
+  end
+
+  create_table "summaries", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "video_id"
+    t.string "order"
+    t.text "question"
+    t.text "answer"
+    t.datetime "summarized_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_summaries_on_user_id"
+    t.index ["video_id"], name: "index_summaries_on_video_id"
   end
 
   create_table "users", force: :cascade do |t|
