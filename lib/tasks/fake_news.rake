@@ -4,7 +4,12 @@ namespace :fake_news do
   task download: :environment do
     presses = []
     video_list = []
-    Category.where("start_at < ?", DateTime.now).each do |category|
+    channel_names = ["ERESTAGE LAB", "新R25チャンネル", "日本株チャンネル【坂本彰】", "不動産Gメン滝島", "オタミリch", "けいじチャンネル", "クレアの時事ニュース【2nd】", "in living.", "uchilog（ウチログ）", "コスメヲタちゃんねるサラ", "中野社長 / クルマの通販「BUDDICAダイレクト」", "AI収益化ラボ", "上念司チャンネル ニュースの虎側", "堀江貴文 ホリエモン", "別冊！ニューソク通信", "トーマスガジェマガ", "那須大亮 / Daisuke Nasu", "ラブテクチャンネル", "げんじ/Genji", "スマサポチャンネル", "料理研究家リュウジのバズレシピ", "SUSURU TV.", "amity_sensei", "内定チャンネル", "さっかー情報館", "虎バン 阪神タイガース応援チャンネル ABCテレビ公式", "【FX予想】先出しトレーダーコジコジ", "フジマナ /資産100億狙う投資家", "ろぺるん Roperun 文房具チャンネル", "ふみたろ", "こぐまいたんカフェ"]
+    categories = Category
+      .where("start_at < ?", DateTime.now)
+      .where(is_formal: true)
+
+    categories.each do |category|
       category_param = {
         "name" => category.name,
         "japanese_name" => category.japanese_name,
@@ -12,10 +17,14 @@ namespace :fake_news do
         'is_default' => category.is_default,
         "press" => [],
       }
-      @videos = category
-        .videos
-        .where
-        .not(total_seconds:nil)
+      video_ids = category
+        .channels
+        .where(name: channel_names)
+        .flat_map(&:videos)
+        .uniq
+        .pluck(:id)
+      @videos = Video.where(id: video_ids)
+        .where.not(total_seconds:nil)
         .order(published_at: :DESC)
       (2..10).each do |num|
         videos = @videos.where(total_seconds: 62..num*60)
@@ -135,5 +144,22 @@ namespace :fake_news do
   desc "delete_fake_user"
   task delete_fake_user: :environment do
     User.where(is_released: false).destroy_all
+  end
+
+  desc "get differ channel"
+  task get_differ: :environment do
+    channel_names = ["ERESTAGE LAB", "新R25チャンネル", "日本株チャンネル【坂本彰】", "不動産Gメン滝島", "オタミリch", "けいじチャンネル", "クレアの時事ニュース【2nd】", "in living.", "uchilog（ウチログ）", "コスメヲタちゃんねるサラ", "中野社長 / クルマの通販「BUDDICAダイレクト」", "AI収益化ラボ", "上念司チャンネル ニュースの虎側", "堀江貴文 ホリエモン", "別冊！ニューソク通信", "トーマスガジェマガ", "那須大亮 / Daisuke Nasu", "ラブテクチャンネル", "げんじ/Genji", "スマサポチャンネル", "料理研究家リュウジのバズレシピ", "SUSURU TV.", "amity_sensei", "内定チャンネル", "さっかー情報館", "虎バン 阪神タイガース応援チャンネル ABCテレビ公式", "【FX予想】先出しトレーダーコジコジ", "フジマナ /資産100億狙う投資家", "ろぺるん Roperun 文房具チャンネル", "ふみたろ", "こぐまいたんカフェ"]
+    categories = Category
+      .where("start_at < ?", DateTime.now)
+      .where(is_formal: true)
+
+    channels = Channel.where(name: channel_names)
+    categories2 = channels.flat_map(&:categories).uniq
+    puts categories2.pluck(:name)
+    puts categories2.length
+    puts categories.length
+
+    puts categories2.pluck(:name) - categories.pluck(:name)
+    puts categories.pluck(:name) - categories2.pluck(:name)
   end
 end
