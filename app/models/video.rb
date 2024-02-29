@@ -15,6 +15,7 @@ class Video < ApplicationRecord
         'youtube_id' => youtube_id, 
         'title' => title, 
         'channel_name' => channel_name,
+        'channel_url' => channel.url, 
         'channel_id' => channel_id,
         'channel_youtube_id' => channel_youtube_id,
         'total_seconds' => total_seconds,

@@ -116,8 +116,8 @@ namespace :fake_news do
       if video
         video.categories.each do |category|
           category_index = presses.find_index {|hash| hash['name'] == category.name }
-          presses[category_index]["press"].push(video.hash)
-          video_list.push(video.hash)
+          presses[category_index]["press"].push(video.savind_hash)
+          video_list.push(video.savind_hash)
         end
       end
     end
