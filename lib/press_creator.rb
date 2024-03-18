@@ -6,7 +6,6 @@ class PressCreator
             puts "#{category.name}関連"
             news = []
             youtube_ids = []
-            days_ago = [0,1,2]
             (LENGTH/SPAN).times.each do |time|
                 bundle = bundled_videos({"category"=>category, "before"=>time*SPAN})
                 news.concat(bundle.map { |video| video.savind_hash })

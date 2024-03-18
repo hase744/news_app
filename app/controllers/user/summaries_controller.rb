@@ -55,13 +55,11 @@ class User::SummariesController < ApplicationController
       finish_reasons = response.map{|r| r['candidates'][0]["finishReason"] }
       non_stop_reason = finish_reasons.find { |reason| reason != "STOP" }
       if non_stop_reason.present?
-        puts "エラー"
         summary.update(
           question: conversation, 
           answer: summary.answer
         )
         raise StandardError.new(non_stop_reason)
-        puts "エラー"
       end
       summary.answer = response.map{|r| r['candidates'][0]['content']['parts'][0]["text"] }.join
       summary.update(
@@ -70,7 +68,6 @@ class User::SummariesController < ApplicationController
         summarized_at: DateTime.now
       )
     rescue => e
-      puts "ハンドリング"
       ErrorLog.create(
         error_class: e.class,
         error_message: e.message,
@@ -81,13 +78,9 @@ class User::SummariesController < ApplicationController
         request_id_number: params[:id], 
         request_parameter: params, 
       )
-      puts "ハンドリング"
-      puts e
       if e.to_s == "SAFETY"
-        puts "SAFETY"
-        summary.answer = "性的、暴力的、または差別的な表現が含まれているため生成に失敗しました。"
+        summary.answer = "性的、暴力的、または差別的な表現が含まれているとAIが判断したため生成に失敗しました。"
       else
-        puts "SAFETYじゃない"
         summary.answer = e
       end
     end

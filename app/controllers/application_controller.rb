@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   class Forbidden < ActionController::ActionControllerError; end
   class IpAdressRejected < ActionController::ActionControllerError; end
-  include ErrorHandlers #if Rails.env.production?
+  include ErrorHandlers if Rails.env.production?
 
   def create_error_log(e)
     @error_log = ErrorLog.new(
