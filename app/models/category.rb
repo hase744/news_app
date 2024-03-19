@@ -12,6 +12,11 @@ class Category < ApplicationRecord
   def concatenated_enums
     enumerations.map{|enum| enum.words.split(',') }.flatten
   end
+
+  scope :normal, -> {
+    where(is_default: true)
+    .where("start_at < ?", DateTime.now)
+  }
   
   def name_words_param
     {

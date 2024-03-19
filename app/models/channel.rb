@@ -6,6 +6,11 @@ class Channel < ApplicationRecord
 
     before_validation :save_youtube_id_from_url
     before_validation :save_channel_name_from_id
+
+    scope :for_publish, -> {
+        where(is_fake: false)
+    }
+
     def save_youtube_id_from_url
         if self.url && will_save_change_to_url?
             self.youtube_id = get_youtube_id(self.url)

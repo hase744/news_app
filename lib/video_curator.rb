@@ -18,7 +18,7 @@ class VideoCurator
     end
 
     def check_all_channels
-      @saving_videos = Parallel.map(Channel.all) do |channel|
+      @saving_videos = Parallel.map(Channel.for_publish) do |channel|
         check_channels(channel)
       end
       @saving_videos = @saving_videos.flatten
@@ -35,7 +35,7 @@ class VideoCurator
     end  
 
     def check_channels_in_slice
-      Channel.all.each_slice(300).each do |channels|
+      Channel.for_publish.each_slice(300).each do |channels|
         @saving_videos = Parallel.map(channels) do |channel|
           check_channels(channel)
         end

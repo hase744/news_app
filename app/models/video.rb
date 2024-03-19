@@ -8,6 +8,8 @@ class Video < ApplicationRecord
   delegate :id, to: :channel, prefix: true
   delegate :name, to: :channel, prefix: true
   delegate :youtube_id, to: :channel, prefix: true
+  delegate :is_fake, to: :channel
+
   def savind_hash
     {
     'id' => id, 
@@ -24,6 +26,12 @@ class Video < ApplicationRecord
 
   def views_per_published
     total_views/(DateTime.now.to_f - published_at.to_f)
+  end
+
+  def decoded_id
+    Base64.decode64(self.youtube_id)
+      .split('.')
+      .last
   end
 
   def included_words(words)

@@ -24,6 +24,16 @@ class Summary < ApplicationRecord
     summarized_at.present?
   end
 
+  def encoded_id
+    if youtube_id.length > 11
+      Base64.decode64(self.youtube_id)
+        .split('.')
+        .last
+    else
+      youtube_id
+    end
+  end
+
   def result_param
     {
       'order' => order,

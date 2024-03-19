@@ -14,7 +14,7 @@ class HomesController < ApplicationController
   def search
     word = params[:word]
     @videos = Video.where("title LIKE ?", "%#{word}%").page(params[:page]).per(20)
-    @videos
+    @videos = Video.where(is_fake: false)
     respond_to do |format|
       format.html
       format.json { render json: @videos.to_json }

@@ -1,6 +1,8 @@
 class CategoriesController < ApplicationController
   def show
-    @categories = Category.where("start_at < ?", DateTime.now)
+    @categories = Category
+      .where(is_fake: false)
+      .where("start_at < ?", DateTime.now)
     @categories = @categories.where(is_default: true) if params[:is_default] == 'true'
     @categories_params = @categories.map do |c|
       {

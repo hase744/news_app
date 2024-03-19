@@ -1,15 +1,46 @@
 require "open-uri"
 namespace :fake_news do
+  desc "create_channel youtube_videos"
+  task create_channel: :environment do
+    channel = Channel.find_or_create_by(
+      url: 'https://www.youtube.com/@QuickNewsJa',
+      is_fake: true
+    )
+    json_data = File.read("public/channel_videos.json")
+    @videos = JSON.parse(json_data)
+    categories = Category.normal
+    categories.each_with_index do |c, i|
+      puts i
+      10.times do |n|
+        @video = @videos[i+n*10]
+        publishe_at = DateTime.parse(@video['snippet']['publishedAt'])
+        video = Video.find_by(
+          youtube_id: @video['id'],
+        )
+        video = Video.create(
+          youtube_id: @video['id'],
+          title: "#{publishe_at.strftime("%Y年%m月%d日")} #{c.japanese_name}についてのニュース",
+          total_seconds: 60 + rand(0..5)*n,
+          description: @video['snippet']["description"],
+          published_at: publishe_at,
+          total_views: rand(0..100),
+          channel: channel,
+          live_status: "none"
+        ) if !video.present?
+        puts video.id
+        video.video_categories.find_or_create_by(category: c)
+      end
+    end
+  end
+
   desc "download youtube_videos"
   task download: :environment do
     presses = []
     video_list = []
     channel_names = ["ERESTAGE LAB", "新R25チャンネル", "日本株チャンネル【坂本彰】", "不動産Gメン滝島", "オタミリch", "けいじチャンネル", "クレアの時事ニュース【2nd】", "in living.", "uchilog（ウチログ）", "コスメヲタちゃんねるサラ", "中野社長 / クルマの通販「BUDDICAダイレクト」", "AI収益化ラボ", "上念司チャンネル ニュースの虎側", "堀江貴文 ホリエモン", "別冊！ニューソク通信", "トーマスガジェマガ", "那須大亮 / Daisuke Nasu", "ラブテクチャンネル", "げんじ/Genji", "スマサポチャンネル", "エプロン", "SUSURU TV.", "amity_sensei", "内定チャンネル", "さっかー情報館", "2ch野球スレ魂", "【FX予想】先出しトレーダーコジコジ", "フジマナ /資産100億狙う投資家", "ろぺるん Roperun 文房具チャンネル", "ふみたろ", "こぐまいたんカフェ"]
-    categories = Category
-      .where("start_at < ?", DateTime.now)
-      .where(is_formal: true)
+    categories = Category.normal
 
-    categories.each do |category|
+    presses = Parallel.map(categories) do |category|
       category_param = {
         "name" => category.name,
         "japanese_name" => category.japanese_name,
@@ -17,25 +48,21 @@ namespace :fake_news do
         'is_default' => category.is_default,
         "press" => [],
       }
-      video_ids = category
+      titles = category
         .channels
         .where(name: channel_names)
         .flat_map(&:videos)
         .uniq
-        .pluck(:id)
-      @videos = Video.where(id: video_ids)
-        .where.not(total_seconds:nil)
-        .order(published_at: :DESC)
-      (2..10).each do |num|
-        videos = @videos.where(total_seconds: 62..num*60)
-        puts num
-        if videos.count >= 10
-          @videos = videos
-          break
-        end
+        .pluck(:title)
+      @videos = category.videos
+        .joins(:channel)
+        .where(channel: {is_fake: true})
+      @videos.each_with_index do |video, i|
+        video.title = titles[i]
       end
       @videos.each do |video|
-        system("python3 downloader.py #{video.youtube_id} -o public/videos -f #{video.youtube_id}")
+        puts video.id
+        system("python3 downloader.py #{video.decoded_id} -o public/videos -f #{video.youtube_id}")
         #puts video_count
         if File.exist?("public/videos/#{video.youtube_id}.mp4")
           video_param = {
@@ -53,7 +80,7 @@ namespace :fake_news do
           local_path = "public/images/#{video.youtube_id}.jpg"
              
           begin
-            image_url = "http://img.youtube.com/vi/#{video.youtube_id}/sddefault.jpg"   
+            image_url = "http://img.youtube.com/vi/#{video.decoded_id}/sddefault.jpg"   
             puts image_url
             URI.open(image_url) do |image|
               File.open(local_path, "wb") do |file|
@@ -62,7 +89,7 @@ namespace :fake_news do
             end
           rescue => e
             puts e
-            image_url = "http://img.youtube.com/vi/#{video.youtube_id}/default.jpg"   
+            image_url = "http://img.youtube.com/vi/#{video.decoded_id}/default.jpg"   
             puts image_url
             URI.open(image_url) do |image|
               File.open(local_path, "wb") do |file|
@@ -71,13 +98,11 @@ namespace :fake_news do
             end
           end
           category_param['press'].push(video_param)
-          video_list.push(video_param)
         end
-        puts category_param['press'].length
-        break if category_param['press'].length >= 10
       end
-      presses.push(category_param)
+      category_param
     end
+    video_list = presses.map{|press| press["press"]}.flatten
     fake_news_file = File.new("public/presses/fake_news.json","w")
     fake_videos_file = File.new("public/presses/fake_videos.json","w")
     #puts presses.to_json
@@ -149,9 +174,7 @@ namespace :fake_news do
   desc "get differ channel"
   task get_differ: :environment do
     channel_names = ["ERESTAGE LAB", "新R25チャンネル", "日本株チャンネル【坂本彰】", "不動産Gメン滝島", "オタミリch", "けいじチャンネル", "クレアの時事ニュース【2nd】", "in living.", "uchilog（ウチログ）", "コスメヲタちゃんねるサラ", "中野社長 / クルマの通販「BUDDICAダイレクト」", "AI収益化ラボ", "上念司チャンネル ニュースの虎側", "堀江貴文 ホリエモン", "別冊！ニューソク通信", "トーマスガジェマガ", "那須大亮 / Daisuke Nasu", "ラブテクチャンネル", "げんじ/Genji", "スマサポチャンネル", "エプロン", "SUSURU TV.", "amity_sensei", "内定チャンネル", "さっかー情報館", "2ch野球スレ魂", "【FX予想】先出しトレーダーコジコジ", "フジマナ /資産100億狙う投資家", "ろぺるん Roperun 文房具チャンネル", "ふみたろ", "こぐまいたんカフェ"]
-    categories = Category
-      .where("start_at < ?", DateTime.now)
-      .where(is_formal: true)
+    categories = Category.normal
 
     channels = Channel.where(name: channel_names)
     categories2 = channels.flat_map(&:categories).uniq

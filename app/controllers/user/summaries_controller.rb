@@ -26,16 +26,13 @@ class User::SummariesController < ApplicationController
       )
       summary = Summary.create(summary_params)
 
-      uri = URI.parse("https://#{ENV['LAMBDA_DOMAIN']}.lambda-url.ap-northeast-1.on.aws/?youtube_id=#{summary.youtube_id}&mode=slice")
+      uri = URI.parse("https://#{ENV['LAMBDA_DOMAIN']}.lambda-url.ap-northeast-1.on.aws/?youtube_id=#{summary.encoded_id}&mode=slice")
       response = Net::HTTP.get_response(uri)
       text = JSON.parse(response.body)
       subtitles = text['subtitles']
+      puts "OK2"
 
-      new_subtitles = []
-      subtitles.each_with_index do |subtitle, index|
-        new_subtitles.push('<ok>')
-        new_subtitles.push(subtitle)
-      end
+      new_subtitles = subtitles.flat_map { |subtitle| ['<ok>', subtitle] }
       new_subtitles.unshift(
         "これから長文を入力します。内容は『#{summary.video.title}』についてです。
         これから入力するので、#{summary.order}
@@ -84,6 +81,8 @@ class User::SummariesController < ApplicationController
         summary.answer = e
       end
     end
+    puts "結果"
+    puts summary.result_param.to_json
     respond_to do |format|
       format.html
       format.json {
