@@ -1,6 +1,6 @@
 import pyopenjtalk
 import numpy as np
-import requests
+#import requests
 import cv2
 from scipy.io import wavfile
 from moviepy.editor import *
@@ -34,13 +34,13 @@ def inputJP(name, img, text, x, y, size, color, output):
     return output_img
 
 # 1. 画像の読み込み
-image_path = "input_image.jpg"
+image_path = "public/input_image.jpg"
 url = "https://visit-chiyoda.tokyo/app/upload/images/img01%282%29.jpg"
-response = requests.get(url)
-image_array = np.frombuffer(response.content, np.uint8)
-image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
-#image = cv2.imread(image_path, cv2.IMREAD_COLOR)
-cv2.imwrite('image.jpg',image)
+#response = requests.get(url)
+#image_array = np.frombuffer(response.content, np.uint8)
+#image = cv2.imdecode(image_array, cv2.IMREAD_COLOR)
+image = cv2.imread(image_path, cv2.IMREAD_COLOR)
+cv2.imwrite('public/images/image.jpg',image)
 height, width, _ = image.shape
 
 font = cv2.FONT_HERSHEY_SIMPLEX
