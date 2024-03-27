@@ -83,5 +83,5 @@ if __name__ == "__main__":
   args = parser.parse_args()
   try:
     create_video(args.id, args.text, args.category , args.output, args.filename)
-  except:
-    print("失敗")
+  except Exception as e:
+    print("エラーが発生しました:", e)
