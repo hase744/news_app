@@ -27,6 +27,7 @@
 
 /public/videos
 /public/images
+/public/audios
 /public/presses
 /public/assets
 /public/uploads/*

@@ -60,8 +60,8 @@ split_text = [text[i:i+text_count] for i in range(0, len(text), text_count)]
 #duration = 10  # 動画の長さ（秒）
 fps = len(split_text)/duration  # フレームレート
 
-for text in split_text:
-    frame = inputJP("Frame", cv2.cvtColor(image, cv2.COLOR_RGB2BGR), text, text_x, text_y, text_size, text_color, 0)
+for text_unit in split_text:
+    frame = inputJP("Frame", cv2.cvtColor(image, cv2.COLOR_RGB2BGR), text_unit, text_x, text_y, text_size*2, text_color, 0)
     frames.append(frame)
 
 # 4. 動画の生成
@@ -70,5 +70,11 @@ audio_clip = AudioFileClip("public/output.wav")
 clip = ImageSequenceClip(frames, fps=fps)
 clip = clip.set_audio(audio_clip)
 clip.write_videofile(output_video_path, codec="libx264")
+
+text_size = width/20
+text_x = 0
+text_y = text_size
+image_with_title = inputJP("Frame", image, text, text_x, text_y, text_size, text_color, 0)
+cv2.imwrite('public/images/subtitle.jpg', image_with_title)
 
 print("動画が生成されました:", output_video_path)

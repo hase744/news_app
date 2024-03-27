@@ -12,11 +12,18 @@ namespace :fake_news do
     categories.each_with_index do |c, i|
       puts i
       10.times do |n|
-        @video = @videos[i+n*10]
+        @video = @videos[i*10+n]
         publishe_at = DateTime.parse(@video['snippet']['publishedAt'])
         video = Video.find_by(
           youtube_id: @video['id'],
+          channel: nil,
         )
+        video.destroy if video.present?
+        video = Video.find_by(
+          youtube_id: @video['id'],
+          channel: channel,
+        )
+        puts video.present?
         video = Video.create(
           youtube_id: @video['id'],
           title: "#{publishe_at.strftime("%Y年%m月%d日")} #{c.japanese_name}についてのニュース",
@@ -41,6 +48,9 @@ namespace :fake_news do
     categories = Category.normal
 
     presses = Parallel.map(categories) do |category|
+    #presses = categories.map do |category|
+    #presses = categories.where(name: ['technology','gourmet']).map do |category|
+      puts category.japanese_name
       category_param = {
         "name" => category.name,
         "japanese_name" => category.japanese_name,
@@ -60,9 +70,14 @@ namespace :fake_news do
       @videos.each_with_index do |video, i|
         video.title = titles[i]
       end
-      @videos.each do |video|
-        puts video.id
-        system("python3 downloader.py #{video.decoded_id} -o public/videos -f #{video.youtube_id}")
+      category_array = []
+      File.open("./public/jsons/#{category.name}.json") do |f|
+        category_array = JSON.load(f)
+      end
+      @videos.each_with_index do |video, n|
+        text = category_array[n]['description']
+        system("python3 video_creator.py #{video.decoded_id} -t '#{text}' -c #{category.name} -o public/videos -f #{video.youtube_id}")
+        #system("python3 downloader.py #{video.decoded_id} -o public/videos -f #{video.youtube_id}")
         #puts video_count
         if File.exist?("public/videos/#{video.youtube_id}.mp4")
           video_param = {
@@ -79,24 +94,24 @@ namespace :fake_news do
             puts video.id
           local_path = "public/images/#{video.youtube_id}.jpg"
              
-          begin
-            image_url = "http://img.youtube.com/vi/#{video.decoded_id}/sddefault.jpg"   
-            puts image_url
-            URI.open(image_url) do |image|
-              File.open(local_path, "wb") do |file|
-                file.write(image.read)
-              end
-            end
-          rescue => e
-            puts e
-            image_url = "http://img.youtube.com/vi/#{video.decoded_id}/default.jpg"   
-            puts image_url
-            URI.open(image_url) do |image|
-              File.open(local_path, "wb") do |file|
-                file.write(image.read)
-              end
-            end
-          end
+          #begin
+          #  image_url = "http://img.youtube.com/vi/#{video.decoded_id}/sddefault.jpg"   
+          #  puts image_url
+          #  URI.open(image_url) do |image|
+          #    File.open(local_path, "wb") do |file|
+          #      file.write(image.read)
+          #    end
+          #  end
+          #rescue => e
+          #  puts e
+          #  image_url = "http://img.youtube.com/vi/#{video.decoded_id}/default.jpg"   
+          #  puts image_url
+          #  URI.open(image_url) do |image|
+          #    File.open(local_path, "wb") do |file|
+          #      file.write(image.read)
+          #    end
+          #  end
+          #end
           category_param['press'].push(video_param)
         end
       end
@@ -160,6 +175,11 @@ namespace :fake_news do
       File.delete(file)
     end
     directory_path = Rails.root.join('public', 'images')
+    files = Dir.glob("#{directory_path}/*")
+    files.each do |file|
+      File.delete(file)
+    end
+    directory_path = Rails.root.join('public', 'audios')
     files = Dir.glob("#{directory_path}/*")
     files.each do |file|
       File.delete(file)
