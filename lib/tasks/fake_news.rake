@@ -75,6 +75,7 @@ namespace :fake_news do
         category_array = JSON.load(f)
       end
       @videos.each_with_index do |video, n|
+        break if n > 9
         text = category_array[n]['description']
         system("python3 video_creator.py #{video.decoded_id} -t '#{text}' -c #{category.name} -o public/videos -f #{video.youtube_id}")
         #system("python3 downloader.py #{video.decoded_id} -o public/videos -f #{video.youtube_id}")

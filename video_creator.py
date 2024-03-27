@@ -64,7 +64,6 @@ def create_video(id, text, category, output_path, file_name):
   clip = clip.set_audio(audio_clip)
   clip.write_videofile(output_video_path, codec="libx264")
 
-  text_size = width/20
   text_x = 0
   text_y = text_size
   image_with_title = inputJP("Frame", image, text, text_x, text_y, text_size, text_color, 0)
