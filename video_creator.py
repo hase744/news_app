@@ -40,7 +40,7 @@ def create_video(id, text, category, output_path, file_name):
   font_thickness = 10
   text_color = (255, 255, 255)  # 白色
   split_count = 20
-  text_size = width/split_count#cv2.getTextSize(text, font, font_scale, font_thickness)[0]
+  text_size = int(width/split_count)#cv2.getTextSize(text, font, font_scale, font_thickness)[0]
   text_x = 0 #int((width - text_size) / 2)
   text_y = height - text_size*2
 
