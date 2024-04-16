@@ -3,7 +3,10 @@ Rails.application.routes.draw do
   get 'fakes/videos'
   get 'fakes/presses'
   get 'documents/privacy_policy'
+  get '/categories/:word/search_channel', to: 'categories#search_channel'
   resource  :videos
+  resource  :channels, only: [:create]
+  get '/channels/:word/search', to: 'channels#search'
   namespace :user do
     delete  '/favorites/delete_multiple'
     delete  '/favorites/delete_all'
@@ -15,12 +18,16 @@ Rails.application.routes.draw do
     delete  '/histories/delete_all'
     post  '/histories/create_multiple'
     get  '/histories/search'
+    get '/categories/:uuid', to: 'categories#index'
+    get '/categories/:name/channels', to: 'categories#channels'
     resources :histories
+    resources :presses, only: [:show, :index]
+    resource  :categories, only: [:create, :update, :destroy]
     resources :summaries, only: [:create, :index]
   end
   #get 'videos/index'
   resources :presses, only: [:show, :index]
-  resource :categories, only: [:show]
+  resource :categories, only: [:show, :create, :update]
   resource :versions, only: [:show]
   #get 'presses/index'
   get 'homes/index'

@@ -118,17 +118,24 @@ end
 
 
 Parallel.each(@channel_seeds) do |seed|
+#@channel_seeds.each do |seed|
+    #sleep(1)
     category_names = seed["categories"]
     categories = Category.where(name: category_names).map { |category| { "id" => category.id, "name" => category.name } }
     channel = Channel.find_or_create_by(url:seed["url"])
     #puts channel.youtube_id
     puts channel.id
+    begin
     categories.each do |c|
         if category_names.length == 1 || (seed["absolute"].present? && seed["absolute"].include?(c["name"]))
             ChannelCategory.find_or_create_by!(channel: channel, category_id:c["id"], is_absolute: true)
         else
             ChannelCategory.find_or_create_by!(channel: channel, category_id:c["id"])
         end
+    end
+    rescue => e
+        puts "エラー"
+        puts e
     end
 end
 

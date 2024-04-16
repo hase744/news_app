@@ -1,4 +1,4 @@
-class User::SummariesController < ApplicationController
+class User::SummariesController < User::Base
   skip_before_action :verify_authenticity_token
   def index
     summaries = Summary.where(

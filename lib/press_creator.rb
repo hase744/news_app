@@ -11,7 +11,11 @@ class PressCreator
                 news.concat(bundle.map { |video| video.savind_hash })
                 youtube_ids.push(bundle.pluck(:youtube_id).as_json)
             end
-            Press.create(category:category,youtube_ids: youtube_ids.join(","), news_json:news.to_json)
+            Press.create(
+                category: category,
+                youtube_ids: youtube_ids.join(","), 
+                news_json: news.to_json
+                )
             #puts news
             #puts category.name
             #puts youtube_ids
@@ -28,7 +32,7 @@ class PressCreator
             .videos.where(is_live:false)
             .includes(:channel)
             .where(published_at: beginning_time..ending_time)
-            .order(Arel.sql("total_views / EXTRACT(EPOCH FROM (NOW() - published_at)) DESC"))
+            .order(Arel.sql("videos.total_views / EXTRACT(EPOCH FROM (NOW() - published_at)) DESC"))
         press_section
     end
 end

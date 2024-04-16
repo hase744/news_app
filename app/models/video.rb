@@ -1,7 +1,7 @@
 class Video < ApplicationRecord
   belongs_to :channel
   has_many :video_categories, class_name: "VideoCategory", dependent: :destroy
-  has_many :categories,through: :video_categories
+  has_many :categories, through: :video_categories, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :histories, dependent: :destroy
   validates :youtube_id, uniqueness: true
@@ -36,5 +36,19 @@ class Video < ApplicationRecord
 
   def included_words(words)
     words.select { |word| title.index(word) }
+  end
+
+  def self.insert_all_filtering_keys(params)
+    self.insert_all(params.map{|param|{
+      total_views: param['total_views'],
+      total_seconds: param['total_seconds'],
+      live_status: param['live_status'],
+      is_live: param['is_live'],
+      youtube_id: param['youtube_id'],
+      description: param['description'],
+      channel_id: param['channel_id'],
+      published_at: param['published_at'],
+      title: param['title'],
+    }})
   end
 end
