@@ -158,23 +158,34 @@ class VideoCurator
 
         index_and_details = []
         video_response = YOUTUBE_API.list_videos('contentDetails', id:youtube_ids)
+        ids_to_pass = []
         video_response.items.each_with_index do |video, index|
           index_and_detail = {}
           time_str = video.content_details.duration
+          if time_str == nil #動画が公開済みではない場合
+            ids_to_pass.push(video.id)
+            puts "YouTube ID: #{video.id} : #{time_str}"
+            next 
+          end
           total_seconds = time_str_to_seconds(time_str)
 
+          index_and_detail["youtube_id"] = video.id
           index_and_detail["total_seconds"] = total_seconds #秒数を格納
           index_and_detail["index"] = video_slice[index]['index'] #indexを格納
           index_and_details.push(index_and_detail)
         end
 
         video_response = YOUTUBE_API.list_videos('snippet', id: youtube_ids)
-        video_response.items.each_with_index do |video, index|
+        video_response.items do |video|
+          next if ids_to_pass.include?(video.id)
+          index = index_and_details.index{|param| param['youtube_id'] == video.id}
           index_and_details[index]["live_status"] = video.snippet.live_broadcast_content
         end
 
         video_response = YOUTUBE_API.list_videos('liveStreamingDetails', id: youtube_ids)
-        video_response.items.each_with_index do |video, index|
+        video_response.items do |video|
+          next if ids_to_pass.include?(video.id)
+          index = index_and_details.index{|param| param['youtube_id'] == video.id}
           index_and_details[index]["is_live"] = video.live_streaming_details != nil
         end
 

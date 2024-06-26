@@ -59,9 +59,10 @@ class Channel < ApplicationRecord
   
   def video_infos_from_feed
     puts youtube_id
-      return if !url.present?
-      return if !self.youtube_id.present?
-      feed_url = "https://www.youtube.com/feeds/videos.xml?channel_id=#{youtube_id}"
+    return if !url.present?
+    return if !self.youtube_id.present?
+    feed_url = "https://www.youtube.com/feeds/videos.xml?channel_id=#{youtube_id}"
+    begin 
       doc = REXML::Document.new(URI.open(feed_url).read)
       (1..15).map do |num|
         break if !doc.elements["feed/entry[#{num}]/yt:videoId"].present?
@@ -79,6 +80,10 @@ class Channel < ApplicationRecord
             "total_views" => total_views
           }
       end
+    rescue => e
+      puts e
+      return nil
+    end
   end
 
   def create_videos
