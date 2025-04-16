@@ -1,6 +1,7 @@
 class EnumerationUpdater
-  ENUMULATIONS_URL = Rails.application.credentials.news_app_constants_path + "/#{Rails.env.downcase}/data/enumerations.json"
-  CATEGORY_ENUMERATIONS_URL = Rails.application.credentials.news_app_constants_path + "/#{Rails.env.downcase}/data/category_enumerations.json"
+  BRANCH = Rails.env == 'production' ? 'main' : Rails.env.downcase
+  ENUMULATIONS_URL = Rails.application.credentials.news_app_constants_path + "/#{BRANCH}/data/enumerations.json"
+  CATEGORY_ENUMERATIONS_URL = Rails.application.credentials.news_app_constants_path + "/#{BRANCH}/data/category_enumerations.json"
 
   def self.update_enumerations_and_category_enumerations
     enumerations_json = URI.open(ENUMULATIONS_URL).read

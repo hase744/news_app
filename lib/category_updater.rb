@@ -1,5 +1,6 @@
 class CategoryUpdater
-  CATEGORIES_URL = Rails.application.credentials.news_app_constants_path + "/#{Rails.env.downcase}/data/categories.json"
+  BRANCH = Rails.env == 'production' ? 'main' : Rails.env.downcase
+  CATEGORIES_URL = Rails.application.credentials.news_app_constants_path + "/#{BRANCH}/data/categories.json"
 
   def self.update_categories
     categories_json = URI.open(CATEGORIES_URL).read
