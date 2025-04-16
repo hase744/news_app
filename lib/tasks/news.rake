@@ -4,12 +4,18 @@ require_relative '../../lib/video_categorizer'
 require_relative '../../lib/press_creator'
 require_relative '../../lib/enumeration_updater.rb'
 require_relative '../../lib/category_updater.rb'
+require_relative '../../lib/channel_updater.rb'
 namespace :news do
   desc "aa" #desc → description（説明）
   task task_name: :environment do #task_nameは自由につけられる
     # 実行したい処理を記述する場所
     example_class = ExampleClass.new
     example_class.test
+  end
+
+  desc "Channelをアップデート"
+  task update_channels: :environment do
+    ChannelUpdater.update_channels_and_categories
   end
 
   desc "Enumをアップデート"

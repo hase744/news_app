@@ -14,7 +14,7 @@ class ApplicationRecord < ActiveRecord::Base
     meta_tags = doc.css('meta')
     
     meta_tags.each do |tag|
-        url = tag['content'] if tag['name'] == "twitter:app:url:googleplay"
+      url = tag['content'] if tag['name'] == "twitter:app:url:googleplay"
     end
     return url[32..55]
   end

@@ -29,6 +29,16 @@ class Channel < ApplicationRecord
       end
   end
 
+  def set_detail
+    encoded_url = URI::DEFAULT_PARSER.escape(self.url)
+    self.youtube_id = get_youtube_id(encoded_url)
+    self.name = get_channel_name(self.youtube_id)
+    self.image_url = get_image_url(url) || ''
+    unless url.match(/^https:\/\/www\.youtube\.com\/@/)
+      self.url = get_main_link(url)
+    end
+  end
+
   def insert_main_link
       if !url.match(/^https:\/\/www\.youtube\.com\/@/)
           self.url = get_main_link(url)
