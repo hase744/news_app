@@ -9,7 +9,7 @@ class Category < ApplicationRecord
   has_many :videos, through: :video_categories
   has_many :child_categories, class_name: 'Category', foreign_key: 'parent_category_id'
   has_many :category_enumerations
-  has_many :enumerations, through: :category_enumerations
+  has_many :enumerations, through: :category_enumerations, dependent: :destroy
   has_many :presses
   #has_many :videos, through: :video_categories
 

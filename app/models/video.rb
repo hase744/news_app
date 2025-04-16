@@ -39,7 +39,7 @@ class Video < ApplicationRecord
   end
 
   def self.insert_all_filtering_keys(params)
-    self.insert_all(params.map{|param|{
+    self.insert_all(params.compact.map{|param|{
       total_views: param['total_views'],
       total_seconds: param['total_seconds'],
       live_status: param['live_status'],

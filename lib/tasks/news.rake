@@ -2,13 +2,24 @@ require_relative '../../lib/example_class'
 require_relative '../../lib/video_curator'
 require_relative '../../lib/video_categorizer'
 require_relative '../../lib/press_creator'
-require_relative '../../db/channels'
+require_relative '../../lib/enumeration_updater.rb'
+require_relative '../../lib/category_updater.rb'
 namespace :news do
   desc "aa" #desc → description（説明）
   task task_name: :environment do #task_nameは自由につけられる
     # 実行したい処理を記述する場所
     example_class = ExampleClass.new
     example_class.test
+  end
+
+  desc "Enumをアップデート"
+  task update_enumerations: :environment do
+    EnumerationUpdater.update_enumerations_and_category_enumerations
+  end
+
+  desc "カテゴリーをアップデート"
+  task update_categories: :environment do
+    CategoryUpdater.update_categories
   end
 
   desc "それぞれの動画を収集・カテゴライズ・ニュース生成"
