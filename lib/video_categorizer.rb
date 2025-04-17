@@ -15,6 +15,7 @@ class VideoCategorizer
         category_words_param = @category_words_params.find { |hash| 
           hash["category"] == category.name 
         }
+        puts category
         words = video.included_words(category_words_param["words"])
         channel_category.categorized_video_category_param(words, video)
       end.compact

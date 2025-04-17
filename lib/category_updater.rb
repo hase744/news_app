@@ -12,7 +12,7 @@ class CategoryUpdater
       .pluck(:name, :id, :parent_category_id)
       .to_h do |name, id, parent_category_id| [
           name, 
-          { 
+          {
             id: id, 
             parent_category_id: parent_category_id 
           }
