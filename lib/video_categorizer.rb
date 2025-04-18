@@ -15,7 +15,6 @@ class VideoCategorizer
         category_words_param = @category_words_params.find { |hash| 
           hash["category"] == category.name 
         }
-        puts category
         words = video.included_words(category_words_param["words"])
         channel_category.categorized_video_category_param(words, video)
       end.compact
@@ -30,7 +29,11 @@ class VideoCategorizer
 
   def categorize
     bundle_enum
+    channels = Channel.joins(:categories)
+      .where.not(categories: { start_at: nil })
+      .distinct
     videos = Video.where(categorized_at: nil)
+      .where(channel_id: channels.pluck(:id))
     categorize_videos(videos)
   end
 
